@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ordinal notations explorer</title>
+    <link rel="stylesheet" href="./style.css">
+    <link rel="icon" type="image/x-icon" href="./favicon.svg">
+</head>
+
+<body>
+    <h1>Ordinal notations explorer</h1>
+
+    <p>Press an ordinal button (blue buttons) below to select an ordinal notation.</p>
+    <p>Press an expansion button (dark buttons below ordinal buttons) to expand the notation.</p>
+    <p>Ordinals sometimes appear at right of expansion buttons.
+        They are an analysis of the corresponding expression.</p>
+
+    <div id="groups">
+    <label>Category:</label>
+    <button id="_w">≥ ω</button>
+    <button id="_e0">≥ ε0</button>
+    <button id="_p(Ww)">≥ ψ(Ωω)</button>
+
+    <label>Inline:</label>
+    <button id="inline">Enabled</button>
+    </div>
+
+    <hr>
+
+    <div id="filters"></div>
+
+    <hr>
+
+    <div class="infos" id="name"></div>
+
+    <div class="root" id="root"></div>
+    <div class="tooltip" id="tooltip"></div>
+
+    <script type="module" src="./explorer.js"></script>
+</body>
+</html>
