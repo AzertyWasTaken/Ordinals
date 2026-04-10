@@ -53,6 +53,6 @@ function iterateFolder(folder) {
     }
 }
 
-iterateFolder("../_w");
-iterateFolder("../_e0");
-iterateFolder("../_p(Ww)");
+iterateFolder("../1_w");
+iterateFolder("../2_e0");
+iterateFolder("../3_p(Ww)");

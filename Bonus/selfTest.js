@@ -53,6 +53,6 @@ async function iterateFolder(folder) {
     }
 }
 
-await iterateFolder("../_w");
-await iterateFolder("../_e0");
-await iterateFolder("../_p(Ww)");
+await iterateFolder("../1_w");
+await iterateFolder("../2_e0");
+await iterateFolder("../3_p(Ww)");
