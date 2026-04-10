@@ -25,7 +25,9 @@ export function isSucc(ord) {
 }
 
 export function rank(a, b) {
-    for (let i = 0; i < Math.min(a.length, b.length); i++) {
+    const minLength = Math.min(a.length, b.length);
+
+    for (let i = 0; i < minLength; i++) {
         if (a[i] !== b[i]) {return a[i] < b[i];}
     }
     return a.length > b.length;

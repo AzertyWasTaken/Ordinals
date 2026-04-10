@@ -12,7 +12,7 @@ export const milestones = new Map([
 
 // Parse
 
-export function parse(ord) {return `(${ord.join(",")})`;}
+export function parse(ord) {return `:${ord.join("")}`;}
 
 // Explorer
 
@@ -37,16 +37,18 @@ function compare(a, b) {
 }
 
 export function rank(a, b) {
-    if (a.length === 0) {return false;}
-    if (b.length === 0) {return true;}
+    while (true) {
+        if (a.length === 0) {return false;}
+        if (b.length === 0) {return true;}
 
-    const [pa, pb] = [maxSepPos(a), maxSepPos(b)];
-    if (a[pa] !== b[pb]) {return a[pa] === 1;}
+        const [pa, pb] = [maxSepPos(a), maxSepPos(b)];
+        if (a[pa] !== b[pb]) {return a[pa] === 1;}
 
-    const [la, lb] = [a.slice(0, pa), b.slice(0, pb)];
-    if (!compare(la, lb)) {return rank(la, lb);}
-
-    return rank(a.slice(pa + 1), b.slice(pb + 1));
+        const [la, lb] = [a.slice(0, pa), b.slice(0, pb)];
+        [a, b] = compare(la, lb) ?
+        [a.slice(pa + 1), b.slice(pb + 1)] :
+        [la, lb];
+    }
 }
 
 // Expansion

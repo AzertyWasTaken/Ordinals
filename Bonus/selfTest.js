@@ -55,3 +55,4 @@ async function iterateFolder(folder) {
 
 await iterateFolder("../_w");
 await iterateFolder("../_e0");
+await iterateFolder("../_p(Ww)");

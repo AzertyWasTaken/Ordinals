@@ -22,12 +22,9 @@ export const milestones = new Map([
 // Parse
 
 export function parse(ord) {
-    let offset = 0;
-    return `:${ord.map((i) => {
-        offset += i === 0 ? -1 : 1;
-        return i === 0 ? ")" : i - 1;
-    }).join("")}` +
-    ")".repeat(offset);
+    return `:${ord.map((i) =>
+        i === 0 ? ")" : i - 1
+    ).join("")}`;
 }
 
 // Explorer
@@ -35,8 +32,7 @@ export function parse(ord) {
 export function isZero(ord) {return ord.length === 0;}
 
 export function isSucc(ord) {
-    return ord.at(-1) === 1 &&
-    search(ord.slice(0, -1), 0) < 0;
+    return getParent(ord.slice(0, -1)) < 0;
 }
 
 export function rank(a, b) {
@@ -61,27 +57,31 @@ export function getLimit(num) {
     return fill([], num, (i) => [i + 1]);
 }
 
-function search(ord, head) {
-    let root = ord.length - 1;
-    let count = 0;
-
-    while (
-        root >= 0 &&
-        (ord[root] === 0 || count > 0 ||
-            (head > 1 && ord[root] >= head))
-    ) {
-        count += ord[root] === 0 ? 1 : -1;
-        if (count < 0) {count = 0;}
+function getParent(ord, root = ord.length) {
+    let count = 1;
+    do {
         root--;
+        count += ord[root] === 0 ? 1 : -1;
+    }
+    while (root >= 0 && count > 0);
+    return root;
+}
+
+function search(ord, head, root) {
+    while (ord[root] >= head) {
+        root = getParent(ord, root);
     }
     return root;
 }
 
 export function expand(ord, num) {
     const head = ord.pop();
-    const root = search(ord, head);
+    const parent = getParent(ord);
 
-    if (root >= 0) {
+    if (parent >= 0) {
+        const root = head > 1 ?
+        search(ord, head, parent) : parent;
+
         const part = ord.slice(root);
         if (head === 1) {part.unshift(0);}
         fill(ord, num, () => part);

@@ -5,20 +5,16 @@ import {log} from "../log.js";
 export const milestones = new Map([
     ["0", []],
     ["1", [0]],
-    ["ω", [0,1]],
-    ["ω^2", [0,1,1]],
-    ["ω^ω", [0,1,2]],
-    ["ω^ω^ω", [0,1,2,3]],
-    ["ε0", [0,2]],
-    ["ε1", [0,2,2]],
-    ["εω", [0,2,3]],
-    ["ζ0", [0,3]],
-    ["φ(ω,0)", limit],
+    ["ω", [0,0,1]],
+    ["ω^2", [0,0,1,0,1]],
+    ["ω^ω", [0,0,1,0,1,1]],
+    ["ω^ω^ω", [0,0,1,0,1,1,0,1,1,1]],
+    ["ε0", limit],
 ]);
 
 // Parse
 
-export function parse(ord) {return `(${ord.join(",")})`;}
+export function parse(ord) {return `:${ord.join("")}`;}
 
 // Explorer
 
@@ -37,8 +33,6 @@ export function rank(a, b) {
 
 // Expansion
 
-export function getLimit(num) {return [0, num + 1];}
-
 function fill(ord, num, func) {
     for (let i = 0; i < num; i++) {
         ord.push(...func(i));
@@ -46,32 +40,37 @@ function fill(ord, num, func) {
     return ord;
 }
 
-function ascend(ord, offset) {
-    for (let i = 0; i < ord.length; i++) {
-        ord[i] += offset;
-    }
-    return ord;   
+export function getLimit(num) {
+    return fill([], num, (i) => fill([0], i, () => [1]));
 }
 
-function search(ord, head) {
-    let root = ord.length - 1;
-    while (ord[root] >= head) {root--;}
+function getParent(ord, root = ord.length) {
+    do {root--;} while (ord[root] === 1);
     return root;
+}
+
+function search(ord, head, root) {
+    let mark = ord.length;
+    do {
+        root = mark;
+        mark = getParent(ord, mark);
+    }
+    while (root - mark - 1 >= head);
+    return mark;
 }
 
 export function expand(ord, num) {
     const head = ord.pop();
 
     if (head > 0) {
-        const root = search(ord, head);
-        const part = ord.slice(root);
-        const offset = head - ord[root] - 1;
-
-        fill(ord, num, () => ascend(part, offset));
+        ord.push(head);
+        const top = ord.splice(getParent(ord));
+        const part = ord.slice(search(ord, top.length - 1));
+        fill(ord, num, () => part);
     }
     return ord;
 }
 
 // Test
 
-log(parse(expand([0,2,4,4], 3)));
+log(parse(expand([0,0,1,0,1,1,0,1,1,1,0,1,1], 3)));

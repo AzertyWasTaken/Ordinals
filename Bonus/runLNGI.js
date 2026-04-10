@@ -5,12 +5,8 @@ import {createLngi} from "./autoLNGI.js";
 
 // Config
 
-// "../Azerty/aznto";
-// "../Log/aznto_w";
-// "../Other/worm";
-
-const NOTATION = "../Azerty/aznto";
-const ORD_MODULE = await import(`${NOTATION}.js`);
+const [CATEGORY, NOTATION] = ["_p(Ww)", "pointerPairSequence"];
+const ORD_MODULE = await import(`../${CATEGORY}/${NOTATION}.js`);
 
 const LENGTH = 8;
 
@@ -35,15 +31,15 @@ function logError(res) {
     }
 
     if (LOG_ERROR_JSON) {
-        log(JSON.parse(res.next));
-        log(JSON.parse(res.curr));
-        log(JSON.parse(res.prev));
+        log(res.next);
+        log(res.curr);
+        log(res.prev);
     }
 }
 
 // Generate
 
-let totalLength = 0;
+let count = 0;
 
 for (const res of createLngi(ORD_MODULE, LENGTH, START, END, offset)) {
 
@@ -53,10 +49,10 @@ for (const res of createLngi(ORD_MODULE, LENGTH, START, END, offset)) {
 
     } else if (res.type === "entry") {
         if (OUTPUT_STR) {log(res.str(res.ord));}
-        if (OUTPUT_JSON) {log(JSON.parse(res.ord));}
+        if (OUTPUT_JSON) {log(res.ord);}
 
-        totalLength++;
+        count++;
     }
 }
 
-log("Length:", totalLength);
+log("Length:", count);

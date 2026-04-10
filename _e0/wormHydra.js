@@ -17,12 +17,9 @@ export const milestones = new Map([
 // Parse
 
 export function parse(ord) {
-    let offset = 0;
-    return `:${ord.map((i) => {
-        offset += i === 0 ? -1 : 1;
-        return i === 0 ? ")" : i - 1;
-    }).join("")}` +
-    ")".repeat(offset);
+    return `:${ord.map((i) =>
+        i === 0 ? ")" : i - 1
+    ).join("")}`;
 }
 
 // Explorer
@@ -55,13 +52,13 @@ function fill(ord, num, ...apps) {
 }
 
 function search(ord) {
-    let root = ord.length - 1;
-    let count = 0;
-
-    while (root >= 0 && (ord[root] === 0 || count > 0)) {
-        count += ord[root] === 0 ? 1 : -1;
+    let root = ord.length;
+    let count = 1;
+    do {
         root--;
+        count += ord[root] === 0 ? 1 : -1;
     }
+    while (root >= 0 && count > 0);
     return root;
 }
 

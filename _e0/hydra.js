@@ -35,7 +35,7 @@ export function rank(a, b) {
     const minLength = Math.min(a.length, b.length);
 
     for (let i = 0; i < minLength; i++) {
-        if (a[i] !== b[i]) {return a[i] > b[i];}
+        if (a[i] !== b[i]) {return a[i] === 1;}
     }
     return a.length > b.length;
 }
@@ -50,13 +50,13 @@ function fill(ord, num, ...apps) {
 export function getLimit(num) {return fill([], num, 1);}
 
 function search(ord) {
-    let root = ord.length - 1;
-    let count = 0;
-
-    while (root >= 0 && (ord[root] === 0 || count > 0)) {
-        count += ord[root] === 0 ? 1 : -1;
+    let root = ord.length;
+    let count = 1;
+    do {
         root--;
+        count += ord[root] === 0 ? 1 : -1;
     }
+    while (root >= 0 && count > 0);
     return root;
 }
 
