@@ -31,6 +31,7 @@ export const NOTATIONS = {
         "extendedSequence": {name: "Extended Sequence"},
 
         "shiftedSequence": {name: "Shifted Sequence"},
+        "shortShiftedSequence": {name: "Short Shifted Sequence"},
     },
 
     "3_p(Ww)": {
@@ -39,5 +40,9 @@ export const NOTATIONS = {
         "hyperSequence": {name: "Hyper Sequence"},
         "pairSequence": {name: "Pair Sequence"},
         "hyperHydra": {name: "Hyper Hydra"},
+
+        "extendedShiftedSequence": {name: "Extended Shifted Sequence"},
+
+        "shiftedSequenceHydra": {name: "Shifted Sequence Hydra"},
     }
 };

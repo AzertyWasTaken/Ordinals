@@ -16,11 +16,19 @@ export const milestones = new Map([
 
 // Parse
 
-export function parse(ord) {
-    return `:${ord.map((i) =>
-        i === 0 ? ")" : i - 1
-    ).join("")}`;
+function genHydra(ord, func) {
+    let offset = 0;
+    return `:${ord.map((i) => {
+        offset += i === 0 ? -1 : 1;
+        return func(i);
+    }).join("")}` +
+    ")".repeat(offset);
 }
+
+export function parse(ord) {
+    return genHydra(ord, (i) => i === 0 ? ")" : `(${i - 1}`);
+}
+
 
 // Explorer
 

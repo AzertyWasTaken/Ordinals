@@ -9,14 +9,19 @@ export const milestones = new Map([
     ["ω^2", [1,1,0,1]],
     ["ω^ω", [1,1,1]],
     ["ω^ω^ω", [1,1,1,1]],
-    ["ε0", [1,2]],
-    ["ε1", [1,2,0,2]],
-    ["εω", [1,2,1]],
-    ["ζ0", [1,2,2]],
-    ["φ(ω,0)", [1,2,2,1]],
-    ["Γ0", [1,2,2,2]],
-    ["ψ(ε{Ω+1})", [1,2,3]],
-    ["ψ(Ωω)", limit],
+    ["ε0", [1,1,2]],
+    ["ε1", [1,1,2,0,0,1,2]],
+    ["εω", [1,1,2,0,1]],
+    ["ζ0", [1,1,2,0,1,2]],
+    ["φ(ω,0)", [1,1,2,0,1,2,0,1]],
+    ["Γ0", [1,1,2,0,1,2,0,1,2]],
+    ["ψ(ε{Ω+1})", [1,1,2,0,2]],
+    ["ψ(Ωω)", [1,1,2,1]],
+    ["ψ(Λ)", [1,1,2,2]],
+    ["ψ(Iω)", [1,1,2,2,0,1]],
+    ["ψ(I(ω,0))", [1,1,2,2,1]],
+    ["ψ(ε{M+1})", [1,1,2,2,3]],
+    ["ψ(Mω)", limit],
 ]);
 
 // Parse
@@ -34,6 +39,7 @@ export function parse(ord) {
     return genHydra(ord, (i) => i === 0 ? ")" : `(${i - 1}`);
 }
 
+
 // Explorer
 
 export function isZero(ord) {return ord.length === 0;}
@@ -41,6 +47,8 @@ export function isZero(ord) {return ord.length === 0;}
 export function isSucc(ord) {
     return getParent(ord.slice(0, -1)) < 0;
 }
+
+// Expansion
 
 export function rank(a, b) {
     const minLength = Math.min(a.length, b.length);
@@ -51,8 +59,6 @@ export function rank(a, b) {
     return a.length > b.length;
 }
 
-// Expansion
-
 function fill(ord, num, func) {
     for (let i = 0; i < num; i++) {
         ord.push(...func(i));
@@ -61,7 +67,7 @@ function fill(ord, num, func) {
 }
 
 export function getLimit(num) {
-    return fill([], num, (i) => [i + 1]);
+    return fill([1], num, (i) => [i + 1, i + 2]);
 }
 
 function getParent(ord, root = ord.length) {
@@ -74,24 +80,44 @@ function getParent(ord, root = ord.length) {
     return root;
 }
 
-function search(ord, head, root) {
-    while (ord[root] >= head) {
-        root = getParent(ord, root);
+function getSubParent(ord, head, root = ord.length) {
+    do {root = getParent(ord, root);}
+    while (ord[root] >= head);
+    return root;
+}
+
+function search(ord, head, top, root) {
+    let mark = ord.length;
+    do {
+        if (ord[mark - 1] === 0) {mark--;}
+        root = mark;
+        mark = getSubParent(ord, top, mark);
     }
+    while (!rank(head, ord.slice(mark, root)));
     return root;
 }
 
 export function expand(ord, num) {
-    const head = ord.pop();
+    const top = ord.pop();
     const parent = getParent(ord);
 
     if (parent >= 0) {
-        const root = head > 1 ?
-        search(ord, head, parent) : parent;
+        if (top > 1) {
+            ord.push(top);
 
-        const part = ord.slice(root);
-        if (head === 1) {part.unshift(0);}
-        fill(ord, num, () => part);
+            const head = ord.splice(getSubParent(ord, top));
+            const part = ord.slice(search(ord, head, top));
+
+            head.pop();
+            part.unshift(...head);
+
+            fill(ord, num, () => part);
+
+        } else {
+            const part = ord.slice(parent);
+            part.unshift(0);
+            fill(ord, num, () => part);
+        }
     }
 
     while (ord.at(-1) === 0) {ord.pop();}
@@ -100,4 +126,4 @@ export function expand(ord, num) {
 
 // Test
 
-log(parse(expand([1,2,3,0,2,2], 3)));
+log(parse(expand([1,1,2,1,0,0,0,1,2,0,2], 3)));

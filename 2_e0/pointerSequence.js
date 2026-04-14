@@ -53,10 +53,8 @@ export function expand(ord, num) {
     if (root >= 0) {
         const part = ord.slice(root);
 
-        fill(ord, num, () => {
-            part[0] += head + 1;
-            return part;
-        });
+        fill(ord, num, () =>
+            part.fill(part[0] + head + 1, 0, 1));
     }
     return ord;
 }

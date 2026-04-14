@@ -14,13 +14,17 @@ export const milestones = new Map([
 
 // Parse
 
-export function parse(ord) {
+function genHydra(ord, func) {
     let offset = 0;
     return `:${ord.map((i) => {
         offset += i === 0 ? -1 : 1;
-        return i === 0 ? ")" : "(";
+        return func(i);
     }).join("")}` +
     ")".repeat(offset);
+}
+
+export function parse(ord) {
+    return genHydra(ord, (i) => i === 0 ? ")" : "(");
 }
 
 // Explorer
