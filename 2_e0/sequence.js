@@ -12,9 +12,9 @@ export const milestones = new Map([
     ["ε0", limit],
 ]);
 
-// Parse
+// Unparse
 
-export function parse(ord) {return `(${ord.join(",")})`;}
+export function unparse(ord) {return `(${ord.join(",")})`;}
 
 // Explorer
 
@@ -62,4 +62,4 @@ export function expand(ord, num) {
 
 // Test
 
-log(parse(expand([0,1,2,3,2], 3)));
+log(unparse(expand([0,1,2,3,2], 3)));

@@ -19,9 +19,9 @@ export const milestones = new Map([
     ["ψ(Ωω)", limit],
 ]);
 
-// Parse
+// Unparse
 
-export function parse(ord) {
+export function unparse(ord) {
     return `:${ord.map((i) =>
         i === 0 ? ")" : i === 1 ? "}" : "0"
     ).join("")}`;
@@ -106,4 +106,4 @@ export function expand(ord, num) {
     return trim(ord, (i) => i !== 2);
 }
 
-log(parse(expand([2,2,1,1,2,0,2], 3)));
+log(unparse(expand([2,2,1,1,2,0,2], 3)));

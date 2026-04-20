@@ -24,6 +24,7 @@ export const NOTATIONS = {
         "addressSequence": {name: "Address Sequence"},
         "hydra": {name: "Hydra"},
         "binaryShiftedSequence": {name: "Binary Shifted Sequence"},
+        "binaryTreeSequence": {name: "Binary Tree Sequence"},
 
         "wormSequence": {name: "Worm Sequence"},
         "wormHydra": {name: "Worm Hydra"},
@@ -44,5 +45,7 @@ export const NOTATIONS = {
         "extendedShiftedSequence": {name: "Extended Shifted Sequence"},
 
         "shiftedSequenceHydra": {name: "Shifted Sequence Hydra"},
+
+        "extendedSequenceHydra": {name: "Extended Sequence Hydra"},
     }
 };

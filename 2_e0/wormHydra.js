@@ -14,7 +14,7 @@ export const milestones = new Map([
     ["εω", limit],
 ]);
 
-// Parse
+// Unparse
 
 function genHydra(ord, func) {
     let offset = 0;
@@ -25,7 +25,7 @@ function genHydra(ord, func) {
     ")".repeat(offset);
 }
 
-export function parse(ord) {
+export function unparse(ord) {
     return genHydra(ord, (i) => i === 0 ? ")" : `(${i - 1}`);
 }
 
@@ -91,4 +91,4 @@ export function expand(ord, num) {
 
 // Test
 
-log(parse(expand([3,2,0,2], 3)));
+log(unparse(expand([3,2,0,2], 3)));

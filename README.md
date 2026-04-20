@@ -6,7 +6,7 @@ Each notation script contains these functions:
 | Name | Description
 | - | -
 | milestones | A map containing milestones analysis
-| parse(ord) | Parse *ord* into a string and possibly add syntaxic sugar
+| unparse(ord) | Unparse *ord* into a string and possibly add syntaxic sugar
 | isSucc(ord) | Return if *ord* is a successor
 | rank(a, b) | Return if *a* is strictly above *b*
 | getLimit(num) | Get the *num*-th term of the fundamental sequence of the notation limit
@@ -15,19 +15,17 @@ Each notation script contains these functions:
 Each script also imports functions from `utils.js` and has a test log.  
 The lenght of a script is the number of nonempty lines in the explorer and expansion sections.
 
-# Rules
-
-## Modules
+## Rules
 
 ### Coding
 
 - Internal structure must be an array containing **only** natural numbers
-- **No** iterative object methods inside explorer and expansion sections
+- Do **not** use iterative object methods inside explorer and expansion sections
 - Expansion function must mutate *ord*
 - Time complexity must be optimal
-- Parsed notations must **not** contain spaces
+- Unparsed notations must **not** contain spaces
 - Ignore zero expansion
-- **No** recursion
+- Do **not** use recursion
 - Split long functions
 
 ### Formatting
@@ -41,26 +39,26 @@ The lenght of a script is the number of nonempty lines in the explorer and expan
 - Avoid more than 64 characters per line
 - Each instruction must end with a semicolon
 
-## Accepted notations
+### Accepted notations
 
-- **Not** overcomplicated
+- Must **not** be overcomplicated
 - Must append and pop at the right
 - Skip notations with similar expansion
-- Avoid weak trivial extentions
+- Avoid weak and trivial extentions
 
-## Creating notations
+### Creating notations
 
-- Extend limit
-- Compress length
-- Map down
-- Simplify expansion
+- Extend notation limit
+- Compress notation length
+- Map down notation
+- Simplify notation expansion
 
-# Dictionary
+## Dictionary
 
-## Notations
+### Notations
 
-| Name | Definition |
-| - | - |
+| Name | Definition
+| - | -
 | address | Each item encodes its parent position
 | array | Array with fixed length
 | binary | Uses only two symbols
@@ -74,7 +72,7 @@ The lenght of a script is the number of nonempty lines in the explorer and expan
 | unary | Uses only a single symbol
 | worm | Array with variable length
 
-## Variables
+### Variables
 
 | Name | Definition
 | - | -
@@ -90,7 +88,7 @@ The lenght of a script is the number of nonempty lines in the explorer and expan
 | top | Last item of a head
 | type | Uncountable level
 
-## Functions
+### Functions
 
 | Name | Definition
 | - | -
@@ -99,9 +97,9 @@ The lenght of a script is the number of nonempty lines in the explorer and expan
 | `search(ord)` | Search the root of an array
 | `trim(ord, func)` | Trim the end of a sequence
 
-# Notations complexity
+## Notations complexity
 
-## General
+### General
 
 The complexity is the tokens count in the expansion and limit sections.
 
@@ -121,6 +119,7 @@ The complexity is the tokens count in the expansion and limit sections.
 | ε0 | addressSequence | 165
 | ε0 | hydra | 190
 | ε0 | binaryShiftedSequence | 240
+| ε0 | binaryTreeSequence | 280
 | εω | wormSequence | 200
 | εω | wormHydra | 210
 | φ(ω,0) | extendedSequence | 210
@@ -133,8 +132,9 @@ The complexity is the tokens count in the expansion and limit sections.
 | ψ(Ωω) | hyperHydra | 385
 | ψ(Λ) | extendedShiftedSequence | 515
 | ψ(Mω) | shiftedSequenceHydra | 480
+| ψ(T[ω]) | extendedSequenceHydra | 470
 
-## Milestones
+### Milestones
 
 | Milestone | Notation | Complexity
 | - | - | -
@@ -143,4 +143,4 @@ The complexity is the tokens count in the expansion and limit sections.
 | ε0 | pointerSequence | 145
 | φ(ω,0) | extendedSequence | 210
 | ψ(Ωω) | sequenceHydra | 270
-| ψ(Mω) | shiftedSequenceHydra | 480
+| ψ(T[ω]) | extendedSequenceHydra | 470
