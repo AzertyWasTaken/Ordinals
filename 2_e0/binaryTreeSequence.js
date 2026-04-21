@@ -45,8 +45,8 @@ function fill(num, func) {
 
 export function getLimit(num) {
     return [
-        ...fill(num, (i) => i),
-        ...fill(num, (i) => num - i - 1)
+        ...fill(num, (i) => [i]),
+        ...fill(num, (i) => [num - i - 1])
     ];
 }
 
@@ -70,7 +70,7 @@ export function expand(ord, num) {
     const pos = getHead(ord);
     ord.splice(pos, 2);
 
-    if (pos >= 0) {
+    if (pos < ord.length) {
         const root = search(ord, ord[pos], pos - 1);
         const part = ord.slice(root, pos + 1);
 
