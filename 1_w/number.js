@@ -8,9 +8,9 @@ export const milestones = new Map([
     ["ω", limit],
 ]);
 
-// Parse
+// Unparse
 
-export function parse(ord) {return ord[0].toString();};
+export function unparse(ord) {return ord[0].toString();};
 
 // Explorer
 
@@ -31,4 +31,4 @@ export function expand(ord, num) {
 
 // Test
 
-log(parse(expand([3], 3)));
+log(unparse(expand([3], 3)));

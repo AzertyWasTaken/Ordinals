@@ -12,7 +12,7 @@ export const milestones = new Map([
 
 // Stringify
 
-export function parse(ord) {
+export function unparse(ord) {
     let str = "";
     for (let i = 0; i < ord.length; i += 2) {
         str += `[${ord[i]},${ord[i + 1]}]`
@@ -45,4 +45,4 @@ export function expand(ord, num) {
     return ord;
 }
 
-log(parse(expand([4,1,3,3], 3)));
+log(unparse(expand([4,1,3,3], 3)));

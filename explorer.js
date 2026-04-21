@@ -34,7 +34,7 @@ function createDivElement() {
 function createOrdButton(ord) {
     const btn = document.createElement("button");
     btn.className = "ordinal_btn";
-    btn.textContent = sModule.parse(ord);
+    btn.textContent = sModule.unparse(ord);
     return btn;
 }
 
@@ -58,7 +58,7 @@ function mountNode(ord, div, btn, container) {
 }
 
 function logError(newOrd, lowerBound) {
-    log("Error", parse(newOrd), parse(lowerBound));
+    log("Error", unparse(newOrd), unparse(lowerBound));
     log("JSON", newOrd, lowerBound);
 }
 
@@ -115,7 +115,7 @@ function showTooltip(button, ord) {
         if (term === undefined) {
             throw new Error(`Undefined term`);
         }
-        seq.push(sModule.parse(term));
+        seq.push(sModule.unparse(term));
     }
 
     el.tooltip.innerHTML =

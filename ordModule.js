@@ -7,9 +7,9 @@ export function fixModule(mod) {
             return keyByValue(mod.milestones, ord);
         },
 
-        parse(ord) {
+        unparse(ord) {
             return ord === limit ?
-            "Limit" : mod.parse(ord);
+            "Limit" : mod.unparse(ord);
         },
 
         isZero(ord) {
