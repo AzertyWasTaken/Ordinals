@@ -19,16 +19,18 @@ export const milestones = new Map([
 // Unparse
 
 export function unparse(ord) {
-    let str = "";
-    for (let i = 0; i < ord.length; i += 2) {
-        str += `[${ord[i]},${ord[i + 1]}]`
-    }
+    let str = ":";
+    for (let i = 0; i < ord.length; i += 2)
+        str += `[${ord[i]},${ord[i + 1]}]`;
+
     return str;
 }
 
 // Explorer
 
-export function isZero(ord) {return ord.length === 0;}
+export function isZero(ord) {
+    return ord.length === 0;
+}
 
 export function isSucc(ord) {
     return ord.at(-2) === ord.length / 2 - 1;
@@ -38,20 +40,13 @@ export function rank(a, b) {
     const minLength = Math.min(a.length, b.length);
 
     for (let i = 0; i < minLength; i += 2) {
-        if (a[i] !== b[i]) {return a[i] < b[i];}
-        if (a[i + 1] !== b[i + 1]) {return a[i + 1] > b[i + 1];}
+        if (a[i] !== b[i]) return a[i] < b[i];
+        if (a[i + 1] !== b[i + 1]) return a[i + 1] > b[i + 1];
     }
     return a.length > b.length;
 }
 
 // Expansion
-
-function fill(ord, num, func) {
-    for (let i = 0; i < num; i++) {
-        ord.push(...func(i));
-    }
-    return ord;
-}
 
 export function getLimit(num) {
     return [0, 0, 0, num];
@@ -64,11 +59,14 @@ export function expand(ord, num) {
     if (root >= 0) {
         const part = ord.slice(root);
 
-        fill(ord, num, () => {
-            if (label === 0) {part[0] += head + 1;}
-            else {part.splice(0, 2, head, label - 1);}
-            return part;
-        });
+        const ascend = label === 0
+        ? () => part[0] += head + 1
+        : () => part.splice(0, 2, head, label - 1);
+
+        for (let i = 0; i < num; i++) {
+            ascend();
+            ord.push(...part);
+        }
     }
     return ord;
 }

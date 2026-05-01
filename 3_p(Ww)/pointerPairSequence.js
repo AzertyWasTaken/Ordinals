@@ -22,16 +22,18 @@ export const milestones = new Map([
 // Stringify
 
 export function unparse(ord) {
-    let str = "";
-    for (let i = 0; i < ord.length; i += 2) {
-        str += `[${ord[i]},${ord[i + 1]}]`
-    }
+    let str = ":";
+    for (let i = 0; i < ord.length; i += 2)
+        str += `[${ord[i]},${ord[i + 1]}]`;
+
     return str;
 }
 
 // Explorer
 
-export function isZero(ord) {return ord.length === 0;}
+export function isZero(ord) {
+    return ord.length === 0;
+}
 
 export function isSucc(ord) {
     return ord.at(-2) >= ord.length / 2 - 1;
@@ -40,18 +42,18 @@ export function isSucc(ord) {
 export function rank(a, b) {
     const minLength = Math.min(a.length, b.length);
 
-    for (let i = 0; i < minLength; i++) {
-        if (a[i] !== b[i]) {return a[i] < b[i];}
-    }
+    for (let i = 0; i < minLength; i++)
+        if (a[i] !== b[i]) return a[i] < b[i];
+
     return a.length > b.length;
 }
 
 // Expansion
 
 function fill(ord, num, func) {
-    for (let i = 0; i < num; i++) {
-        ord.push(...func(i));
-    }
+    for (let i = 0; i < num; i++)
+        ord.push(...func());
+
     return ord;
 }
 
@@ -59,14 +61,13 @@ export function getLimit(num) {
     return fill([], num, () => [0, 0]);
 }
 
-function ascend(ord, first, offset) {
+function ascend(ord, first) {
     ord[0] = first(ord[0]);
 
-    for (let i = 0; i < ord.length; i += 2) {
-        if (ord[i + 1] >= i / 2) {
-            ord[i + 1] += offset;
-        }
-    }
+    for (let i = 0; i < ord.length; i += 2)
+        if (ord[i + 1] >= i / 2)
+            ord[i + 1] += ord.length / 2;
+
     return ord;
 }
 
@@ -78,11 +79,11 @@ export function expand(ord, num) {
         const root2 = ord.length - type * 2 - 2;
         const part = ord.slice(root2 >= 0 ? root2 : root);
     
-        const [first, offset] = root2 >= 0 ?
-        [() => head, type + 1] :
-        [(j) => j + head + 1, head + 1];
+        const first = root2 >= 0
+        ? () => head
+        : (i) => i + head + 1;
 
-        fill(ord, num, () => ascend(part, first, offset));
+        fill(ord, num, () => ascend(part, first));
     }
     return ord;
 }

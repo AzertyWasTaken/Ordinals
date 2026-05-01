@@ -13,72 +13,77 @@ export const milestones = new Map([
 
 // Unparse
 
-export function unparse(ord) {return `(${ord.join(",")})`;}
+export function unparse(ord) {
+    return `(${ord.join(",")})`;
+}
 
 // Explorer
 
-export function isZero(ord) {return ord.length === 0;}
+export function isZero(ord) {
+    return ord.length === 0;
+}
 
-export function isSucc(ord) {return ord.at(-1) === 0;}
+export function isSucc(ord) {
+    return ord.at(-1) === 0;
+}
 
 function maxSepPos(ord) {
     let rec = ord.length - 1;
-    for (let i = ord.length - 2; i >= 0; i--) {
-        if (ord[i] > ord[rec]) {rec = i;}
-    }
+
+    for (let i = ord.length - 2; i >= 0; i--)
+        if (ord[i] > ord[rec]) rec = i;
+
     return rec;
 }
 
 function compare(a, b) {
-    if (a.length !== b.length) {return false;}
+    if (a.length !== b.length) return false;
 
-    for (let i = 0; i < a.length; i++) {
-        if (a[i] !== b[i]) {return false;}
-    }
+    for (let i = 0; i < a.length; i++)
+        if (a[i] !== b[i]) return false;
+
     return true;
 }
 
 export function rank(a, b) {
     while (true) {
-        if (a.length === 0) {return false;}
-        if (b.length === 0) {return true;}
+        if (a.length === 0) return false;
+        if (b.length === 0) return true;
 
         const [pa, pb] = [maxSepPos(a), maxSepPos(b)];
-        if (a[pa] !== b[pb]) {return a[pa] > b[pb];}
+        if (a[pa] !== b[pb]) return a[pa] > b[pb];
 
         const [la, lb] = [a.slice(0, pa), b.slice(0, pb)];
-        [a, b] = compare(la, lb) ?
-        [a.slice(pa + 1), b.slice(pb + 1)] :
-        [la, lb];
+        [a, b] = compare(la, lb)
+        ? [a.slice(pa + 1), b.slice(pb + 1)]
+        : [la, lb];
     }
 }
 
 // Expansion
 
+export function getLimit(num) {
+    return [num];
+}
+
 function fill(num, val) {
     const arr = [];
-    for (let i = 0; i < num; i++) {arr.push(val);}
+    for (let i = 0; i < num; i++) arr.push(val);
     return arr;
 }
 
-export function getLimit(num) {return [num];}
-
 function search(ord) {
-    let root = ord.length - 1;
-    while (
-        ord[root - 1] > 0 &&
-        ord[root - 1] <= ord[root]
-    ) {
-        root--;
-    }
+    let root = ord.length;
+    do root--; while (
+        ord[root - 1] > 0
+        && ord[root - 1] <= ord[root]
+    )
     return root;
 }
 
 export function expand(ord, num) {
-    if (ord.at(-1) === 0) {
-        ord.pop();
-
-    } else {
+    if (ord.at(-1) === 0) ord.pop();
+    else {
         const root = search(ord);
         const number = ord[root];
 

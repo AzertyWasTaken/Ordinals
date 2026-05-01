@@ -16,46 +16,48 @@ export const milestones = new Map([
 
 // Unparse
 
-function genHydra(ord, func) {
-    let offset = 0;
-    return `:${ord.map((i) => {
-        offset += i === 0 ? -1 : 1;
-        return func(i);
-    }).join("")}` +
-    ")".repeat(offset);
-}
-
 export function unparse(ord) {
-    return genHydra(ord, (i) => i === 0 ? ")" : `(${i - 1}`);
-}
+    let offset = 0;
 
+    const hydra = ord.map((i) => {
+        offset += i === 0 ? -1 : 1;
+        return i === 0 ? ")" : `(${i - 1}`;
+    })
+
+    return `:${hydra.join("")}`
+    + ")".repeat(offset);
+}
 
 // Explorer
 
-export function isZero(ord) {return ord.length === 0;}
+export function isZero(ord) {
+    return ord.length === 0;
+}
 
 export function isSucc(ord) {
-    return ord.at(-1) === 1 &&
-    search(ord.slice(0, -1)) < 0;
+    return ord.at(-1) === 1
+    && search(ord.slice(0, -1)) < 0;
 }
 
 export function rank(a, b) {
     const minLength = Math.min(a.length, b.length);
 
-    for (let i = 0; i < minLength; i++) {
-        if (a[i] !== b[i]) {return a[i] > b[i];}
-    }
+    for (let i = 0; i < minLength; i++)
+        if (a[i] !== b[i]) return a[i] > b[i];
+
     return a.length > b.length;
 }
 
 // Expansion
 
-export function getLimit(num) {return [num + 1];}
+export function getLimit(num) {
+    return [num + 1];
+}
 
 function fill(ord, num, ...apps) {
-    for (let i = 0; i < num; i++) {
+    for (let i = 0; i < num; i++)
         ord.push(...apps);
-    }
+
     return ord;
 }
 
@@ -73,19 +75,14 @@ function search(ord) {
 export function expand(ord, num) {
     const head = ord.pop();
 
-    if (head > 1) {
-        fill(ord, num, head - 1);
-
-    } else {
+    if (head > 1) fill(ord, num, head - 1);
+    else {
         const root = search(ord);
-
-        if (root >= 0) {
-            const part = ord.slice(root);
-            fill(ord, num, 0, ...part);
-        }
+        if (root >= 0)
+            fill(ord, num, 0, ...ord.slice(root));
     }
 
-    while (ord.at(-1) === 0) {ord.pop();}
+    while (ord.at(-1) === 0) ord.pop();
     return ord;
 }
 

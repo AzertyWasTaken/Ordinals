@@ -29,8 +29,8 @@
      inkscape:document-units="px"
      showgrid="true"
      inkscape:zoom="2.0186728"
-     inkscape:cx="51.271311"
-     inkscape:cy="117.15618"
+     inkscape:cx="82.479934"
+     inkscape:cy="103.28568"
      inkscape:window-width="2560"
      inkscape:window-height="1351"
      inkscape:window-x="-9"
@@ -98,15 +98,15 @@
     </g>
     <text
        xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:71.7864px;font-family:Arial;-inkscape-font-specification:'Arial Bold';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;direction:ltr;text-anchor:start;fill:#ffffff;stroke:#ffffff;stroke-width:0.529169;stroke-linecap:round;stroke-linejoin:round"
-       x="6.8545113"
-       y="49.030602"
+       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:72.6186px;font-family:Arial;-inkscape-font-specification:'Arial Bold';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;direction:ltr;text-anchor:start;fill:#ffffff;stroke:none;stroke-width:0.529169;stroke-linecap:round;stroke-linejoin:round"
+       x="6.542057"
+       y="49.209019"
        id="text1"
-       transform="scale(0.91058959,1.0981896)"><tspan
+       transform="scale(0.90963091,1.099347)"><tspan
          sodipodi:role="line"
          id="tspan1"
-         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:71.7864px;font-family:Arial;-inkscape-font-specification:'Arial Bold';stroke-width:0.529169"
-         x="6.8545113"
-         y="49.030602">ω</tspan></text>
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:72.6186px;font-family:Arial;-inkscape-font-specification:'Arial Bold';stroke:none;stroke-width:0.529169"
+         x="6.542057"
+         y="49.209019">ω</tspan></text>
   </g>
 </svg>

@@ -14,48 +14,49 @@ export const milestones = new Map([
 
 // Unparse
 
-export function unparse(ord) {return `(${ord.join(",")})`;}
+export function unparse(ord) {
+    return `(${ord.join(",")})`;
+}
 
 // Explorer
 
-export function isZero(ord) {return ord.length === 0;}
+export function isZero(ord) {
+    return ord.length === 0;
+}
 
-export function isSucc(ord) {return ord.at(-1) === 0;}
+export function isSucc(ord) {
+    return ord.at(-1) === 0;
+}
 
 export function rank(a, b) {
     const minLength = Math.min(a.length, b.length);
 
-    for (let i = 0; i < minLength; i++) {
-        if (a[i] !== b[i]) {return a[i] > b[i];}
-    }
+    for (let i = 0; i < minLength; i++)
+        if (a[i] !== b[i]) return a[i] > b[i];
+
     return a.length > b.length;
 }
 
 // Expansion
 
-export function getLimit(num) {return [0, num];}
-
-function fill(ord, num, ...apps) {
-    for (let i = 0; i < num; i++) {
-        ord.push(...apps);
-    }
-    return ord;
+export function getLimit(num) {
+    return [0, num];
 }
 
 function search(ord, head) {
-    let root = ord.length - 1;
-    while (ord[root] >= head) {root--;}
+    let root = ord.length;
+    do root--; while (ord[root] >= head);
     return root;
 }
 
 export function expand(ord, num) {
     const head = ord.pop();
-
     if (head > 0) {
         const part = ord.slice(search(ord, head));
         part[0] = head - 1;
 
-        fill(ord, num, ...part);
+        for (let i = 0; i < num; i++)
+            ord.push(...part);
     }
     return ord;
 }

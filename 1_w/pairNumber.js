@@ -21,22 +21,25 @@ export function isZero(ord) {
     return ord[0] === 0 && ord[1] === 0;
 }
 
-export function isSucc(ord) {return ord[1] > 0;}
+export function isSucc(ord) {
+    return ord[1] > 0;
+}
 
 export function rank(a, b) {
-    return a[0] !== b[0] ?
-    a[0] > b[0] : a[1] > b[1];
+    return a[0] !== b[0]
+    ? a[0] > b[0]
+    : a[1] > b[1];
 }
 
 // Expansion
 
-export function getLimit(num) {return [num, 0];}
+export function getLimit(num) {
+    return [num, 0];
+}
 
 export function expand(ord, num) {
-    if (ord[1] > 0) {
-        ord[1]--;
-
-    } else {
+    if (ord[1] > 0) ord[1]--;
+    else {
         ord[0]--;
         ord[1] = num;
     }

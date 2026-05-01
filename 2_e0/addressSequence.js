@@ -14,27 +14,35 @@ export const milestones = new Map([
 
 // Unparse
 
-export function unparse(ord) {return `(${ord.join(",")})`;}
+export function unparse(ord) {
+    return `(${ord.join(",")})`;
+}
 
 // Explorer
 
-export function isZero(ord) {return ord.length === 0;}
+export function isZero(ord) {
+    return ord.length === 0;
+}
 
-export function isSucc(ord) {return ord.at(-1) === 0;}
+export function isSucc(ord) {
+    return ord.at(-1) === 0;
+}
 
 export function rank(a, b) {
-    for (let i = 0; i < Math.min(a.length, b.length); i++) {
-        if (a[i] !== b[i]) {return a[i] > b[i];}
-    }
+    const minLength = Math.min(a.length, b.length);
+
+    for (let i = 0; i < minLength; i++)
+        if (a[i] !== b[i]) return a[i] > b[i];
+
     return a.length > b.length;
 }
 
 // Expansion
 
 function fill(ord, num, func) {
-    for (let i = 0; i < num; i++) {
+    for (let i = 0; i < num; i++)
         ord.push(...func(i));
-    }
+
     return ord;
 }
 
@@ -43,18 +51,19 @@ export function getLimit(num) {
 }
 
 function ascend(ord, offset) {
-    for (let i = 1; i < ord.length; i++) {
+    for (let i = 1; i < ord.length; i++)
         ord[i] += offset;
-    }
+
     return ord;
 }
 
 export function expand(ord, num) {
     const head = ord.pop();
+
     if (head > 0) {
         const part = ord.slice(head - 1);
 
-        return fill(ord, num, () =>
+        fill(ord, num, () =>
             ascend(part, part.length));
     }
     return ord;

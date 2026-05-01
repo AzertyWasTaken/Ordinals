@@ -21,22 +21,23 @@ export const milestones = new Map([
 
 // Unparse
 
-function genHydra(ord, func) {
-    let offset = 0;
-    return `:${ord.map((i) => {
-        offset += i === 0 ? -1 : 1;
-        return func(i);
-    }).join("")}` +
-    ")".repeat(offset);
-}
-
 export function unparse(ord) {
-    return genHydra(ord, (i) => i === 0 ? ")" : `(${i - 1}`);
+    let offset = 0;
+
+    const hydra = ord.map((i) => {
+        offset += i === 0 ? -1 : 1;
+        return i === 0 ? ")" : `(${i - 1}`;
+    })
+
+    return `:${hydra.join("")}`
+    + ")".repeat(offset);
 }
 
 // Explorer
 
-export function isZero(ord) {return ord.length === 0;}
+export function isZero(ord) {
+    return ord.length === 0;
+}
 
 export function isSucc(ord) {
     return getParent(ord.slice(0, -1)) < 0;
@@ -45,18 +46,18 @@ export function isSucc(ord) {
 export function rank(a, b) {
     const minLength = Math.min(a.length, b.length);
 
-    for (let i = 0; i < minLength; i++) {
-        if (a[i] !== b[i]) {return a[i] > b[i];}
-    }
+    for (let i = 0; i < minLength; i++)
+        if (a[i] !== b[i]) return a[i] > b[i];
+
     return a.length > b.length;
 }
 
 // Expansion
 
 function fill(ord, num, func) {
-    for (let i = 0; i < num; i++) {
+    for (let i = 0; i < num; i++)
         ord.push(...func(i));
-    }
+
     return ord;
 }
 
@@ -75,9 +76,9 @@ function getParent(ord, root = ord.length) {
 }
 
 function search(ord, head, root) {
-    while (ord[root] >= head) {
+    while (ord[root] >= head)
         root = getParent(ord, root);
-    }
+
     return root;
 }
 
@@ -86,15 +87,17 @@ export function expand(ord, num) {
     const parent = getParent(ord);
 
     if (parent >= 0) {
-        const root = head > 1 ?
-        search(ord, head, parent) : parent;
+        const root = head > 1
+        ? search(ord, head, parent)
+        : parent;
 
         const part = ord.slice(root);
-        if (head === 1) {part.unshift(0);}
+        if (head === 1) part.unshift(0);
+
         fill(ord, num, () => part);
     }
 
-    while (ord.at(-1) === 0) {ord.pop();}
+    while (ord.at(-1) === 0) ord.pop();
     return ord;
 }
 

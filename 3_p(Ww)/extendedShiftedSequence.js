@@ -22,22 +22,28 @@ export const milestones = new Map([
 
 // Unparse
 
-export function unparse(ord) {return `(${ord.join(",")})`;}
+export function unparse(ord) {
+    return `(${ord.join(",")})`;
+}
 
 // Explorer
 
-export function isZero(ord) {return ord.length === 0;}
+export function isZero(ord) {
+    return ord.length === 0;
+}
 
-export function isSucc(ord) {return ord.at(-1) === 0;}
+export function isSucc(ord) {
+    return ord.at(-1) === 0;
+}
 
 // Expansion
 
 export function rank(a, b) {
     const minLength = Math.min(a.length, b.length);
 
-    for (let i = 0; i < minLength; i++) {
-        if (a[i] !== b[i]) {return a[i] > b[i];}
-    }
+    for (let i = 0; i < minLength; i++)
+        if (a[i] !== b[i]) return a[i] > b[i];
+
     return a.length > b.length;
 }
 
@@ -53,14 +59,14 @@ export function getLimit(num) {
 }
 
 function ascend(ord, offset) {
-    for (let i = 0; i < ord.length; i++) {
+    for (let i = 0; i < ord.length; i++)
         ord[i] += offset;
-    }
+
     return ord;   
 }
 
 function getParent(ord, head, root = ord.length) {
-    do {root--;} while (ord[root] >= head);
+    do root--; while (ord[root] >= head);
     return root;
 }
 
@@ -70,41 +76,37 @@ function search(ord, head, top, root) {
         root = mark;
         mark = getParent(ord, top, mark);
     }
-    while (!rank(head, ord.slice(mark, root)));
+    while (rank(ord.slice(mark, root), head));
     return root;
 }
 
 function searchType(ord, top) {
-    let root = getParent(ord, top, ord.length);
+    let root = ord.length - 1;
+
+    do root = getParent(ord, ord[root] + 1, root);
     while (
-        ord[root - 1] !== ord[root] ||
-        ord[root] >= top
-    ) {
-        root = getParent(ord, ord[root] + 1, root);
-    }
+        ord[root - 1] !== ord[root]
+        || ord[root] >= top
+    );
     return root;
 }
 
 export function expand(ord, num) {
     const top = ord.pop();
-
     if (top > 0) {
-        ord.push(top);
-
-        const head = ord.splice(getParent(ord, top));
+        const headPos = getParent(ord, top);
+        const head = ord.slice(headPos);
         const parent = search(ord, head, top);
-        head.pop();
 
         if (ord[parent - 1] < top - 1) {
-            ord.push(...head);
-
             const root = searchType(ord, top);
             const part = ord.slice(root);
             const offset = top - ord[root] - 1;
 
             fill(ord, num, () => ascend(part, offset));
-
-        } else {
+        }
+        else {
+            ord.splice(headPos);
             const part = ord.slice(parent);
             part.unshift(...head)
 
@@ -116,4 +118,5 @@ export function expand(ord, num) {
 
 // Test
 
+log(unparse(expand([0,0,1,1,1,1,0,1,1,1,0,1,1,1,1], 3)));
 log(unparse(expand([0,0,1,2,3,3,2,3,3], 3)));

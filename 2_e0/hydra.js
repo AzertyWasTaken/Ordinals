@@ -14,22 +14,23 @@ export const milestones = new Map([
 
 // Unparse
 
-function genHydra(ord, func) {
-    let offset = 0;
-    return `:${ord.map((i) => {
-        offset += i === 0 ? -1 : 1;
-        return func(i);
-    }).join("")}` +
-    ")".repeat(offset);
-}
-
 export function unparse(ord) {
-    return genHydra(ord, (i) => i === 0 ? ")" : "(");
+    let offset = 0;
+
+    const hydra = ord.map((i) => {
+        offset += i === 0 ? -1 : 1;
+        return i === 0 ? ")" : "(";
+    })
+
+    return `:${hydra.join("")}`
+    + ")".repeat(offset);
 }
 
 // Explorer
 
-export function isZero(ord) {return ord.length === 0;}
+export function isZero(ord) {
+    return ord.length === 0;
+}
 
 export function isSucc(ord) {
     return search(ord.slice(0, -1)) < 0;
@@ -38,20 +39,24 @@ export function isSucc(ord) {
 export function rank(a, b) {
     const minLength = Math.min(a.length, b.length);
 
-    for (let i = 0; i < minLength; i++) {
-        if (a[i] !== b[i]) {return a[i] === 1;}
-    }
+    for (let i = 0; i < minLength; i++)
+        if (a[i] !== b[i]) return a[i] === 1;
+
     return a.length > b.length;
 }
 
 // Expansion
 
 function fill(ord, num, ...apps) {
-    for (let i = 0; i < num; i++) {ord.push(...apps);}
+    for (let i = 0; i < num; i++)
+        ord.push(...apps);
+
     return ord;
 }
 
-export function getLimit(num) {return fill([], num, 1);}
+export function getLimit(num) {
+    return fill([], num, 1);
+}
 
 function search(ord) {
     let root = ord.length;
@@ -68,12 +73,10 @@ export function expand(ord, num) {
     ord.pop();
     const root = search(ord);
 
-    if (root >= 0) {
-        const part = ord.slice(root);
-        fill(ord, num, 0, ...part);
-    }
+    if (root >= 0)
+        fill(ord, num, 0, ...ord.slice(root));
 
-    while (ord.at(-1) === 0) {ord.pop();}
+    while (ord.at(-1) === 0) ord.pop();
     return ord;
 }
 

@@ -14,22 +14,27 @@ export const milestones = new Map([
 
 // Unparse
 
-export function unparse(ord) {return `(${ord.join(",")})`;}
+export function unparse(ord) {
+    return `(${ord.join(",")})`;
+}
 
 // Explorer
 
-export function isZero(ord) {return ord.length === 0;}
+export function isZero(ord) {
+    return ord.length === 0;
+}
 
 export function isSucc(ord) {
-    return ord.length > 0 && ord.at(-1) === ord.at(-2);
+    return ord.length > 0
+    && ord.at(-1) === ord.at(-2);
 }
 
 export function rank(a, b) {
     const minLength = Math.min(a.length, b.length);
 
-    for (let i = 0; i < minLength; i++) {
-        if (a[i] !== b[i]) {return a[i] > b[i];}
-    }
+    for (let i = 0; i < minLength; i++)
+        if (a[i] !== b[i]) return a[i] > b[i];
+
     return a.length > b.length;
 }
 
@@ -37,9 +42,9 @@ export function rank(a, b) {
 
 function fill(num, func) {
     const arr = [];
-    for (let i = 0; i < num; i++) {
+    for (let i = 0; i < num; i++)
         arr.push(...func(i));
-    }
+
     return arr;
 }
 
@@ -51,18 +56,18 @@ export function getLimit(num) {
 }
 
 function ascend(ord) {
-    for (let i = 0; i < ord.length; i++) {ord[i]++;}
+    for (let i = 0; i < ord.length; i++) ord[i]++;
     return ord;
 }
 
 function getHead(ord) {
-    let root = ord.length - 1;
-    while (ord[root] !== ord[root + 1]) {root--;}
-    return root;
+    let root = ord.length;
+    do root--; while (ord[root - 1] > ord[root]);
+    return root - 1;
 }
 
 function search(ord, head, root) {
-    while (ord[root] > head) {root--;}
+    while (ord[root] > head) root--;
     return root;
 }
 

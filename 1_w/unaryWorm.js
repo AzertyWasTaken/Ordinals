@@ -16,17 +16,23 @@ export function unparse(ord) {
 
 // Explorer
 
-export function isZero(ord) {return ord.length === 0;}
+export function isZero(ord) {
+    return ord.length === 0;
+}
 
-export function isSucc(ord) {return ord.at(-1) === 0;}
+export function isSucc(ord) {
+    return ord.at(-1) === 0;
+}
 
-export function rank(a, b) {return a.length > b.length;}
+export function rank(a, b) {
+    return a.length > b.length;
+}
 
 // Expansion
 
 export function getLimit(num) {
     const ord = [];
-    for (let i = 0; i < num; i++) {ord.push(0);}
+    for (let i = 0; i < num; i++) ord.push(0);
     return ord;
 }
 

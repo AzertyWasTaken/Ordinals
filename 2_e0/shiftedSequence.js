@@ -19,29 +19,35 @@ export const milestones = new Map([
 
 // Unparse
 
-export function unparse(ord) {return `(${ord.join(",")})`;}
+export function unparse(ord) {
+    return `(${ord.join(",")})`;
+}
 
 // Explorer
 
-export function isZero(ord) {return ord.length === 0;}
+export function isZero(ord) {
+    return ord.length === 0;
+}
 
-export function isSucc(ord) {return ord.at(-1) === 0;}
+export function isSucc(ord) {
+    return ord.at(-1) === 0;
+}
 
 // Expansion
 
 export function rank(a, b) {
     const minLength = Math.min(a.length, b.length);
 
-    for (let i = 0; i < minLength; i++) {
-        if (a[i] !== b[i]) {return a[i] > b[i];}
-    }
+    for (let i = 0; i < minLength; i++)
+        if (a[i] !== b[i]) return a[i] > b[i];
+
     return a.length > b.length;
 }
 
 function fill(ord, num, func) {
-    for (let i = 0; i < num; i++) {
+    for (let i = 0; i < num; i++)
         ord.push(...func(i));
-    }
+
     return ord;
 }
 
@@ -50,7 +56,7 @@ export function getLimit(num) {
 }
 
 function getParent(ord, head, root = ord.length) {
-    do {root--;} while (ord[root] >= head);
+    do root--; while (ord[root] >= head);
     return root;
 }
 
@@ -60,7 +66,7 @@ function search(ord, head, top, root) {
         root = mark;
         mark = getParent(ord, top, mark);
     }
-    while (!rank(head, ord.slice(mark, root)));
+    while (rank(ord.slice(mark, root), head));
     return root;
 }
 
@@ -68,12 +74,8 @@ export function expand(ord, num) {
     const top = ord.pop();
 
     if (top > 0) {
-        ord.push(top);
-
         const head = ord.splice(getParent(ord, top));
         const part = ord.slice(search(ord, head, top));
-
-        head.pop();
         part.unshift(...head);
 
         fill(ord, num, () => part);

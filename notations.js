@@ -29,8 +29,9 @@ export const NOTATIONS = {
         "wormSequence": {name: "Worm Sequence"},
         "wormHydra": {name: "Worm Hydra"},
 
-        "extendedSequence": {name: "Extended Sequence"},
         "pointerExtendedSequence": {name: "Pointer Extended Sequence"},
+        "extendedSequence": {name: "Extended Sequence"},
+        "treeSequence": {name: "Pointer Extended Sequence"},
 
         "shiftedSequence": {name: "Shifted Sequence"},
         "shortShiftedSequence": {name: "Short Shifted Sequence"},
@@ -38,6 +39,7 @@ export const NOTATIONS = {
 
     "3_p(Ww)": {
         "sequenceHydra": {name: "Sequence Hydra"},
+        "addressPairSequence": {name: "Address Pair Sequence"},
         "pointerPairSequence": {name: "Pointer Pair Sequence"},
         "hyperSequence": {name: "Hyper Sequence"},
         "pairSequence": {name: "Pair Sequence"},
@@ -49,6 +51,9 @@ export const NOTATIONS = {
 
         "extendedSequenceHydra": {name: "Extended Sequence Hydra"},
 
+        "trioSequence": {name: "Trio Sequence"},
         "hyperSequenceHydra": {name: "Hyper Sequence Hydra"},
+
+        "matrixSequence": {name: "Matrix Sequence", fullName: "Bashicu Matrix System"},
     }
 };

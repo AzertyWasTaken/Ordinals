@@ -29,25 +29,27 @@ export function unparse(ord) {
 
 // Explorer
 
-export function isZero(ord) {return ord.length === 0;}
+export function isZero(ord) {
+    return ord.length === 0;
+}
 
 export function isSucc(ord) {
     return getParent(ord.slice(0, -1)) < 0;
 }
 
 export function rank(a, b) {
-    for (let i = 0; i < Math.min(a.length, b.length); i++) {
-        if (a[i] !== b[i]) {return a[i] === 1;}
-    }
+    for (let i = 0; i < Math.min(a.length, b.length); i++)
+        if (a[i] !== b[i]) return a[i] === 1;
+
     return a.length > b.length;
 }
 
 // Expansion
 
 function fill(ord, num, ...apps) {
-    for (let i = 0; i < num; i++) {
+    for (let i = 0; i < num; i++)
         ord.push(...apps);
-    }
+
     return ord;
 }
 
@@ -56,7 +58,7 @@ export function getLimit(num) {
 }
 
 function trim(ord, func) {
-    while (func(ord.at(-1))) {ord.pop();}
+    while (func(ord.at(-1))) ord.pop();
     return ord;
 }
 
@@ -64,8 +66,8 @@ function getParent(ord, root = ord.length) {
     let count = 1;
     do {
         root--;
-        if (ord[root] === 0) {count++;}
-        else if (ord[root] === 2) {count--;}
+        if (ord[root] === 0) count++;
+        else if (ord[root] === 2) count--;
     }
     while (root >= 0 && count > 0);
     return root;
@@ -76,12 +78,11 @@ function search(ord) {
     let count = 1;
     do {
         root--;
-        if (ord[root] === 1) {count++;}
-        else if (ord[root] === 2) {count--;}
+        if (ord[root] === 1) count++;
+        else if (ord[root] === 2) count--;
 
-        if (ord[root] === 0) {
+        if (ord[root] === 0)
             root = getParent(ord, root);
-        }
     }
     while (root >= 0 && count > 0);
     return root;
@@ -89,17 +90,17 @@ function search(ord) {
 
 export function expand(ord, num) {
     ord.pop();
-    const root = getParent(ord);
+    const parent = getParent(ord);
 
-    if (root >= 0) {
-        const root2 = search(ord);
+    if (parent >= 0) {
+        const root = search(ord);
 
-        if (root2 >= 0) {
-            fill(ord, num, 1, ...ord.slice(root2));
+        if (root >= 0)
+            fill(ord, num, 1, ...ord.slice(root));
 
-        } else {
+        else {
             trim(ord, (i) => i === 1);
-            fill(ord, num, 0, ...ord.slice(root));
+            fill(ord, num, 0, ...ord.slice(parent));
         }
     }
 

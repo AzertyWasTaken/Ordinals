@@ -6,11 +6,11 @@ import {createLngi} from "./autoLNGI.js";
 // Config
 
 // const [CATEGORY, NOTATION] = ["Bonus", "AZOCF"];
-// const [CATEGORY, NOTATION] = ["0_TODO", "extendedSequenceHydra"];
-const [CATEGORY, NOTATION] = ["2_e0", "binaryTreeSequence"];
+// const [CATEGORY, NOTATION] = ["0_TODO", "treeSequence"];
+const [CATEGORY, NOTATION] = ["3_p(Ww)", "matrixSequence"];
 const ORD_MODULE = await import(`../${CATEGORY}/${NOTATION}.js`);
 
-const LENGTH = 8;
+const LENGTH = 10;
 
 const OUTPUT_STR = true;
 const OUTPUT_JSON = false;

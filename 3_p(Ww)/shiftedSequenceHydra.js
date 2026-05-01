@@ -26,23 +26,24 @@ export const milestones = new Map([
 
 // Unparse
 
-function genHydra(ord, func) {
-    let offset = 0;
-    return `:${ord.map((i) => {
-        offset += i === 0 ? -1 : 1;
-        return func(i);
-    }).join("")}` +
-    ")".repeat(offset);
-}
-
 export function unparse(ord) {
-    return genHydra(ord, (i) => i === 0 ? ")" : `(${i - 1}`);
+    let offset = 0;
+
+    const hydra = ord.map((i) => {
+        offset += i === 0 ? -1 : 1;
+        return i === 0 ? ")" : `(${i - 1}`;
+    })
+
+    return `:${hydra.join("")}`
+    + ")".repeat(offset);
 }
 
 
 // Explorer
 
-export function isZero(ord) {return ord.length === 0;}
+export function isZero(ord) {
+    return ord.length === 0;
+}
 
 export function isSucc(ord) {
     return getParent(ord.slice(0, -1)) < 0;
@@ -53,16 +54,16 @@ export function isSucc(ord) {
 export function rank(a, b) {
     const minLength = Math.min(a.length, b.length);
 
-    for (let i = 0; i < minLength; i++) {
-        if (a[i] !== b[i]) {return a[i] > b[i];}
-    }
+    for (let i = 0; i < minLength; i++)
+        if (a[i] !== b[i]) return a[i] > b[i];
+
     return a.length > b.length;
 }
 
 function fill(ord, num, func) {
-    for (let i = 0; i < num; i++) {
+    for (let i = 0; i < num; i++)
         ord.push(...func(i));
-    }
+
     return ord;
 }
 
@@ -81,7 +82,7 @@ function getParent(ord, root = ord.length) {
 }
 
 function getSubParent(ord, head, root = ord.length) {
-    do {root = getParent(ord, root);}
+    do root = getParent(ord, root);
     while (ord[root] >= head);
     return root;
 }
@@ -89,11 +90,11 @@ function getSubParent(ord, head, root = ord.length) {
 function search(ord, head, top, root) {
     let mark = ord.length;
     do {
-        if (ord[mark - 1] === 0) {mark--;}
+        if (ord[mark - 1] === 0) mark--;
         root = mark;
         mark = getSubParent(ord, top, mark);
     }
-    while (!rank(head, ord.slice(mark, root)));
+    while (rank(ord.slice(mark, root), head));
     return root;
 }
 
@@ -103,24 +104,19 @@ export function expand(ord, num) {
 
     if (parent >= 0) {
         if (top > 1) {
-            ord.push(top);
-
             const head = ord.splice(getSubParent(ord, top));
             const part = ord.slice(search(ord, head, top));
-
-            head.pop();
             part.unshift(...head);
-
             fill(ord, num, () => part);
-
-        } else {
+        }
+        else {
             const part = ord.slice(parent);
             part.unshift(0);
             fill(ord, num, () => part);
         }
     }
 
-    while (ord.at(-1) === 0) {ord.pop();}
+    while (ord.at(-1) === 0) ord.pop();
     return ord;
 }
 

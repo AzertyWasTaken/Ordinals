@@ -12,42 +12,48 @@ export const milestones = new Map([
 
 // Unparse
 
-export function unparse(ord) {return `:${ord.join("")}`;}
+export function unparse(ord) {
+    return `:${ord.join("")}`;
+}
 
 // Explorer
 
-export function isZero(ord) {return ord.length === 0;}
+export function isZero(ord) {
+    return ord.length === 0;
+}
 
-export function isSucc(ord) {return ord.at(-1) === 0;}
+export function isSucc(ord) {
+    return ord.at(-1) === 0;
+}
 
 function maxSepPos(ord) {
-    for (let i = ord.length - 1; i >= 0; i--) {
-        if (ord[i] === 1) {return i;}
-    }
+    for (let i = ord.length - 1; i >= 0; i--)
+        if (ord[i] === 1) return i;
+
     return ord.length - 1;
 }
 
 function compare(a, b) {
-    if (a.length !== b.length) {return false;}
+    if (a.length !== b.length) return false;
 
-    for (let i = 0; i < a.length; i++) {
-        if (a[i] !== b[i]) {return false;}
-    }
+    for (let i = 0; i < a.length; i++)
+        if (a[i] !== b[i]) return false;
+
     return true;
 }
 
 export function rank(a, b) {
     while (true) {
-        if (a.length === 0) {return false;}
-        if (b.length === 0) {return true;}
+        if (a.length === 0) return false;
+        if (b.length === 0) return true;
 
         const [pa, pb] = [maxSepPos(a), maxSepPos(b)];
-        if (a[pa] !== b[pb]) {return a[pa] === 1;}
+        if (a[pa] !== b[pb]) return a[pa] === 1;
 
         const [la, lb] = [a.slice(0, pa), b.slice(0, pb)];
-        [a, b] = compare(la, lb) ?
-        [a.slice(pa + 1), b.slice(pb + 1)] :
-        [la, lb];
+        [a, b] = compare(la, lb)
+        ? [a.slice(pa + 1), b.slice(pb + 1)]
+        : [la, lb];
     }
 }
 
@@ -55,23 +61,23 @@ export function rank(a, b) {
 
 function fill(num, val) {
     const arr = [];
-    for (let i = 0; i < num; i++) {arr.push(val);}
+    for (let i = 0; i < num; i++) arr.push(val);
     return arr;
 }
 
-export function getLimit(num) {return fill(num, 1);}
+export function getLimit(num) {
+    return fill(num, 1);
+}
 
 function search(ord) {
-    let root = ord.length - 1;
-    while (ord[root] === 1) {root--;}
+    let root = ord.length;
+    do root--; while (ord[root] === 1);
     return root;
 }
 
 export function expand(ord, num) {
-    if (ord.at(-1) === 0) {
-        ord.pop();
-
-    } else {
+    if (ord.at(-1) === 0) ord.pop();
+    else {
         const root = search(ord);
         ord.splice(root, 1);
         ord.splice(root + 1, 0, ...fill(num, 0));

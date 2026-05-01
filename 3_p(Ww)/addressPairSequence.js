@@ -36,14 +36,14 @@ export function isZero(ord) {
 }
 
 export function isSucc(ord) {
-    return ord.at(-2) === 0;
+    return ord.at(-2) >= ord.length / 2 - 1;
 }
 
 export function rank(a, b) {
     const minLength = Math.min(a.length, b.length);
 
     for (let i = 0; i < minLength; i++)
-        if (a[i] !== b[i]) return a[i] > b[i];
+        if (a[i] !== b[i]) return a[i] < b[i];
 
     return a.length > b.length;
 }
@@ -61,41 +61,28 @@ export function getLimit(num) {
     return fill([], num, (i) => [i, i]);
 }
 
-function ascend(ord, offset) {
-    for (let i = 0; i < ord.length; i += 2)
+function ascend(ord, offset, isType) {
+    if (isType) ord[0] += offset;
+
+    for (let i = 2; i < ord.length; i += 2) {
         ord[i] += offset;
-
+        if (isType) ord[i + 1] += offset;
+    }
     return ord;
-}
-
-function getParent(ord, head, root = ord.length) {
-    do root -= 2; while (ord[root] >= head);
-    return root;
-}
-
-function search(ord, head, type) {
-    let root = ord.length;
-    do root = getParent(ord, ord[root] ?? head, root);
-    while (ord[root + 1] >= type);
-    return root;
 }
 
 export function expand(ord, num) {
     const [head, type] = ord.splice(-2);
+    const root = (head - 1) * 2;
 
-    if (head > 0) {
-        const root = type > 0
-        ? search(ord, head, type)
-        : getParent(ord, head);
+    if (root >= 0) {
+        const root2 = (type - 1) * 2;
+        const part = ord.slice(root2 >= 0 ? root2 : root);
 
-        const part = ord.slice(root);
-        const offset = type > 0
-        ? head - ord[root] : 0;
-
-        fill(ord, num, () => ascend(part, offset));
+        fill(ord, num, () =>
+            ascend(part, part.length / 2, root2 >= 0));
     }
-
     return ord;
 }
 
-log(unparse(expand([0,0,1,1,2,2,2,2], 3)));
+log(unparse(expand([0,0,1,1,2,1,3,1], 3)));

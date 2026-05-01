@@ -61,15 +61,19 @@ The lenght of a script is the number of nonempty lines in the explorer and expan
 | - | -
 | address | Each item encodes its parent position
 | array | Array with fixed length
-| binary | Uses only two symbols
+| binary | Use only two symbols
 | double sided | Can expand in both sides
+| extended | Extension of a notation
 | hyper | Meta sequence property
-| index | Uses a pair to represent a number index
+| index | Use a pair to represent a number index
 | number | Unbounded symbols count
-| pair | Each items has a pair
+| pair | Each item are paired — in sets of 2
 | pointer | Each item encodes its distance with its parent
-| sequence | Equivalent to nested worm or tree
-| unary | Uses only a single symbol
+| sequence | Shifted worm — equivalent to nested worm or tree
+| shifted | Shifted sequence
+| short | Compressed to remove intermediate values
+| trio | Each item are in sets of 3
+| unary | Use only a single symbol
 | worm | Array with variable length
 
 ### Variables
@@ -79,6 +83,7 @@ The lenght of a script is the number of nonempty lines in the explorer and expan
 | a, b | Used in binary operations
 | func | Function
 | head | Last item of a sequence
+| tier | Level above type
 | num | Integer
 | offset | Value difference between two sequence items
 | ord | Ordinal
@@ -92,58 +97,67 @@ The lenght of a script is the number of nonempty lines in the explorer and expan
 
 | Name | Definition
 | - | -
-| `fill(ord, num, val)` | Push *val* to *ord* *num* times
-| `getParent(ord, root)` | Search the parent of *root* item of *ord*
-| `search(ord)` | Search the root of an array
-| `trim(ord, func)` | Trim the end of a sequence
+| `ascend` | Increase each values of a sequence
+| `fill` | Fill an array with values
+| `getEnd` | Get the end of a nested array
+| `getParent` | Search the parent of a node
+| `getSubParent` | Search the parent of a sub node
+| `rank` | Rank the value of two ordinals
+| `search` | Search the root of a sequence
+| `trim` | Trim unused values in a sequence
 
 ## Notations complexity
 
 ### General
 
-The complexity is the tokens count in the expansion and limit sections.
+The complexity is the tokens count in the expansion section.
 
 | Ordinal | Notation | Complexity
 | - | - | -
 | ω | number | 30
-| ω | unaryWorm | 60
+| ω | unaryWorm | 55
 | ω^2 | pairNumber | 60
-| ω^ω | worm | 70
-| ω^ω | indexArray | 105
-| ω^ω | array | 125
-| ω^ω | binaryArray | 160
-| ω^ω^ω | doubleSidedWorm | 200
+| ω^ω | worm | 65
+| ω^ω | indexArray | 100
+| ω^ω | array | 115
+| ω^ω | binaryArray | 155
+| ω^ω^ω | doubleSidedWorm | 195
+| ε0 | shortSequence | 125
 | ε0 | pointerSequence | 140
-| ε0 | shortSequence | 150
-| ε0 | sequence | 160
-| ε0 | addressSequence | 165
-| ε0 | hydra | 190
-| ε0 | binaryShiftedSequence | 240
+| ε0 | sequence | 155
+| ε0 | addressSequence | 160
+| ε0 | hydra | 175
+| ε0 | binaryShiftedSequence | 235
 | ε0 | binaryTreeSequence | 280
-| εω | wormSequence | 200
-| εω | wormHydra | 210
-| φ(ω,0) | pointerExtendedSequence | 170
-| φ(ω,0) | extendedSequence | 210
-| Γ0 | shiftedSequence | 335
-| Γ0 | shortShiftedSequence | 410
-| ψ(Ωω) | sequenceHydra | 270
-| ψ(Ωω) | pointerPairSequence | 300
-| ψ(Ωω) | hyperSequence | 310
+| εω | wormSequence | 190
+| εω | wormHydra | 195
+| φ(ω,0) | pointerExtendedSequence | 145
+| φ(ω,0) | extendedSequence | 175
+| φ(ω,0) | treeSequence | 420
+| Γ0 | shiftedSequence | 315
+| Γ0 | shortShiftedSequence | 375
+| ψ(Ωω) | sequenceHydra | 260
+| ψ(Ωω) | addressPairSequence | 260
+| ψ(Ωω) | pointerPairSequence | 280
+| ψ(Ωω) | hyperSequence | 300
 | ψ(Ωω) | pairSequence | 320
-| ψ(Ωω) | hyperHydra | 385
-| ψ(Λ) | extendedShiftedSequence | 515
-| ψ(Mω) | shiftedSequenceHydra | 480
-| ψ(T[ω]) | extendedSequenceHydra | 465
-| ψ(T[1[0]<ω>0]) | hyperSequenceHydra | 545
+| ψ(Ωω) | hyperHydra | 370
+| ψ(Λ) | extendedShiftedSequence | 490
+| ψ(Mω) | shiftedSequenceHydra | 455
+| ψ(T[ω]) | extendedSequenceHydra | 445
+| ψ(T[1[0]<ω>0]) | trioSequence | 535
+| ψ(T[1[0]<ω>0]) | hyperSequenceHydra | 550
+| ψ(B(ω)) | matrixSequence | 900
 
 ### Milestones
 
 | Milestone | Notation | Complexity
 | - | - | -
 | ω | number | 30
-| ω^ω | worm | 70
-| ε0 | pointerSequence | 140
-| φ(ω,0) | pointerExtendedSequence | 170
-| ψ(Ωω) | sequenceHydra | 270
-| ψ(T[ω]) | extendedSequenceHydra | 465
-| ψ(T[1[0]<ω>0]) | hyperSequenceHydra | 545
+| ω^ω | worm | 65
+| ε0 | pointerSequence | 125
+| φ(ω,0) | pointerExtendedSequence | 145
+| ψ(Ωω) | sequenceHydra | 260
+| ψ(T[ω]) | extendedSequenceHydra | 445
+| ψ(T[1[0]<ω>0]) | hyperSequenceHydra | 535
+| ψ(B(ω)) | matrixSequence | 900

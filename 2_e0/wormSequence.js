@@ -16,37 +16,45 @@ export const milestones = new Map([
 
 // Unparse
 
-export function unparse(ord) {return `(${ord.join(",")})`;}
+export function unparse(ord) {
+    return `(${ord.join(",")})`;
+}
 
 // Explorer
 
-export function isZero(ord) {return ord.length === 0;}
+export function isZero(ord) {
+    return ord.length === 0;
+}
 
-export function isSucc(ord) {return ord.at(-1) === 0;}
+export function isSucc(ord) {
+    return ord.at(-1) === 0;
+}
 
 export function rank(a, b) {
     const minLength = Math.min(a.length, b.length);
 
-    for (let i = 0; i < minLength; i++) {
-        if (a[i] !== b[i]) {return a[i] > b[i];}
-    }
+    for (let i = 0; i < minLength; i++)
+        if (a[i] !== b[i]) return a[i] > b[i];
+
     return a.length > b.length;
 }
 
 // Expansion
 
-export function getLimit(num) {return [0, num + 1];}
+export function getLimit(num) {
+    return [0, num + 1];
+}
 
 function fill(ord, num, func) {
-    for (let i = 0; i < num; i++) {
+    for (let i = 0; i < num; i++)
         ord.push(...func(i));
-    }
+
     return ord;
 }
 
 function search(ord, head) {
-    let root = ord.length - 1;
-    while (ord[root] >= head) {root--;}
+    let root = ord.length;
+    do root--; while (ord[root] >= head);
     return root;
 }
 
@@ -57,17 +65,15 @@ export function expand(ord, num) {
         const root = search(ord, head);
         const offset = head - ord[root] - 1;
 
-        if (offset > 0) {
+        if (offset > 0)
             fill(ord, num, (i) =>
                 [ord[root] + offset * (i + 1)]);
 
-        } else {
-            fill(ord, num, () => ord.slice(root));
-        }
+        else fill(ord, num, () => ord.slice(root));
     }
     return ord;
 }
 
 // Test
 
-log(unparse(expand([0,2,4,4], 3)));
+log(unparse(expand([0,3,6,6], 3)));

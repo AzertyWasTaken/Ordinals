@@ -37,22 +37,23 @@ export const milestones = new Map([
 
 // Unparse
 
-function genHydra(ord, func) {
-    let offset = 0;
-    return `:${ord.map((i) => {
-        offset += i === 0 ? -1 : 1;
-        return func(i);
-    }).join("")}` +
-    ")".repeat(offset);
-}
-
 export function unparse(ord) {
-    return genHydra(ord, (i) => i === 0 ? ")" : `(${i - 1}`);
+    let offset = 0;
+
+    const hydra = ord.map((i) => {
+        offset += i === 0 ? -1 : 1;
+        return i === 0 ? ")" : `(${i - 1}`;
+    })
+
+    return `:${hydra.join("")}`
+    + ")".repeat(offset);
 }
 
 // Explorer
 
-export function isZero(ord) {return ord.length === 0;}
+export function isZero(ord) {
+    return ord.length === 0;
+}
 
 export function isSucc(ord) {
     return getParent(ord.slice(0, -1)) < 0;
@@ -61,41 +62,46 @@ export function isSucc(ord) {
 export function rank(a, b) {
     const minLength = Math.min(a.length, b.length);
 
-    for (let i = 0; i < minLength; i++) {
-        if (a[i] !== b[i]) {return a[i] > b[i];}
-    }
+    for (let i = 0; i < minLength; i++)
+        if (a[i] !== b[i]) return a[i] > b[i];
+
     return a.length > b.length;
 }
 
 // Expansion
 
-export function getLimit(num) {return [1, num + 2];}
+export function getLimit(num) {
+    return fill([], num, (i) => [i * (i + 1) / 2 + 1]);
+}
 
 function fill(ord, num, func) {
-    for (let i = 0; i < num; i++) {
+    for (let i = 0; i < num; i++)
         ord.push(...func(i));
-    }
+
     return ord;
 }
 
-function ascend(ord, offset, ascendMap) {
-    for (let i = 0; i < ord.length; i++) {
-        if (ascendMap[i]) {ord[i] += offset;}
-    }
-    return ord;   
+function ascend(ord, map) {
+    for (let i = 0; i < ord.length; i++)
+        ord[i] += map[i];
+
+    return ord;
 }
 
-function getAscendMap(ord, head) {
-    const result = [true];
+function getMap(ord, offset) {
+    const map = [offset];
     let count = 0;
 
     for (let i = 1; i < ord.length; i++) {
-        if (count > 0) {count += ord[i] === 0 ? -1 : 1;}
-        if (ord[i] > 0 && ord[i] <= ord[0]) {count = 1;}
+        if (count > 0) count += ord[i] === 0 ? -1 : 1;
+        if (ord[i] > 0 && ord[i] <= ord[0]) count = 1;
 
-        result.push(count === 0 && ord[i] !== 0);
+        map.push(
+            count === 0 && ord[i] !== 0
+            ? offset : 0
+        );
     }
-    return result;
+    return map;
 }
 
 function getParent(ord, root = ord.length) {
@@ -109,9 +115,9 @@ function getParent(ord, root = ord.length) {
 }
 
 function getSubParent(ord, head, root) {
-    while (ord[root] >= head) {
+    while (ord[root] >= head)
         root = getParent(ord, root);
-    }
+
     return root;
 }
 
@@ -129,27 +135,27 @@ export function expand(ord, num) {
     const head = ord.pop();
     const parent = getParent(ord);
 
-    if (parent >= 0) {
+    if (parent >= 0)
         if (head === 1) {
             const part = ord.slice(parent);
             part.unshift(0);
 
             fill(ord, num, () => part);
+        }
+        else {
+            const subParent = getSubParent(ord, head, parent);
+            const type = head - ord[subParent];
 
-        } else {
-            const parent2 = getSubParent(ord, head, parent);
-            const type = head - ord[parent2];
-
-            const root = type > 1 ?
-            search(ord, type, parent2) : parent2;
+            const root = type > 1
+            ? search(ord, type, subParent)
+            : subParent;
 
             const part = ord.slice(root);
             const offset = head - ord[root] - 1;
-            const ascendMap = getAscendMap(part, head);
+            const map = getMap(part, offset);
 
-            fill(ord, num, () => ascend(part, offset, ascendMap));
+            fill(ord, num, () => ascend(part, map));
         }
-    }
 
     while (ord.at(-1) === 0) {ord.pop();}
     return ord;

@@ -8,6 +8,12 @@ import {dirname} from "path";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
+const ROUND = 5;
+
+function round(n, b) {
+    return Math.round(n / b) * b;
+}
+
 function sliceCode(code) {
     const explorerPos = code.indexOf("// Expansion");
     const testPos = code.indexOf("// Test", explorerPos);
@@ -49,7 +55,7 @@ function iterateFolder(folder) {
         const filePath = path.join(folderPath, file);
         const count = countLines(filePath);
 
-        if (count !== null) {log(`| ${file} | ${count}`);}
+        if (count !== null) {log(`| ${file} | ${round(count, ROUND)}`);}
     }
 }
 
