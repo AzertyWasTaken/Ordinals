@@ -1,8 +1,9 @@
 "use strict";
 function strValue(val) {
-    if (Array.isArray(val)) {return `[${strArray(val)}]`;}
-    if (val instanceof Map) {return `Map(${strMap(val)})`;}
-    if (typeof val === "object") {return `{${strObject(val)}}`;}
+    if (val === null) return "null";
+    if (Array.isArray(val)) return `[${strArray(val)}]`;
+    if (val instanceof Map) return `Map(${strMap(val)})`;
+    if (typeof val === "object") return `{${strObject(val)}}`;
     return val;
 }
 

@@ -65,6 +65,10 @@ button:disabled {
 
 /* Ordinal */
 
+.ordinal_row {
+    display: flex;
+}
+
 .root {
     padding: 8px 0px;
 }
@@ -73,10 +77,24 @@ button:disabled {
     background: #000000;
     font-family: monospace;
     font-size: 16px;
-    margin-left: 8px;
+    margin-left: 20px;
     margin-top: -2px;
     padding: 4px 8px;
     max-width: none;
+    text-wrap: wrap;
+    word-break: break-all;
+    text-align: start;
+}
+
+.collapse_btn {
+    position: absolute;
+    background: #A02020;
+    margin: 4px 0;
+    padding: 0;
+    min-width: 16px;
+    max-height: 16px;
+    text-align: center;
+    border-radius: 10px;
 }
 
 .shifted {

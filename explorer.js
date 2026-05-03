@@ -38,23 +38,30 @@ function createOrdButton(ord) {
     return btn;
 }
 
-function appAnalysis(ord, div, container) {
+function createDelButton(ord) {
+    const btn = document.createElement("button");
+    btn.className = "collapse_btn";
+    btn.textContent = "-";
+    return btn;
+}
+
+function createAnalysis(ord, div, container) {
     const analysis = sModule.analyze(ord);
-    if (!analysis) {return;}    
+    if (!analysis) return undefined;
 
     const name = document.createElement("span");
     name.className = "ordinal_name";
     name.textContent = analysis;
-    div.appendChild(name);
-    container.prepend(name);
+    return name;
 }
 
-function mountNode(ord, div, btn, container) {
-    div.appendChild(btn);
-    container.appendChild(div);
+function mountNode(ord, row, div, ana, btn, container) {
+    row.appendChild(btn);
+    if (ana) row.appendChild(ana);
+
+    div.prepend(row);
     container.prepend(div);
-    appAnalysis(ord, div, container);
-    container.prepend(btn);
+    container.prepend(row);
 }
 
 function logError(newOrd, lowerBound) {
@@ -62,48 +69,80 @@ function logError(newOrd, lowerBound) {
     log("JSON", newOrd, lowerBound);
 }
 
-function createExpander(ord, div, lowerBound) {
-    let first;
+function getOffset(cache, ord, lowerBound) {
+    let offset = 0;
+    let expOrd;
+
+    while (true) {
+        expOrd = sModule.expand(ord, offset);
+
+        if (sModule.rank(expOrd, lowerBound)) break;
+        else offset++;
+    }
+
+    cache.push(expOrd);
+    return offset;
+}
+
+function getCacheOrd(cache, item, ord, offset) {
+    cache[item] ??= sModule.expand(ord, item + offset);
+    return cache[item];
+}
+
+function createExpander(ord, div, row, lowerBound) {
+    const cache = [];
+    const offset = getOffset(cache, ord, lowerBound);
     let counter = 0;
-    let expanded = false;
+
+    const del = createDelButton(ord);
+    row.append(del);
+    del.style.display = "none";
+
+    function getOrd(item) {
+        cache[item] ??= sModule.expand(ord, item + offset);
+        return cache[item];
+    }
+
+    del.onclick = function collapse() {
+        for (let i = 0; i < 2; i++)
+            div.firstElementChild?.remove();
+
+        counter--;
+        if (counter === 0)
+            del.style.display = "none";
+    }
 
     return function expand() {
-        if (sModule.isSucc(ord) && counter > 0) {return;}
+        if (sModule.isSucc(ord) && counter > 0) return;
 
-        const newOrd = sModule.expand(ord, counter);
+        createNode(getOrd(counter), div,
+        counter > 0 ? getOrd(counter - 1) : lowerBound);
+
+        del.style.display = "";
         counter++;
-
-        if (expanded || sModule.rank(newOrd, lowerBound)) {
-            createNode(newOrd, div, first ?? lowerBound);
-            first = newOrd;
-            expanded = true;
-
-        } else {
-            if (!expanded && counter > 4) {
-                logError(newOrd, lowerBound);
-                return;
-            }
-            expand();
-        }
     };
 }
 
 function createNode(ord, container, lowerBound) {
+    log(lowerBound)
     const div = createDivElement(ord);
     const btn = createOrdButton(ord);
+    const ana = createAnalysis(ord, div, container);
 
-    mountNode(ord, div, btn, container);
+    const row = document.createElement("div");
+    row.className = "ordinal_row";
+    mountNode(ord, row, div, ana, btn, container);
 
-    const succ = sModule.isSucc(ord);
-    if (succ && lowerBound !== undefined || sModule.isZero(ord)) {return;}
+    const isSucc = sModule.isSucc(ord);
+    const isZero = sModule.isZero(ord);
+    if (isSucc && lowerBound !== undefined || isZero) return;
 
-    if (!succ) {
+    if (!isSucc) {
         btn.addEventListener("mouseenter", () => {showTooltip(btn, ord);});
-
         btn.addEventListener("mouseleave", hideTooltip);
     }
 
-    btn.onclick = createExpander(ord, div, lowerBound);
+    btn.onclick = createExpander(ord, div, row, lowerBound);
 }
 
 // Fundamental sequence tooltip
@@ -140,8 +179,8 @@ async function getModule(file) {
         const appCatg = sCategory ? `${sCategory}/` : "";
         const url = `./${appCatg}${file}.js`;
         return await import(new URL(url, pageDir));
-
-    } catch (error) {
+    }
+    catch (error) {
         log("Failed to load module:", file, error);
         return undefined;
     }
@@ -167,7 +206,7 @@ async function createButtons() {
 
     for (const file in catg) {
         const module = await getModule(file);
-        if (!module) {continue;}
+        if (!module) continue;
 
         catg[file].module = module;
 
@@ -191,8 +230,8 @@ async function selectCategory(name) {
 
 function toggleInline() {
     inline = !inline;
-    document.getElementById("inline").textContent = inline ?
-    "Enabled" : "Disabled";
+    document.getElementById("inline").textContent = inline
+    ? "Enabled" : "Disabled";
 
     document.querySelectorAll(".node").forEach((el) => {
         el.classList.toggle("shifted");
@@ -214,7 +253,7 @@ document.getElementById("inline").addEventListener("click", toggleInline);
 if (DEFAULT_CATEGORY) {
     await addCategories(Object.keys(NOTATIONS));
     await selectCategory(DEFAULT_CATEGORY);
-} else {    
+} else {
     await selectCategory(null);
 }
 

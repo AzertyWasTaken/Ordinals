@@ -36,14 +36,14 @@ export function isZero(ord) {
 }
 
 export function isSucc(ord) {
-    return ord.at(-2) >= ord.length / 2 - 1;
+    return ord.at(-2) === 0;
 }
 
 export function rank(a, b) {
     const minLength = Math.min(a.length, b.length);
 
     for (let i = 0; i < minLength; i++)
-        if (a[i] !== b[i]) return a[i] < b[i];
+        if (a[i] !== b[i]) return a[i] > b[i];
 
     return a.length > b.length;
 }

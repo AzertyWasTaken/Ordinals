@@ -147,7 +147,7 @@ The complexity is the tokens count in the expansion section.
 | ψ(T[ω]) | extendedSequenceHydra | 445
 | ψ(T[1[0]<ω>0]) | trioSequence | 535
 | ψ(T[1[0]<ω>0]) | hyperSequenceHydra | 550
-| ψ(B(ω)) | matrixSequence | 900
+| ψ(B(ω)) | matrixSequence | 820
 
 ### Milestones
 
@@ -160,4 +160,4 @@ The complexity is the tokens count in the expansion section.
 | ψ(Ωω) | sequenceHydra | 260
 | ψ(T[ω]) | extendedSequenceHydra | 445
 | ψ(T[1[0]<ω>0]) | hyperSequenceHydra | 535
-| ψ(B(ω)) | matrixSequence | 900
+| ψ(B(ω)) | matrixSequence | 820

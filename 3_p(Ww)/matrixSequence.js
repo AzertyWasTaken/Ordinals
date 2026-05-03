@@ -85,19 +85,31 @@ export function getLimit(num) {
     return fill([0,0], num, () => [1]);
 }
 
+function getHead(ord, root = ord.length) {
+    do root--; while (ord[root] !== 0);
+    return root;
+}
+
+function getNextHead(ord, root = 0) {
+    do root++; while ((ord[root] ?? 0) !== 0);
+    return root;
+}
+
+function ascendColumn(ord, root, ascendMap) {
+    for (let i = 1; (ascendMap[i] ?? 0) > 0; i++) {
+        if ((ord[root + i] ?? 0) === 0 && ascendMap[i] > 0)
+            ord.splice(root + i, 0, 0);
+
+        ord[root + i] += ascendMap[i];
+    }
+}
+
 function ascend(ord, ascendMap) {
-    let count = fill([], ascendMap.length, () => [0]);
     let root = 0;
     let ascRoot = 0;
 
     do {
-        for (let i = 1; (ascendMap[ascRoot + i] ?? 0) > 0; i++) {
-            if ((ord[root + i] ?? 0) === 0 && (ascendMap[ascRoot + i] ?? 0) > 0)
-                ord.splice(root + i, 0, 0);
-
-            ord[root + i] += (ascendMap[ascRoot + i] ?? 0);
-        }
-
+        ascendColumn(ord, root, ascendMap.slice(ascRoot))
         root = getNextHead(ord, root);
         ascRoot = getNextHead(ascendMap, ascRoot);
     }
@@ -106,40 +118,25 @@ function ascend(ord, ascendMap) {
     return ord;
 }
 
-function getHead(ord, root = ord.length) {
-    do root--; while (ord[root] !== 0);
-    return root;
-}
-
-function updHead(head, newHead) {
-    const minLength = Math.min(head.length, newHead.length);
-
-    for (let i = 1; i < minLength; i++) {
-        if ((head[i] ?? 0) <= (newHead[i] ?? 0)) break;
-        head[i] = (newHead[i] ?? 0);
+function updHead(head, column) {
+    for (let i = 1; i < head.length; i++) {
+        if (head[i] <= (column[i] ?? 0)) return true;
+        head[i] = (column[i] ?? 0);
     }
-}
-
-function isRoot(head, newHead) {
-    const minLength = Math.min(head.length, newHead.length);
-
-    for (let i = 1; i < minLength; i++)
-        if ((head[i] ?? 0) <= (newHead[i] ?? 0)) return true;
 
     return false;
 }
 
 function search(ord, head) {
     let root = ord.length;
-    let newHead = head;
+    let column;
     do {
-        updHead(head, newHead);
         const mark = getHead(ord, root);
-        newHead = ord.slice(mark, root);
+        column = ord.slice(mark, root);
         root = mark;
     }
-    while (isRoot(head, newHead));
-    return [root, newHead];
+    while (updHead(head, column));
+    return [root, column];
 }
 
 function getOffsetArray(head, root) {
@@ -150,33 +147,29 @@ function getOffsetArray(head, root) {
     return offset;
 }
 
-function getNextHead(ord, root = 0) {
-    do root++; while ((ord[root] ?? 0) !== 0);
-    return root;
+function addMapColumn(map, count, offset, column, rootColumn) {
+    map.push(0);
+
+    for (let i = 1; i < offset.length; i++) {
+        if ((column[i - 1] ?? 0) < count[i]) count[i] = 0;
+        if ((column[i] ?? 0) <= (rootColumn[i] ?? 0)) count[i] = (column[i - 1] ?? 0);
+
+        if (count[i] > 0) break;
+        map.push(offset[i]);
+    }
 }
 
-function getAscendMap(ord, offset) {
-    const map = [...offset];
-
+function getAscendMap(ord, rootColumn, offset) {
     let count = fill([], offset.length, () => [0]);
-    let root = getNextHead(ord);
-
-    const firstHead = ord.slice(0, root);
+    let root = rootColumn.length;
+    const map = [...offset];
 
     while (root < ord.length) {
         const mark = getNextHead(ord, root);
-        const newHead = ord.slice(root, mark);
+        const column = ord.slice(root, mark);
         root = mark;
 
-        map.push(0);
-
-        for (let i = 1; i < offset.length; i++) {
-            if ((newHead[i - 1] ?? 0) < count[i]) count[i] = 0;
-            if ((newHead[i] ?? 0) <= (firstHead[i] ?? 0)) count[i] = (newHead[i - 1] ?? 0);
-
-            if (count[i] > 0) break;
-            map.push(offset[i]);
-        }
+        addMapColumn(map, count, offset, column, rootColumn);
     }
 
     return map;
@@ -185,12 +178,12 @@ function getAscendMap(ord, offset) {
 export function expand(ord, num) {
     const head = ord.splice(getHead(ord));
 
-    if (head.length > 1) {
-        const [root, newHead] = search(ord, [...head]);
+    if (head.length > 0) {
+        const [root, column] = search(ord, [...head]);
         const part = ord.slice(root);
 
-        const offset = getOffsetArray(head, newHead);
-        const ascendMap = getAscendMap(part, offset);
+        const offset = getOffsetArray(head, column);
+        const ascendMap = getAscendMap(part, column, offset);
 
         fill(ord, num, () => ascend(part, ascendMap));
     }
