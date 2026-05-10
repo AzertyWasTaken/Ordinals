@@ -1,16 +1,20 @@
 # About
 
-A collection of ordinal notations expansion scripts.  
+An open-source collection of ordinal notations expansion scripts.
+
+## How it works
+
 Each notation script contains these functions:
 
 | Name | Description
 | - | -
 | milestones | A map containing milestones analysis
-| unparse(ord) | Unparse *ord* into a string and possibly add syntaxic sugar
-| isSucc(ord) | Return if *ord* is a successor
-| rank(a, b) | Return if *a* is strictly above *b*
-| getLimit(num) | Get the *num*-th term of the fundamental sequence of the notation limit
-| expand(ord, num) | Get the *num*-th term of the fundamental sequence of *ord*
+| unparse(ord) | Unparse `ord` into a string and possibly add syntaxic sugar
+| isZero(ord) | Check if `ord` equals zero
+| isSucc(ord) | Check if `ord` is a successor
+| rank(a, b) | Check if `a` is strictly above `b`
+| getLimit(num) | Get the `num`-th term of the fundamental sequence of the notation limit
+| expand(ord, num) | Get the `num`-th term of the fundamental sequence of `ord`
 
 Each script also imports functions from `utils.js` and has a test log.  
 The lenght of a script is the number of nonempty lines in the explorer and expansion sections.
@@ -38,15 +42,16 @@ The lenght of a script is the number of nonempty lines in the explorer and expan
 - Write shorthands for frequently used variables
 - Avoid more than 64 characters per line
 - Each instruction must end with a semicolon
+- Nested if else statements must use braces
 
-### Accepted notations
+### Accepted Notations
 
 - Must **not** be overcomplicated
 - Must append and pop at the right
 - Skip notations with similar expansion
 - Avoid weak and trivial extentions
 
-### Creating notations
+### Creating Notations
 
 - Extend notation limit
 - Compress notation length
@@ -106,7 +111,7 @@ The lenght of a script is the number of nonempty lines in the explorer and expan
 | `search` | Search the root of a sequence
 | `trim` | Trim unused values in a sequence
 
-## Notations complexity
+## Notations Complexity
 
 ### General
 
@@ -137,14 +142,16 @@ The complexity is the tokens count in the expansion section.
 | Γ0 | shiftedSequence | 315
 | Γ0 | shortShiftedSequence | 375
 | ψ(Ωω) | sequenceHydra | 260
-| ψ(Ωω) | addressPairSequence | 260
-| ψ(Ωω) | pointerPairSequence | 280
+| ψ(Ωω) | addressPairSequence | 300
 | ψ(Ωω) | hyperSequence | 300
+| ψ(Ωω) | pointerPairSequence | 315
 | ψ(Ωω) | pairSequence | 320
 | ψ(Ωω) | hyperHydra | 370
 | ψ(Λ) | extendedShiftedSequence | 490
 | ψ(Mω) | shiftedSequenceHydra | 455
 | ψ(T[ω]) | extendedSequenceHydra | 445
+| ψ(T[1[0]<ω>0]) | pointerTrioSequence | 365
+| ψ(T[1[0]<ω>0]) | addressTrioSequence | 405
 | ψ(T[1[0]<ω>0]) | trioSequence | 535
 | ψ(T[1[0]<ω>0]) | hyperSequenceHydra | 550
 | ψ(B(ω)) | matrixSequence | 820
@@ -158,6 +165,5 @@ The complexity is the tokens count in the expansion section.
 | ε0 | pointerSequence | 125
 | φ(ω,0) | pointerExtendedSequence | 145
 | ψ(Ωω) | sequenceHydra | 260
-| ψ(T[ω]) | extendedSequenceHydra | 445
-| ψ(T[1[0]<ω>0]) | hyperSequenceHydra | 535
+| ψ(T[1[0]<ω>0]) | pointerTrioSequence | 365
 | ψ(B(ω)) | matrixSequence | 820

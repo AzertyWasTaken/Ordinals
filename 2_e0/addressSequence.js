@@ -50,9 +50,9 @@ export function getLimit(num) {
     return fill([], num, (i) => [i]);
 }
 
-function ascend(ord, offset) {
+function ascend(ord) {
     for (let i = 1; i < ord.length; i++)
-        ord[i] += offset;
+        ord[i] += ord.length;
 
     return ord;
 }
@@ -63,8 +63,7 @@ export function expand(ord, num) {
     if (head > 0) {
         const part = ord.slice(head - 1);
 
-        fill(ord, num, () =>
-            ascend(part, part.length));
+        fill(ord, num, () => ascend(part));
     }
     return ord;
 }

@@ -61,31 +61,41 @@ export function getLimit(num) {
     return fill([], num, () => [0, 0]);
 }
 
-function ascend(ord, first) {
-    ord[0] = first(ord[0]);
+function getAscendMap(ord) {
+    const map = [];
 
-    for (let i = 0; i < ord.length; i += 2)
-        if (ord[i + 1] >= i / 2)
-            ord[i + 1] += ord.length / 2;
+    for (let i = 0; i < ord.length; i++)
+        map.push(ord[i] >= (i - 1) / 2
+            ? ord.length / 2 : 0);
+
+    return map;
+}
+
+function ascend(ord, ascendMap) {
+    for (let i = 0; i < ord.length; i++)
+        ord[i] += ascendMap[i];
 
     return ord;
 }
 
 export function expand(ord, num) {
     const [head, type] = ord.splice(-2);
-    const root = ord.length - head * 2 - 2;
+    const parent = ord.length - head * 2 - 2;
 
-    if (root >= 0) {
-        const root2 = ord.length - type * 2 - 2;
-        const part = ord.slice(root2 >= 0 ? root2 : root);
+    if (parent >= 0) {
+        const root = ord.length - type * 2 - 2;
+        const part = ord.slice(root >= 0 ? root : parent);
+
+        const ascendMap = getAscendMap(part);
     
-        const first = root2 >= 0
-        ? () => head
-        : (i) => i + head + 1;
+        if (root >= 0) {
+            part[0] = head;
+            ascendMap[0] = 0;
+        }
 
-        fill(ord, num, () => ascend(part, first));
+        fill(ord, num, () => ascend(part, ascendMap));
     }
     return ord;
 }
 
-log(unparse(expand([0,0,0,0,0,1,0,2], 3)));
+log(unparse(expand([0,0,0,0,0,2,2,2], 3)));

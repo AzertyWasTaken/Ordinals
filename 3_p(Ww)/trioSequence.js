@@ -84,15 +84,15 @@ function ascend(ord, ascendMap) {
     return ord;
 }
 
-function getAscendMap(ord, offset, offset2) {
-    const map = [offset, offset2, 0];
+function getAscendMap(ord, headOffset, typeOffset) {
+    const map = [headOffset, typeOffset, 0];
     let count = 0;
 
     for (let i = 3; i < ord.length; i += 3) {
         if (ord[i] < count) count = 0;
         if (ord[i + 1] <= ord[1]) count = ord[i];
 
-        map.push(offset, count === 0 ? offset2 : 0, 0);
+        map.push(headOffset, count === 0 ? typeOffset : 0, 0);
     }
 
     return map;
@@ -128,13 +128,13 @@ export function expand(ord, num) {
         ord.splice(-3);
         const part = ord.slice(root);
 
-        const offset = type > 0
+        const headOffset = type > 0
         ? head - ord[root] : 0;
 
-        const offset2 = sub > 0
+        const typeOffset = sub > 0
         ? type - ord[root] : 0;
 
-        const ascendMap = getAscendMap(part, offset, offset2);
+        const ascendMap = getAscendMap(part, headOffset, typeOffset);
         fill(ord, num, () => ascend(part, ascendMap));
     }
     else ord.splice(-3);

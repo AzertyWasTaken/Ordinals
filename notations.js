@@ -9,7 +9,7 @@ export const NOTATIONS = {
 
         "pairNumber": {name: "Pair Number"},
 
-        "worm": {name: "Worm"},
+        "worm": {name: "Worm", fullName: "Ackermann Worm"},
         "indexArray": {name: "Index Array"},
         "array": {name: "Array"},
         "binaryArray": {name: "Binary Array"},
@@ -20,7 +20,7 @@ export const NOTATIONS = {
     "2_e0": {
         "pointerSequence": {name: "Pointer Sequence"},
         "shortSequence": {name: "Short Sequence"},
-        "sequence": {name: "Sequence"},
+        "sequence": {name: "Sequence", fullName: "Primitive Sequence System / PrSS"},
         "addressSequence": {name: "Address Sequence"},
         "hydra": {name: "Hydra"},
         "binaryShiftedSequence": {name: "Binary Shifted Sequence"},
@@ -38,11 +38,11 @@ export const NOTATIONS = {
     },
 
     "3_p(Ww)": {
-        "sequenceHydra": {name: "Sequence Hydra"},
+        "sequenceHydra": {name: "Sequence Hydra", fullName: "PSS Hydra"},
         "addressPairSequence": {name: "Address Pair Sequence"},
         "pointerPairSequence": {name: "Pointer Pair Sequence"},
         "hyperSequence": {name: "Hyper Sequence"},
-        "pairSequence": {name: "Pair Sequence"},
+        "pairSequence": {name: "Pair Sequence", fullName: "PSS"},
         "hyperHydra": {name: "Hyper Hydra"},
 
         "extendedShiftedSequence": {name: "Extended Shifted Sequence"},
@@ -51,9 +51,11 @@ export const NOTATIONS = {
 
         "extendedSequenceHydra": {name: "Extended Sequence Hydra"},
 
-        "trioSequence": {name: "Trio Sequence"},
+        "trioSequence": {name: "Trio Sequence", fullName: "TSS"},
+        "pointerTrioSequence": {name: "Pointer Trio Sequence"},
+        "addressTrioSequence": {name: "Address Trio Sequence"},
         "hyperSequenceHydra": {name: "Hyper Sequence Hydra"},
 
-        "matrixSequence": {name: "Matrix Sequence", fullName: "Bashicu Matrix System"},
+        "matrixSequence": {name: "Matrix Sequence", fullName: "Bashicu Matrix System / BMS"},
     }
 };
