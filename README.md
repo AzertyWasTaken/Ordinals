@@ -1,64 +1,75 @@
-# About
+# README
 
-An open-source collection of ordinal notations expansion scripts.
+![Status](https://img.shields.io/badge/status-Research-blue)
+![Research](https://img.shields.io/badge/type-Ordinals-teal)
+![Language](https://img.shields.io/badge/language-JavaScript-purple)
+[![Discord](https://img.shields.io/badge/Discord-Join-5865F2)](https://discord.gg/H3FnyZwA6P)
+
+An open-source collection of ordinal notations expansion scripts written in JavaScript.
 
 ## How it works
 
-Each notation script contains these functions:
+Each notation script is expected to contain these functions:
 
 | Name | Description
 | - | -
-| milestones | A map containing milestones analysis
-| unparse(ord) | Unparse `ord` into a string and possibly add syntaxic sugar
-| isZero(ord) | Check if `ord` equals zero
-| isSucc(ord) | Check if `ord` is a successor
-| rank(a, b) | Check if `a` is strictly above `b`
-| getLimit(num) | Get the `num`-th term of the fundamental sequence of the notation limit
-| expand(ord, num) | Get the `num`-th term of the fundamental sequence of `ord`
+| `milestones` | A map object containing milestones/analysis
+| `unparse(ord)` | Unparse `ord` into a readable string
+| `isZero(ord)` | Check if `ord` equals zero
+| `isSucc(ord)` | Check if `ord` is a successor
+| `rank(a, b)` | Check if `a` is strictly above `b`
+| `getLimit(num)` | Get the `num`-th term of the fundamental sequence of the notation limit
+| `expand(ord, num)` | Get the `num`-th term of the fundamental sequence of `ord`
 
-Each script also imports functions from `utils.js` and has a test log.  
-The lenght of a script is the number of nonempty lines in the explorer and expansion sections.
+Also note:
 
-## Rules
+- Each script imports helper functions from `utils.js`
+- There is a test log for each script
 
-### Coding
+## Project Rules
 
-- Internal structure must be an array containing **only** natural numbers
-- Do **not** use iterative object methods inside explorer and expansion sections
-- Expansion function must mutate *ord*
-- Time complexity must be optimal
-- Unparsed notations must **not** contain spaces
-- Ignore zero expansion
+### Structure
+
+- Notation internal structure must be an array containing only natural numbers — no negative numbers, nested arrays, strings or undefined holes
+- Do **not** use iterative object methods (e.g. `Array.map`, `Array.find`, ...) inside explorer and expansion sections — but they are allowed in the parsing functions
+- `expand(ord, num)` function must mutate `ord`
+- Time complexity must be optimal — avoid `O(n^2)` if possible
+- Unparsed notations should not contain spaces, newlines and other invisible characters
+- Special case for `zero` is ignored (`isZero(ord)` is used to ignore `zero` expansion)
 - Do **not** use recursion
-- Split long functions
 
 ### Formatting
 
-- Each line must have **at most** 64 characters
-- Functions and statements followed by braces must **not** break line
-- Arrow functions must be function arguments
-- Each function must **not** nest while and for loops
-- Merge similar functions
-- Write shorthands for frequently used variables
-- Avoid more than 64 characters per line
-- Each instruction must end with a semicolon
-- Nested if else statements must use braces
+Optional but heavily recommended to avoid bugs:
+
+- Avoid lines with over 64 characters (this is not a hard cap but long lines make the code harder to read)
+- Arrow functions must be used only for function arguments
+- Avoid writing multiple `while` and `for` loops in a single function
+- Merge functions that do the same thing if it shortens the script
+- Write shorthands for frequently used variables (like `const part = ord.slice(root)`)
+- Each instruction should end with a semicolon
+- Nested if else statements should use braces
+- Use `const` for constants
 
 ### Accepted Notations
 
-- Must **not** be overcomplicated
-- Must append and pop at the right
-- Skip notations with similar expansion
+- Must not be unecessesary overcomplicated — avoid stuff like Bird's Array or Hyper-E
+- Should append and pop at the right (except if both sides are affected)
+- Ignore notations with similar and trivial expansion
 - Avoid weak and trivial extentions
 
 ### Creating Notations
 
-- Extend notation limit
-- Compress notation length
-- Map down notation
-- Simplify notation expansion
+Tips to find new relevant notations:
+
+- Extend the limit of a notation (e.g. `sequence => hyperSequence`)
+- Compress a notation length (e.g. `sequence => shortSequence`)
+- Map down notation (e.g. `sequence => binaryShiftedSequence`)
+- Simplify notation expansion (e.g. `sequence => pointerSequence`)
 
 ## Dictionary
+
+Recurring variables and functions names used in notation scripts and when they are used:
 
 ### Notations
 
@@ -113,9 +124,9 @@ The lenght of a script is the number of nonempty lines in the explorer and expan
 
 ## Notations Complexity
 
-### General
+The complexity of a notation is the tokens count used in the expansion section (rounded by 5).
 
-The complexity is the tokens count in the expansion section.
+### General
 
 | Ordinal | Notation | Complexity
 | - | - | -
@@ -157,6 +168,8 @@ The complexity is the tokens count in the expansion section.
 | ψ(B(ω)) | matrixSequence | 820
 
 ### Milestones
+
+Smallest notation for each milestone:
 
 | Milestone | Notation | Complexity
 | - | - | -
