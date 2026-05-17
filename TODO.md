@@ -24,6 +24,12 @@ This file is a shared task-board. When editing, only:
 
 ## Website
 
+- [x] Text wrapping
+- [x] Collapse ordinals
+- [x] Bulk expand option
+- [ ] Configurable max inline level
+- [ ] Toggle bulk type
+
 ### Analysis
 
 - [ ] Address modifier
@@ -39,8 +45,11 @@ This file is a shared task-board. When editing, only:
 - Wide ordinal buttons
 - Ordinal hover color
 - Option to color notations to improve readability
-- Multi expansion chain option
-- Add null ouput to rank functions
+- Search bar
+  - Unparse ordinals
+  - Module for parser/unparser
+- Undo option
+- Create LNGI button
 
 ## AZOCF
 

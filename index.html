@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ordinal notations explorer</title>
+    <title>Notation Explorer</title>
     <link rel="stylesheet" href="./style.css">
     <link rel="icon" type="image/x-icon" href="./favicon.png">
 </head>
 
 <body>
-    <h1>Ordinal notations explorer</h1>
+    <h1>Notation Explorer</h1>
 
     <p><a href="https://azertywastaken.github.io/Home/">Home page</a></p>
 
@@ -18,14 +18,21 @@
     <p>Ordinals sometimes appear at right of expansion buttons.
         They are an analysis of the corresponding expression.</p>
 
-    <div id="groups">
-    <label>Category:</label>
-    <button id="1_w">≥ ω</button>
-    <button id="2_e0">≥ ε0</button>
-    <button id="3_p(Ww)">≥ ψ(Ωω)</button>
+    <div class="row" id="groups">
+        <label>Category
+            <button id="1_w">≥ ω</button>
+            <button id="2_e0">≥ ε0</button>
+            <button id="3_p(Ww)">≥ ψ(Ωω)</button>
+        </label>
 
-    <label>Inline:</label>
-    <button id="inline">Enabled</button>
+        <label>Inline
+            <button id="inline">Enabled</button>
+        </label>
+
+        <label>Bulk Expand
+            <input id="bulkExpand" type="range" min="1" max="5" step="1" value="1" />
+            <span id="bulkExpandValue">1</span>
+        </label>
     </div>
 
     <hr>
@@ -34,7 +41,7 @@
 
     <hr>
 
-    <div class="infos" id="name"></div>
+    <div id="name"></div>
 
     <div class="root" id="root"></div>
     <div class="tooltip" id="tooltip"></div>

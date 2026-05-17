@@ -20,6 +20,8 @@ const el = {
     filters: document.getElementById("filters"),
     name: document.getElementById("name"),
     tooltip: document.getElementById("tooltip"),
+    bulkExpand: document.getElementById("bulkExpand"),
+    bulkExpandValue: document.getElementById("bulkExpandValue"),
 }
 
 // Expansion tree UI
@@ -112,19 +114,24 @@ function createExpander(ord, div, row, lowerBound) {
             del.style.display = "none";
     }
 
-    return function expand() {
+    return function expand(bulkExpand = 1) {
+        const a = el.bulkExpand.value;
+        console.log(a, bulkExpand);
+
+        // Expand only once if `ord` is successor
         if (sModule.isSucc(ord) && counter > 0) return;
 
-        createNode(getOrd(counter), div,
+        const callback = createNode(getOrd(counter), div,
         counter > 0 ? getOrd(counter - 1) : lowerBound);
 
         del.style.display = "";
-        counter++;
+        counter ++;
+
+        if (bulkExpand > 1) callback(bulkExpand - 1);
     };
 }
 
 function createNode(ord, container, lowerBound) {
-    log(lowerBound)
     const div = createDivElement(ord);
     const btn = createOrdButton(ord);
     const ana = createAnalysis(ord, div, container);
@@ -142,7 +149,10 @@ function createNode(ord, container, lowerBound) {
         btn.addEventListener("mouseleave", hideTooltip);
     }
 
-    btn.onclick = createExpander(ord, div, row, lowerBound);
+    const callback = createExpander(ord, div, row, lowerBound);
+    btn.addEventListener("click", () => callback(el.bulkExpand.value));
+
+    return callback;
 }
 
 // Fundamental sequence tooltip
@@ -195,7 +205,7 @@ function selectNotation(file) {
     sModule = fixModule(sNotation.module);
 
     const fullName = sNotation.fullName ?
-    ` <font color="#A0A0A0">(${sNotation.fullName})</font>` : "";
+    `<font color="#C0C0C0">(${sNotation.fullName})</font>` : "";
     el.name.innerHTML = sNotation.name + fullName;
 }
 
@@ -245,6 +255,10 @@ async function addCategories(list) {
         );
     }
 }
+
+el.bulkExpand.addEventListener("input", () => {
+    el.bulkExpandValue.textContent = el.bulkExpand.value;
+});
 
 document.getElementById("inline").addEventListener("click", toggleInline);
 

@@ -1,13 +1,26 @@
-# README
+# About
 
-![Status](https://img.shields.io/badge/status-Research-blue)
-![Research](https://img.shields.io/badge/type-Ordinals-teal)
-![Language](https://img.shields.io/badge/language-JavaScript-purple)
+![Status](https://img.shields.io/badge/Status-Active-informational)
+![Research](https://img.shields.io/badge/Type-Ordinals-informational)
+![Language](https://img.shields.io/badge/Language-JavaScript-purple)
 [![Discord](https://img.shields.io/badge/Discord-Join-5865F2)](https://discord.gg/H3FnyZwA6P)
 
-An open-source collection of ordinal notations expansion scripts written in JavaScript.
+An open-source collection of scripts that expands ordinal notations written in JavaScript.
 
-## How it works
+## 🔢 What are ordinals?
+
+Ordinal numbers describe **order** (position in a list), not **size** (how many).
+
+For example, in the list *first, second, third, …*, the words **first**, **second**, **third**, etc. tell you *which position* an element is in. That is different from cardinal numbers (like 1, 2, 3), which usually mean *how many* elements you have.
+
+Ordinals can also talk about positions that go on forever. After “1st, 2nd, 3rd, …” there is an infinite position often written as ω. Two important kinds are:
+
+- **Successor ordinals**: the *next* ordinal after something (e.g. 0, 1, 2, …).
+- **Limit ordinals**: ordinals reached *after infinitely many steps*, with no single immediately previous ordinal.
+
+This repository works with **ordinal notations** (compact ways to encode large transfinite ordinals) and provides scripts to **expand** them using **fundamental sequences**.
+
+## 💡 How it works
 
 Each notation script is expected to contain these functions:
 
@@ -26,7 +39,7 @@ Also note:
 - Each script imports helper functions from `utils.js`
 - There is a test log for each script
 
-## Project Rules
+## 📏 Project Rules
 
 ### Structure
 
@@ -67,7 +80,7 @@ Tips to find new relevant notations:
 - Map down notation (e.g. `sequence => binaryShiftedSequence`)
 - Simplify notation expansion (e.g. `sequence => pointerSequence`)
 
-## Dictionary
+## 📖 Dictionary
 
 Recurring variables and functions names used in notation scripts and when they are used:
 
@@ -122,7 +135,7 @@ Recurring variables and functions names used in notation scripts and when they a
 | `search` | Search the root of a sequence
 | `trim` | Trim unused values in a sequence
 
-## Notations Complexity
+## 📈 Notations Complexity
 
 The complexity of a notation is the tokens count used in the expansion section (rounded by 5).
 

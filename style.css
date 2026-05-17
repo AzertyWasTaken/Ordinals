@@ -1,4 +1,5 @@
 /* Background */
+/* ================================================================ */
 
 body {
     font-family: Arial;
@@ -10,39 +11,70 @@ body {
     color: #FFFFFF;
 }
 
-/* Text */
-
-h1 {
-    text-align: center;
-    padding: 8px;
-}
-
-p {
-    line-height: 24px;
-    margin: 8px 0px;
-}
-
-code {
-    font-size: 16px;
-}
-
-a {
-    color: #FFE040;
-}
-
-ul li {
-    padding: 4px;
-}
-
-.infos {
-    color: #C0C0C0;
+.row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 6px;
+    margin: 10px 0;
 }
 
 hr {
     border: 2px solid #404040;
 }
 
+/* Text */
+/* ================================================================ */
+
+h1 {
+    font-size: 32px;
+    text-align: center;
+}
+
+h2 {
+    font-size: 28px;
+}
+
+p {
+    font-size: 16px;
+    line-height: 24px;
+    margin: 8px 0px;
+}
+
+code {
+    background: #000000;
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 700;
+}
+
+/* Link */
+/* ================================================================ */
+
+a {
+    color: #FFE040;
+}
+
+a:visited {
+    color: #FFA0C0;
+}
+
+a:hover {
+    color: #FFC040;
+}
+
+a:active {
+    color: #FFA040;
+}
+
 /* Button */
+/* ================================================================ */
 
 button {
     background: #2080FF;
@@ -51,11 +83,15 @@ button {
     border: 0 solid #000;
     max-width: 240px;
     padding: 6px 10px;
-    margin: 6px 6px 6px 0px;
+    margin: 4px 6px 4px 0px;
     font-size: 16px;
     border-radius: 4px;
     cursor: pointer;
     white-space: nowrap;
+}
+
+button:active {
+    background: #0060E0;
 }
 
 button:disabled {
@@ -64,6 +100,7 @@ button:disabled {
 }
 
 /* Ordinal */
+/* ================================================================ */
 
 .ordinal_row {
     display: flex;
@@ -86,9 +123,20 @@ button:disabled {
     text-align: start;
 }
 
+.ordinal_btn:active {
+    background: #101010;
+}
+
+.shifted {
+    margin-left: 20px;
+}
+
+/* Collapse */
+/* ================================================================ */
+
 .collapse_btn {
     position: absolute;
-    background: #A02020;
+    background: #A00000;
     margin: 4px 0;
     padding: 0;
     min-width: 16px;
@@ -97,9 +145,19 @@ button:disabled {
     border-radius: 10px;
 }
 
-.shifted {
-    margin-left: 20px;
+.collapse_btn:active {
+    position: absolute;
+    background: #800000;
+    margin: 4px 0;
+    padding: 0;
+    min-width: 16px;
+    max-height: 16px;
+    text-align: center;
+    border-radius: 10px;
 }
+
+/* Tooltip */
+/* ================================================================ */
 
 .tooltip {
     background: #2020A0;
@@ -113,4 +171,11 @@ button:disabled {
     border-radius: 4px;
     pointer-events: none;
     white-space: nowrap;
+}
+
+/* Slider */
+/* ================================================================ */
+
+input[type="range"] {
+    accent-color: #FFE000;
 }
