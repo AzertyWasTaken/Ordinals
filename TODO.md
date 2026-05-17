@@ -53,11 +53,18 @@ This file is a shared task-board. When editing, only:
 
 ## AZOCF
 
-### Expand e0
+### Raching e0
 
-- [ ] Make brackets after ^ optional
-  - [ ] parse()
-  - [ ] unparse()
+- [x] Expand
+  - [x] Parse
+  - [x] Unparse
+- [x] Remove excess brackets
+- [ ] Add shorthand functions
+- [ ] Review functions
+
+### Going further
+
+- [ ] Reach e0 + 1
 
 ### A/Ideas
 
