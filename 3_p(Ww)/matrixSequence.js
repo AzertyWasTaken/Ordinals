@@ -82,7 +82,7 @@ function fill(ord, num, func) {
 }
 
 export function getLimit(num) {
-    return fill([0,0], num, () => [1]);
+    return fill([0,0], num + 1, () => [1]);
 }
 
 function getHead(ord, root = ord.length) {
@@ -178,7 +178,7 @@ function getAscendMap(ord, rootColumn, offset) {
 export function expand(ord, num) {
     const head = ord.splice(getHead(ord));
 
-    if (head.length > 0) {
+    if (head.length > 1) {
         const [root, column] = search(ord, [...head]);
         const part = ord.slice(root);
 

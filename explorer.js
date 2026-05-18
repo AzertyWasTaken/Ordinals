@@ -66,6 +66,8 @@ function mountNode(ord, row, div, ana, btn, container) {
     container.prepend(row);
 }
 
+// Expansion manager
+
 function logError(newOrd, lowerBound) {
     log("Error", sModule.unparse(newOrd), sModule.unparse(lowerBound));
     log("JSON", newOrd, lowerBound);
@@ -84,11 +86,6 @@ function getOffset(cache, ord, lowerBound) {
 
     cache.push(expOrd);
     return offset;
-}
-
-function getCacheOrd(cache, item, ord, offset) {
-    cache[item] ??= sModule.expand(ord, item + offset);
-    return cache[item];
 }
 
 function createExpander(ord, div, row, lowerBound) {
@@ -205,7 +202,7 @@ function selectNotation(file) {
     sModule = fixModule(sNotation.module);
 
     const fullName = sNotation.fullName ?
-    `<font color="#C0C0C0">(${sNotation.fullName})</font>` : "";
+    `<font color="#C0C0C0"> (${sNotation.fullName})</font>` : "";
     el.name.innerHTML = sNotation.name + fullName;
 }
 

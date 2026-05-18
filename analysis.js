@@ -1,4 +1,5 @@
 "use strict";
+import {log} from "./log.js";
 import {limit} from "./utils.js";
 
 export const sequence = [
@@ -16,12 +17,66 @@ export const sequence = [
     ["ω^ω^ω^ω", [0,1,2,3,4]],
 ]
 
-export function convert(analysis, callback) {
-    return analysis.map((ord) => {
+export const pairSequence = [
+    ...pair(sequence),
+    ["ε0", [0,0,1,1]],
+    ["ε0*ω", [0,0,1,1,1,0]],
+    ["ε0^2", [0,0,1,1,1,0,2,1]],
+    ["ε1", [0,0,1,1,1,1]],
+    ["εω", [0,0,1,1,2,0]],
+    ["εε0", [0,0,1,1,2,0,3,1]],
+    ["ζ0", [0,0,1,1,2,1]],
+    ["η0", [0,0,1,1,2,1,2,1]],
+    ["φ(ω,0)", [0,0,1,1,2,1,3,0]],
+    ["φ(ε0,0)", [0,0,1,1,2,1,3,0,4,1]],
+    ["φ(ζ0,0)", [0,0,1,1,2,1,3,0,4,1,5,1]],
+    ["Γ0", [0,0,1,1,2,1,3,1]],
+    ["φ(ω,0,0)", [0,0,1,1,2,1,3,1,3,0]],
+    ["φ(1,0,0,0)", [0,0,1,1,2,1,3,1,3,1]],
+    ["ψ(Ω^Ω^ω)", [0,0,1,1,2,1,3,1,4,0]],
+    ["ψ(Ω^Ω^Ω)", [0,0,1,1,2,1,3,1,4,1]],
+    ["ψ(Ω2)", [0,0,1,1,2,2]],
+    ["ψ(Ω3)", [0,0,1,1,2,2,3,3]],
+]
+
+export const trioSequence = [
+    ...trio(pairSequence),
+    ["ψ(Ωω)", [0,0,0,1,1,1]],
+    ["ψ(Λ)", [0,0,0,1,1,1,2,1,1,3,1,0,2,0,0]],
+    ["ψ(Iω)", [0,0,0,1,1,1,2,1,1,3,1,1]],
+    ["ψ(I(ω,0))", [0,0,0,1,1,1,2,1,1,3,1,1,3,0,0]],
+    ["ψ(Mω)", [0,0,0,1,1,1,2,1,1,3,1,1,3,1,1]],
+    ["ψ(M(ω;0))", [0,0,0,1,1,1,2,1,1,3,1,1,4,0,0]],
+    ["ψ(T2)", [0,0,0,1,1,1,2,2,0]],
+    ["ψ(Tω)", [0,0,0,1,1,1,2,2,1]],
+    ["ψ(T[ω])", [0,0,0,1,1,1,2,2,1,3,0,0]],
+    ["ψ(T[1:;;0]ω)", [0,0,0,1,1,1,2,2,1,3,3,1]],
+    ["ψ(T[1:{ω}0]ω)", [0,0,0,1,1,1,2,2,2]],
+    ["ψ(T[1[ω[[1]]0]0])", [0,0,0,1,1,1,2,2,2,3,3,3]],
+]
+
+// Convert
+
+export function map(analysis, callback) {
+    return analysis.map((ord) => [ord[0], callback(ord[1])]);
+}
+
+export function pair(analysis) {
+    return map(analysis, (ord) => {
         const newOrd = [];
-        for (const item of ord[1]) {
-            callback(newOrd, item);
+        for (let i = 0; i < ord.length; i++) {
+            newOrd.push(ord[i], 0);
         }
-        return [ord[0], newOrd];
+        return newOrd;
+    });
+}
+
+export function trio(analysis) {
+    return map(analysis, (ord) => {
+        const newOrd = [];
+        for (let i = 0; i < ord.length; i += 2) {
+            newOrd.push(ord[i], ord[i + 1], 0);
+        }
+        return newOrd;
     });
 }

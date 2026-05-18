@@ -10,9 +10,11 @@ This file is a shared task-board. When editing, only:
 
 ## Notations
 
-### Pointer sequence matrix
-
-### Hyper^2 hydra
+- Pointer sequence matrix
+  - [x] Search bad root
+  - [ ] Get ascend map
+  - [ ] Ascend part
+- Hyper^2 hydra
 
 ### N/Ideas
 
@@ -27,14 +29,17 @@ This file is a shared task-board. When editing, only:
 - [x] Text wrapping
 - [x] Collapse ordinals
 - [x] Bulk expand option
+- [ ] Add explanations
 - [ ] Configurable max inline level
 - [ ] Toggle bulk type
 
 ### Analysis
 
+- [x] Extend to BO
+- [x] Extend to lim(TSS)
+- [ ] Extend to lim(BMS)
 - [ ] Address modifier
 - [ ] Pointer modifier
-- [ ] Extend to BO
 
 ### W/Ideas
 
@@ -59,12 +64,18 @@ This file is a shared task-board. When editing, only:
   - [x] Parse
   - [x] Unparse
 - [x] Remove excess brackets
-- [ ] Add shorthand functions
-- [ ] Review functions
+- [x] Add shorthand functions
+- [x] Review functions
 
 ### Going further
 
-- [ ] Reach e0 + 1
+Reach e1:
+
+- [ ] Parse
+- [ ] Unparse
+- [ ] Expand
+- New type: epsilon
+- Properties: exp, coeff
 
 ### A/Ideas
 
