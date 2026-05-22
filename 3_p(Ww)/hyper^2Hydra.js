@@ -4,26 +4,30 @@ import {log} from "../log.js";
 
 export const milestones = new Map([
     ["0", []],
-    ["1", [2]],
-    ["ω", [2,1,2]],
-    ["ω^2", [2,1,2,0,2]],
-    ["ω^ω", [2,1,2,1,2]],
-    ["ω^ω^ω", [2,1,2,1,2,1,2]],
-    ["ε0", [2,2]],
-    ["ε1", [2,2,0,2]],
-    ["εω", [2,2,1,1,2]],
-    ["ζ0", [2,2,1,2]],
-    ["φ(ω,0)", [2,2,1,2,1,1,2]],
-    ["Γ0", [2,2,1,2,1,2]],
-    ["ψ(ε{Ω+1})", [2,2,2]],
-    ["ψ(Ωω)", limit],
+    ["1", [3]],
+    ["ω", [3,1,3]],
+    ["ω^2", [3,1,3,0,3]],
+    ["ω^ω", [3,1,3,1,3]],
+    ["ω^ω^ω", [3,1,3,1,3,1,3]],
+    ["ε0", [3,2,3]],
+    ["ε1", [3,2,3,0,3]],
+    ["εω", [3,2,3,1,1,3]],
+    ["ζ0", [3,2,3,1,3]],
+    ["φ(ω,0)", [3,2,3,1,3,1,1,3]],
+    ["Γ0", [3,2,3,1,3,1,3]],
+    ["ψ(Ω2)", [3,2,3,2,3]],
+    ["ψ(Ωω)", [3,3]],
+    ["ψ(Iω)", [3,3,1,3,1,3]],
+    ["ψ(Tω)", [3,3,2,3]],
+    ["ψ(T[1:{ω}0]ω)", [3,3,3]],
+    ["ψ(T[1[0]<ω>0])", limit],
 ]);
 
 // Unparse
 
 export function unparse(ord) {
     return `:${ord.map((i) =>
-        [")", "}", "0"][i]
+        [")", "}", "]", "0"][i]
     ).join("")}`;
 }
 
@@ -67,7 +71,21 @@ function getParent(ord, root = ord.length) {
     do {
         root--;
         if (ord[root] === 0) count++;
-        else if (ord[root] === 2) count--;
+        else if (ord[root] === 3) count--;
+    }
+    while (root >= 0 && count > 0);
+    return root;
+}
+
+function getType(ord, root = ord.length) {
+    let count = 1;
+    do {
+        root--;
+        if (ord[root] === 1) count++;
+        else if (ord[root] === 3) count--;
+
+        if (ord[root] === 0)
+            root = getParent(ord, root);
     }
     while (root >= 0 && count > 0);
     return root;
@@ -78,11 +96,14 @@ function search(ord) {
     let count = 1;
     do {
         root--;
-        if (ord[root] === 1) count++;
-        else if (ord[root] === 2) count--;
+        if (ord[root] === 2) count++;
+        else if (ord[root] === 3) count--;
 
         if (ord[root] === 0)
             root = getParent(ord, root);
+
+        else if (ord[root] === 1)
+            root = getType(ord, root);
     }
     while (root >= 0 && count > 0);
     return root;
@@ -93,18 +114,26 @@ export function expand(ord, num) {
     const parent = getParent(ord);
 
     if (parent >= 0) {
-        const root = search(ord);
+        const root = getType(ord);
 
-        if (root >= 0)
-            fill(ord, num, 1, ...ord.slice(root));
+        if (root >= 0) {
+            const sub = search(ord);
 
+            if (sub >= 0)
+                fill(ord, num, 2, ...ord.slice(sub));
+
+            else {
+                trim(ord, (i) => i === 2);
+                fill(ord, num, 1, ...ord.slice(root));
+            }
+        }
         else {
             trim(ord, (i) => i === 1);
             fill(ord, num, 0, ...ord.slice(parent));
         }
     }
 
-    return trim(ord, (i) => i !== 2);
+    return trim(ord, (i) => i !== 3);
 }
 
-log(unparse(expand([2,2,1,1,2,0,2], 3)));
+log(unparse(expand([3,3,1,2,3], 3)));

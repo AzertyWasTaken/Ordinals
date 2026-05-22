@@ -7,7 +7,7 @@
 
 An open-source collection of scripts that expands ordinal notations written in JavaScript.
 
-## 🔢 What are ordinals?
+## 🔢 What Are Ordinals
 
 Ordinal numbers describe **order** (position in a list), not **size** (how many).
 
@@ -20,7 +20,7 @@ Ordinals can also talk about positions that go on forever. After “1st, 2nd, 3r
 
 This repository works with **ordinal notations** (compact ways to encode large transfinite ordinals) and provides scripts to **expand** them using **fundamental sequences**.
 
-## 💡 How it works
+## 💡 How It Works
 
 Each notation script is expected to contain these functions:
 
@@ -174,10 +174,12 @@ The complexity of a notation is the tokens count used in the expansion section (
 | ψ(Λ) | extendedShiftedSequence | 490
 | ψ(Mω) | shiftedSequenceHydra | 455
 | ψ(T[ω]) | extendedSequenceHydra | 445
-| ψ(T[1[0]<ω>0]) | pointerTrioSequence | 365
+| ψ(T[1[0]<ω>0]) | pointerTrioSequence | 370
 | ψ(T[1[0]<ω>0]) | addressTrioSequence | 405
+| ψ(T[1[0]<ω>0]) | hyper^2Hydra | 515
 | ψ(T[1[0]<ω>0]) | trioSequence | 535
 | ψ(T[1[0]<ω>0]) | hyperSequenceHydra | 550
+| ψ(B(ω)) | pointerMatrixSequence | 490
 | ψ(B(ω)) | matrixSequence | 820
 
 ### Milestones
@@ -192,4 +194,4 @@ Smallest notation for each milestone:
 | φ(ω,0) | pointerExtendedSequence | 145
 | ψ(Ωω) | sequenceHydra | 260
 | ψ(T[1[0]<ω>0]) | pointerTrioSequence | 365
-| ψ(B(ω)) | matrixSequence | 820
+| ψ(B(ω)) | matrixSequence | 490

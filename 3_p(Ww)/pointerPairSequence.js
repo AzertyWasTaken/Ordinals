@@ -65,7 +65,7 @@ function getAscendMap(ord) {
     const map = [];
 
     for (let i = 0; i < ord.length; i++)
-        map.push(ord[i] >= (i - 1) / 2
+        map.push(ord[i] >= Math.floor(i / 2)
             ? ord.length / 2 : 0);
 
     return map;

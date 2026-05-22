@@ -8,8 +8,6 @@ export const milestones = new Map([
     ["ψ(Ωω)", limit],
 ]);
 
-log(milestones)
-
 // Stringify
 
 export function unparse(ord) {

@@ -1,40 +1,10 @@
 "use strict";
 import {limit} from "../utils.js";
 import {log} from "../log.js";
+import {matrixSequence} from "../analysis.js";
 
 export const milestones = new Map([
-    ["0", []],
-    ["1", [0]],
-    ["ω", [0,0,1]],
-    ["ω^2", [0,0,1,0,1]],
-    ["ω^ω", [0,0,1,0,2]],
-    ["ω^ω^ω", [0,0,1,0,2,0,3]],
-    ["ε0", [0,0,1,1]],
-    ["ε1", [0,0,1,1,0,1,1]],
-    ["εω", [0,0,1,1,0,2]],
-    ["ζ0", [0,0,1,1,0,2,1]],
-    ["φ(ω,0)", [0,0,1,1,0,2,1,0,3]],
-    ["Γ0", [0,0,1,1,0,2,1,0,3,1]],
-    ["ψ(ε{Ω+1})", [0,0,1,1,0,2,2]],
-    ["ψ(Ωω)", [0,0,1,1,1]],
-    ["ψ(Λ)", [0,0,1,1,1,0,2,1,1,0,3,1,0,2]],
-    ["ψ(Iω)", [0,0,1,1,1,0,2,1,1,0,3,1,1]],
-    ["ψ(I(ω,0))", [0,0,1,1,1,0,2,1,1,0,3,1,1,0,3]],
-    ["ψ(ε{M+1})", [0,0,1,1,1,0,2,1,1,0,3,1,1,0,3,1,0,4,2]],
-    ["ψ(Mω)", [0,0,1,1,1,0,2,1,1,0,3,1,1,0,3,1,1]],
-    ["ψ(M(ω;0))", [0,0,1,1,1,0,2,1,1,0,3,1,1,0,4]],
-    ["ψ(Kω)", [0,0,1,1,1,0,2,1,1,0,3,1,1,0,4,1,1]],
-    ["ψ(ε{T+1})", [0,0,1,1,1,0,2,2]],
-    ["ψ(Tω)", [0,0,1,1,1,0,2,2,1]],
-    ["ψ(T[ω])", [0,0,1,1,1,0,2,2,1,0,3]],
-    ["ψ(T[1:;0]ω)", [0,0,1,1,1,0,2,2,1,0,3,2,1]],
-    ["ψ(T[1:;;0]ω)", [0,0,1,1,1,0,2,2,1,0,3,3,1]],
-    ["ψ(T[1:{ω}0]ω)", [0,0,1,1,1,0,2,2,2]],
-    ["ψ(T[1{1{*ω}0}0])", [0,0,1,1,1,0,2,2,2,0,3,2,2]],
-    ["ψ(T[1[ω[[1]]0]0])", [0,0,1,1,1,0,2,2,2,0,3,3,3]],
-    ["ψ(T[1[0]<ω>0])", [0,0,1,1,1,1]],
-    ["ψ(ψp(p(ω*0)))", [0,0,1,1,1,1,0,2,2,2,2]],
-    ["ψ(p(ω~0))", [0,0,1,1,1,1,1]],
+    ...matrixSequence,
     ["ψ(B(ω))", limit],
 ]);
 
@@ -44,8 +14,8 @@ export function unparse(ord) {
     let str = ":";
     let pos = 0;
 
-    for (let i = 1; i <= ord.length; i++)
-        if (!ord[i] || ord[i] === 0) {
+    for (let i = 0; i < ord.length; i++)
+        if (ord[i] === 0) {
             str += `(${ord.slice(pos + 1, i).join(",")})`;
             pos = i;
         }
@@ -60,7 +30,8 @@ export function isZero(ord) {
 }
 
 export function isSucc(ord) {
-    return ord.at(-1) === 0;
+    return ord.at(-1) === 0
+    && (!ord.at(-2) || ord.at(-2) === 0);
 }
 
 export function rank(a, b) {
@@ -82,22 +53,21 @@ function fill(ord, num, func) {
 }
 
 export function getLimit(num) {
-    return fill([0,0], num + 1, () => [1]);
+    return [...fill([0], num + 1, () => [1]) ,0];
 }
 
-function getHead(ord, root = ord.length) {
-    do root--; while (ord[root] !== 0);
-    return root;
+function item(col, index) {
+    return col[index] ?? 0;
 }
 
-function getNextHead(ord, root = 0) {
-    do root++; while ((ord[root] ?? 0) !== 0);
+function getColumn(ord, root, step) {
+    do root += step; while (item(ord, root - 1) > 0);
     return root;
 }
 
 function ascendColumn(ord, root, ascendMap) {
-    for (let i = 1; (ascendMap[i] ?? 0) > 0; i++) {
-        if ((ord[root + i] ?? 0) === 0 && ascendMap[i] > 0)
+    for (let i = 0; item(ascendMap, i) > 0; i++) {
+        if (item(ord, root + i) === 0 && ascendMap[i] > 0)
             ord.splice(root + i, 0, 0);
 
         ord[root + i] += ascendMap[i];
@@ -107,21 +77,19 @@ function ascendColumn(ord, root, ascendMap) {
 function ascend(ord, ascendMap) {
     let root = 0;
     let ascRoot = 0;
-
     do {
         ascendColumn(ord, root, ascendMap.slice(ascRoot))
-        root = getNextHead(ord, root);
-        ascRoot = getNextHead(ascendMap, ascRoot);
+        root = getColumn(ord, root, 1);
+        ascRoot = getColumn(ascendMap, ascRoot, 1);
     }
     while (root < ord.length);
-
     return ord;
 }
 
 function updHead(head, column) {
-    for (let i = 1; i < head.length; i++) {
-        if (head[i] <= (column[i] ?? 0)) return true;
-        head[i] = (column[i] ?? 0);
+    for (let i = 0; i < head.length - 1; i++) {
+        if (head[i] <= item(column, i)) return true;
+        head[i] = item(column, i);
     }
 
     return false;
@@ -131,7 +99,7 @@ function search(ord, head) {
     let root = ord.length;
     let column;
     do {
-        const mark = getHead(ord, root);
+        const mark = getColumn(ord, root, -1);
         column = ord.slice(mark, root);
         root = mark;
     }
@@ -141,22 +109,25 @@ function search(ord, head) {
 
 function getOffsetArray(head, root) {
     const offset = [];
-    for (let i = 0; i < head.length - 1; i++)
-        offset.push((head[i] ?? 0) - (root[i] ?? 0));
+    for (let i = 0; i < head.length - 2; i++)
+        offset.push(head[i] - item(root, i));
 
+    offset.push(0);
     return offset;
 }
 
 function addMapColumn(map, count, offset, column, rootColumn) {
-    map.push(0);
+    for (let i = 0; i < offset.length - 1; i++) {
+        if (item(column, i - 1) < count[i])
+            count[i] = 0;
 
-    for (let i = 1; i < offset.length; i++) {
-        if ((column[i - 1] ?? 0) < count[i]) count[i] = 0;
-        if ((column[i] ?? 0) <= (rootColumn[i] ?? 0)) count[i] = (column[i - 1] ?? 0);
+        if (item(column, i) <= item(rootColumn, i))
+            count[i] = item(column, i - 1);
 
         if (count[i] > 0) break;
         map.push(offset[i]);
     }
+    map.push(0);
 }
 
 function getAscendMap(ord, rootColumn, offset) {
@@ -165,7 +136,7 @@ function getAscendMap(ord, rootColumn, offset) {
     const map = [...offset];
 
     while (root < ord.length) {
-        const mark = getNextHead(ord, root);
+        const mark = getColumn(ord, root, 1);
         const column = ord.slice(root, mark);
         root = mark;
 
@@ -176,7 +147,7 @@ function getAscendMap(ord, rootColumn, offset) {
 }
 
 export function expand(ord, num) {
-    const head = ord.splice(getHead(ord));
+    const head = ord.splice(getColumn(ord, ord.length, -1));
 
     if (head.length > 1) {
         const [root, column] = search(ord, [...head]);
@@ -191,4 +162,4 @@ export function expand(ord, num) {
     return ord;
 }
 
-log(unparse(expand([0,0,1,1,1,0,2,0,3,1,0,1,1,1], 3)));
+log(unparse(expand([0,1,1,1,0,2,0,3,1,0,1,1,1,0], 3)));

@@ -11,38 +11,51 @@
 <body>
     <h1>Notation Explorer</h1>
 
-    <p><a href="https://azertywastaken.github.io/Home/">Home page</a></p>
+    <!-- <code>(0,1,3,6,9,11,12,8)</code> -->
+    <!-- <code>()(1,1,1)(2,2,1)(3)(2,1)</code> -->
+    <!-- <code>000}}0}}0))}0</code> -->
 
-    <p>Press an ordinal button (blue buttons) below to select an ordinal notation.</p>
-    <p>Press an expansion button (dark buttons below ordinal buttons) to expand the notation.</p>
-    <p>Ordinals sometimes appear at right of expansion buttons.
-        They are an analysis of the corresponding expression.</p>
+    <div class="header">
+        <a href="https://azertywastaken.github.io/Home">Home</a>
+        <a href="https://github.com/AzertyWasTaken/Ordinals/blob/main/README.md">README</a>
+    </div>
 
-    <div class="row" id="groups">
-        <label>Category
+    <div style="padding: 2px 12px;" class="block">
+        <h4>How to use:</h4>
+        <ul>
+            <li>Press an ordinal button (blue buttons) below to select an ordinal notation.</li>
+            <li>Press an expansion button (dark buttons below ordinal buttons) to expand the notation.</li>
+            <li>Ordinals sometimes appear at right of expansion buttons. They are an analysis of the corresponding expression.</li>
+        </ul>
+    </div>
+
+    <div style="gap: 6px;" class="row">
+        <div class="row block">
+            <label>Category</label>
             <button id="1_w">≥ ω</button>
             <button id="2_e0">≥ ε0</button>
             <button id="3_p(Ww)">≥ ψ(Ωω)</button>
-        </label>
+        </div>
 
-        <label>Inline
+        <div class="row block">
+            <label>Inline</label>
             <button id="inline">Enabled</button>
-        </label>
+        </div>
 
-        <label>Bulk Expand
+        <div class="row block">
+            <label>Bulk Expand</label>
             <input id="bulkExpand" type="range" min="1" max="5" step="1" value="1" />
-            <span id="bulkExpandValue">1</span>
-        </label>
+            <label id="bulkExpandValue">1</label>
+        </div>
     </div>
 
     <hr>
 
-    <div id="filters"></div>
+    <div class="row" id="filters"></div>
 
     <hr>
 
-    <div id="name"></div>
-
+    <div style="font-size: 20px; margin: 4px;" id="name"></div>
     <div class="root" id="root"></div>
     <div class="tooltip" id="tooltip"></div>
 

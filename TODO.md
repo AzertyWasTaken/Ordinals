@@ -10,11 +10,10 @@ This file is a shared task-board. When editing, only:
 
 ## Notations
 
-- Pointer sequence matrix
-  - [x] Search bad root
-  - [ ] Get ascend map
-  - [ ] Ascend part
-- Hyper^2 hydra
+- [x] Improve BMS expansion script
+- [x] Pointer sequence matrix
+- [x] Hyper^2 hydra
+- [ ] Function to auto search column for `matrixSequence` and `pointerMatrixSequence`
 
 ### N/Ideas
 
@@ -29,7 +28,8 @@ This file is a shared task-board. When editing, only:
 - [x] Text wrapping
 - [x] Collapse ordinals
 - [x] Bulk expand option
-- [ ] Add explanations
+- [x] Experimental notes
+- [x] Add link to README
 - [ ] Configurable max inline level
 - [ ] Toggle bulk type
 
@@ -37,9 +37,18 @@ This file is a shared task-board. When editing, only:
 
 - [x] Extend to BO
 - [x] Extend to lim(TSS)
-- [ ] Extend to lim(BMS)
+- [x] Extend to lim(BMS)
 - [ ] Address modifier
 - [ ] Pointer modifier
+
+## Design
+
+- [x] Center links
+- [x] Revamp `how to use` section
+- [ ] Revamp slider bar
+  - [ ] Review css code by AI
+- [ ] Button hover color
+- [ ] Revamp options row
 
 ### W/Ideas
 
@@ -58,20 +67,22 @@ This file is a shared task-board. When editing, only:
 
 ## AZOCF
 
-### Raching e0
+### Reaching e0
 
+- [x] Parse
+- [x] Unparse
 - [x] Expand
-  - [x] Parse
-  - [x] Unparse
 - [x] Remove excess brackets
 - [x] Add shorthand functions
 - [x] Review functions
 
-### Going further
+### Going Further
 
-Reach e1:
+Reach e0^2:
 
+- [x] Save e0 expansion
 - [ ] Parse
+  - Must use an array for coefficients
 - [ ] Unparse
 - [ ] Expand
 - New type: epsilon
@@ -81,7 +92,7 @@ Reach e1:
 
 - rank function
 
-## Prompts for AI
+## AI Prompts
 
-- Write a non-recursive version of `f` function.
+- Write a non-recursive version of the function `f`.
 - This program expands an ordinal denoted by a sequence of numbers. Find a better name for the variables `v` and functions `f`.

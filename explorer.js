@@ -113,7 +113,6 @@ function createExpander(ord, div, row, lowerBound) {
 
     return function expand(bulkExpand = 1) {
         const a = el.bulkExpand.value;
-        console.log(a, bulkExpand);
 
         // Expand only once if `ord` is successor
         if (sModule.isSucc(ord) && counter > 0) return;

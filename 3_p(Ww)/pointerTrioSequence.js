@@ -81,7 +81,7 @@ function getAscendMap(ord) {
     const map = [];
 
     for (let i = 0; i < ord.length; i++)
-        map.push(ord[i] >= (i - 2) / 3
+        map.push(ord[i] >= Math.floor(i / 3)
             ? ord.length / 3 : 0);
 
     return map;
@@ -107,14 +107,14 @@ export function expand(ord, num) {
 
         const ascendMap = getAscendMap(part);
 
-        if (subType >= 0) {
-            part[1] = type;
-            ascendMap[1] = 0;
-        }
-
         if (rootType >= 0) {
             part[0] = head;
             ascendMap[0] = 0;
+
+            if (subType >= 0) {
+                part[1] = type;
+                ascendMap[1] = 0;
+            }
         }
 
         fill(ord, num, () => ascend(part, ascendMap));

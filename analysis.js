@@ -50,9 +50,15 @@ export const trioSequence = [
     ["ψ(T2)", [0,0,0,1,1,1,2,2,0]],
     ["ψ(Tω)", [0,0,0,1,1,1,2,2,1]],
     ["ψ(T[ω])", [0,0,0,1,1,1,2,2,1,3,0,0]],
-    ["ψ(T[1:;;0]ω)", [0,0,0,1,1,1,2,2,1,3,3,1]],
+    ["ψ(T[1:;0]ω)", [0,0,0,1,1,1,2,2,1,3,2,1]],
     ["ψ(T[1:{ω}0]ω)", [0,0,0,1,1,1,2,2,2]],
     ["ψ(T[1[ω[[1]]0]0])", [0,0,0,1,1,1,2,2,2,3,3,3]],
+]
+
+export const matrixSequence = [
+    ...matrix(trioSequence),
+    ["ψ(T[1[0]<ω>0])", [0,1,1,1,1,0]],
+    ["ψ(p(ω~0))", [0,1,1,1,1,1,0]],
 ]
 
 // Convert
@@ -76,6 +82,21 @@ export function trio(analysis) {
         const newOrd = [];
         for (let i = 0; i < ord.length; i += 2) {
             newOrd.push(ord[i], ord[i + 1], 0);
+        }
+        return newOrd;
+    });
+}
+
+export function matrix(analysis) { // TODO
+    return map(analysis, (ord) => {
+        const newOrd = [];
+        for (let i = 0; i < ord.length; i += 3) {
+            for (let c = i; c < i + 3; c++) {
+                if (ord[c] === 0) break;
+                newOrd.push(ord[c]);
+            }
+
+            newOrd.push(0);
         }
         return newOrd;
     });

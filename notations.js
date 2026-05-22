@@ -10,17 +10,17 @@ export const NOTATIONS = {
         "pairNumber": {name: "Pair Number"},
 
         "worm": {name: "Worm", fullName: "Ackermann Worm"},
-        "indexArray": {name: "Index Array"},
         "array": {name: "Array"},
+        "indexArray": {name: "Index Array"},
         "binaryArray": {name: "Binary Array"},
 
         "doubleSidedWorm": {name: "Double Sided Worm"},
     },
 
     "2_e0": {
-        "pointerSequence": {name: "Pointer Sequence"},
-        "shortSequence": {name: "Short Sequence"},
         "sequence": {name: "Sequence", fullName: "Primitive Sequence System / PrSS"},
+        "shortSequence": {name: "Short Sequence"},
+        "pointerSequence": {name: "Pointer Sequence"},
         "addressSequence": {name: "Address Sequence"},
         "hydra": {name: "Hydra"},
         "binaryShiftedSequence": {name: "Binary Shifted Sequence"},
@@ -29,8 +29,8 @@ export const NOTATIONS = {
         "wormSequence": {name: "Worm Sequence"},
         "wormHydra": {name: "Worm Hydra"},
 
-        "pointerExtendedSequence": {name: "Pointer Extended Sequence"},
         "extendedSequence": {name: "Extended Sequence"},
+        "pointerExtendedSequence": {name: "Pointer Extended Sequence"},
         "treeSequence": {name: "Pointer Extended Sequence"},
 
         "shiftedSequence": {name: "Shifted Sequence"},
@@ -38,11 +38,11 @@ export const NOTATIONS = {
     },
 
     "3_p(Ww)": {
-        "sequenceHydra": {name: "Sequence Hydra", fullName: "PSS Hydra"},
-        "addressPairSequence": {name: "Address Pair Sequence"},
-        "pointerPairSequence": {name: "Pointer Pair Sequence"},
         "hyperSequence": {name: "Hyper Sequence"},
+        "pointerPairSequence": {name: "Pointer Pair Sequence"},
+        "addressPairSequence": {name: "Address Pair Sequence"},
         "pairSequence": {name: "Pair Sequence", fullName: "PSS"},
+        "sequenceHydra": {name: "Sequence Hydra", fullName: "PSS Hydra"},
         "hyperHydra": {name: "Hyper Hydra"},
 
         "extendedShiftedSequence": {name: "Extended Shifted Sequence"},
@@ -55,7 +55,9 @@ export const NOTATIONS = {
         "pointerTrioSequence": {name: "Pointer Trio Sequence"},
         "addressTrioSequence": {name: "Address Trio Sequence"},
         "hyperSequenceHydra": {name: "Hyper Sequence Hydra"},
+        "hyper^2Hydra": {name: "Hyper^2 Hydra", experimental: true},
 
-        "matrixSequence": {name: "Matrix Sequence", fullName: "Bashicu Matrix System / BMS"},
+        "matrixSequence": {name: "Matrix Sequence", fullName: "Bashicu Matrix System / BMS", experimental: true},
+        "pointerMatrixSequence": {name: "Pointer Matrix Sequence", fullName: "PMS", experimental: true},
     }
 };
