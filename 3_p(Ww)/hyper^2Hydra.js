@@ -58,7 +58,7 @@ function fill(ord, num, ...apps) {
 }
 
 export function getLimit(num) {
-    return fill([], num, 2);
+    return fill([], num, 3);
 }
 
 function trim(ord, func) {
