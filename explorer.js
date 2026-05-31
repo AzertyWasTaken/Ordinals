@@ -200,9 +200,15 @@ function selectNotation(file) {
     sNotation = getGroup(sCategory)[file];
     sModule = fixModule(sNotation.module);
 
-    const fullName = sNotation.fullName ?
-    `<font color="#C0C0C0"> (${sNotation.fullName})</font>` : "";
-    el.name.innerHTML = sNotation.name + fullName;
+    let notationHtml = sNotation.name
+
+    if (sNotation.fullName)
+        notationHtml += `<font color="#C0C0C0"> (${sNotation.fullName})</font>`;
+
+    if (sNotation.experimental)
+        notationHtml += `<font color="#FF4040"> experimental</font>`;
+
+    el.name.innerHTML = notationHtml;
 }
 
 // Select category buttons

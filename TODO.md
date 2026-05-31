@@ -12,13 +12,13 @@ This file is a shared task-board. When editing, only:
 
 - [x] Improve BMS expansion script
 - [x] Pointer sequence matrix
+- [x] Address sequence matrix
 - [x] Hyper^2 hydra
-- [ ] Function to auto search column for `matrixSequence` and `pointerMatrixSequence`
+- [x] Save `matrixSequence.js` and `pointerMatrixSequence.js`
+- [ ] Hyper^2 sequence
 
 ### N/Ideas
 
-- Address sequence matrix
-- Hyper^2 sequence
 - Sequence hyper hydra
 - Shifted^2 sequence
 - Extend shifted sequence
@@ -28,8 +28,8 @@ This file is a shared task-board. When editing, only:
 - [x] Text wrapping
 - [x] Collapse ordinals
 - [x] Bulk expand option
-- [x] Experimental notes
 - [x] Add link to README
+- [x] Display experimental label
 - [ ] Configurable max inline level
 - [ ] Toggle bulk type
 
@@ -45,10 +45,9 @@ This file is a shared task-board. When editing, only:
 
 - [x] Center links
 - [x] Revamp `how to use` section
-- [ ] Revamp slider bar
-  - [ ] Review css code by AI
-- [ ] Button hover color
-- [ ] Revamp options row
+- [x] Revamp slide bar
+- [x] Button hover color
+- [x] Revamp options row
 
 ### W/Ideas
 
@@ -82,7 +81,7 @@ Reach e0^2:
 
 - [x] Save e0 expansion
 - [ ] Parse
-  - Must use an array for coefficients
+- Must use an array for coefficients
 - [ ] Unparse
 - [ ] Expand
 - New type: epsilon
@@ -91,8 +90,3 @@ Reach e0^2:
 ### A/Ideas
 
 - rank function
-
-## AI Prompts
-
-- Write a non-recursive version of the function `f`.
-- This program expands an ordinal denoted by a sequence of numbers. Find a better name for the variables `v` and functions `f`.
