@@ -87,7 +87,7 @@ export function trio(analysis) {
     });
 }
 
-export function matrix(analysis) { // TODO
+export function matrix(analysis) {
     return map(analysis, (ord) => {
         const newOrd = [];
         for (let i = 0; i < ord.length; i += 3) {
@@ -95,8 +95,35 @@ export function matrix(analysis) { // TODO
                 if (ord[c] === 0) break;
                 newOrd.push(ord[c]);
             }
-
             newOrd.push(0);
+        }
+        return newOrd;
+    });
+}
+
+export function address(analysis) {
+    return map(analysis, (ord) => {
+        const stack = [];
+        const newOrd = [];
+
+        for (let i = 0; i < ord.length; i++) {
+            const item = ord[i];
+            newOrd.push(stack[item - 1] ?? 0);
+            stack[item] = i + 1;
+        }
+        return newOrd;
+    });
+}
+
+export function pointer(analysis) {
+    return map(analysis, (ord) => {
+        const stack = [];
+        const newOrd = [];
+
+        for (let i = 0; i < ord.length; i++) {
+            const item = ord[i];
+            newOrd.push(i - (stack[item - 1] ?? 0));
+            stack[item] = i + 1;
         }
         return newOrd;
     });

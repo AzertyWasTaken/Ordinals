@@ -1,14 +1,10 @@
 "use strict";
 import {limit} from "../utils.js";
 import {log} from "../log.js";
+import {sequence, address} from "../analysis.js";
 
 export const milestones = new Map([
-    ["0", []],
-    ["1", [0]],
-    ["ω", [0,1]],
-    ["ω^2", [0,1,0]],
-    ["ω^ω", [0,1,2]],
-    ["ω^ω^ω", [0,1,2,3]],
+    ...address(sequence),
     ["ε0", limit],
 ]);
 
