@@ -183,10 +183,16 @@ function hideTooltip() {
 // Select notation buttons
 
 async function getModule(catg, file) {
+    const currentModule = getGroup(catg)[file].module;
+    if (currentModule) return currentModule;
+
     try {        
         const appCatg = catg ? `${catg}/` : "";
         const url = `./${appCatg}${file}.js`;
-        return await import(new URL(url, pageDir));
+        const importedModule = await import(new URL(url, pageDir));
+
+        getGroup(catg)[file].module = importedModule;
+        return importedModule;
     }
     catch (error) {
         log("Failed to load module:", file, error);
@@ -198,9 +204,13 @@ function getGroup(catg) {
     return catg ? NOTATIONS[catg] : NOTATIONS;
 }
 
-function selectNotation(file) {
+async function selectNotation(file) { // TODO fix await occuring twice & getNotation function
+    const mod = await getModule(sCategory, file);
+    if (!mod) return;
+
+    el.root.innerHTML = "";
     sNotation = getGroup(sCategory)[file];
-    sModule = fixModule(sNotation.module);
+    sModule = fixModule(mod);
 
     let notationHtml = sNotation.name
 
@@ -219,10 +229,6 @@ async function createButtons(catg) {
     const catgGroup = getGroup(catg);
 
     for (const file in catgGroup) {
-        const module = await getModule(catg, file);
-        if (!module) continue;
-
-        catgGroup[file].module = module;
         if (sCategory !== catg) return;
 
         const btn = document.createElement("button");
@@ -230,8 +236,7 @@ async function createButtons(catg) {
         el.filters.appendChild(btn);
 
         btn.onclick = async () => {
-            el.root.innerHTML = "";
-            selectNotation(file);
+            await selectNotation(file);
             createNode(limit, el.root);
         };
     }
@@ -241,16 +246,6 @@ async function selectCategory(name) {
     el.filters.innerHTML = "";
     sCategory = name;
     await createButtons(sCategory);
-}
-
-function toggleInline() {
-    inline = !inline;
-    document.getElementById("inline").textContent = inline
-    ? "Enabled" : "Disabled";
-
-    document.querySelectorAll(".node").forEach((el) => {
-        el.classList.toggle("shifted");
-    });
 }
 
 async function addCategories(list) {
@@ -265,16 +260,52 @@ el.bulkExpand.addEventListener("input", () => {
     el.bulkExpandValue.textContent = el.bulkExpand.value;
 });
 
+// Toggle inline
+
+function toggleInline() {
+    inline = !inline;
+    document.getElementById("inline").textContent = inline
+    ? "Enabled" : "Disabled";
+
+    document.querySelectorAll(".node").forEach((el) => {
+        el.classList.toggle("shifted");
+    });
+}
+
 document.getElementById("inline").addEventListener("click", toggleInline);
 
 // Starting setup
 
-if (DEFAULT_CATEGORY) {
+function getURLPreselection() {
+    const params = new URLSearchParams(window.location.search);
+
+    const categoryParam = params.get("category");
+    const notationParam = params.get("notation");
+
+    // Validate category
+    const validCategories = Object.keys(NOTATIONS);
+    const startCategory = (categoryParam && validCategories.includes(categoryParam))
+        ? categoryParam
+        : DEFAULT_CATEGORY;
+
+    // Validate notation within the chosen category
+    const group = getGroup(startCategory);
+    const validNotations = Object.keys(group);
+    const startNotation = (notationParam && validNotations.includes(notationParam))
+        ? notationParam
+        : DEFAULT_NOTATION;
+
+    return {startCategory, startNotation};
+}
+
+const {startCategory, startNotation} = getURLPreselection();
+
+if (startCategory) {
     await addCategories(Object.keys(NOTATIONS));
-    await selectCategory(DEFAULT_CATEGORY);
+    await selectCategory(startCategory);
 } else {
     await selectCategory(null);
 }
 
-selectNotation(DEFAULT_NOTATION);
+await selectNotation(startNotation);
 createNode(limit, el.root);
