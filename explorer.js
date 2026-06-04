@@ -123,7 +123,8 @@ function createExpander(ord, div, row, lowerBound) {
         del.style.display = "";
         counter ++;
 
-        if (bulkExpand > 1) callback(bulkExpand - 1);
+        if (bulkExpand > 1 && callback)
+            callback(bulkExpand - 1);
     };
 }
 
@@ -138,7 +139,8 @@ function createNode(ord, container, lowerBound) {
 
     const isSucc = sModule.isSucc(ord);
     const isZero = sModule.isZero(ord);
-    if (isSucc && lowerBound !== undefined || isZero) return;
+    if (isSucc && lowerBound !== undefined || isZero)
+        return undefined;
 
     if (!isSucc) {
         btn.addEventListener("mouseenter", () => {showTooltip(btn, ord);});
@@ -180,9 +182,9 @@ function hideTooltip() {
 
 // Select notation buttons
 
-async function getModule(file) {
+async function getModule(catg, file) {
     try {        
-        const appCatg = sCategory ? `${sCategory}/` : "";
+        const appCatg = catg ? `${catg}/` : "";
         const url = `./${appCatg}${file}.js`;
         return await import(new URL(url, pageDir));
     }
@@ -213,17 +215,18 @@ function selectNotation(file) {
 
 // Select category buttons
 
-async function createButtons() {
-    const catg = getGroup(sCategory);
+async function createButtons(catg) {
+    const catgGroup = getGroup(catg);
 
-    for (const file in catg) {
-        const module = await getModule(file);
+    for (const file in catgGroup) {
+        const module = await getModule(catg, file);
         if (!module) continue;
 
-        catg[file].module = module;
+        catgGroup[file].module = module;
+        if (sCategory !== catg) return;
 
         const btn = document.createElement("button");
-        btn.textContent = catg[file].name;
+        btn.textContent = catgGroup[file].name;
         el.filters.appendChild(btn);
 
         btn.onclick = async () => {
@@ -237,7 +240,7 @@ async function createButtons() {
 async function selectCategory(name) {
     el.filters.innerHTML = "";
     sCategory = name;
-    await createButtons();
+    await createButtons(sCategory);
 }
 
 function toggleInline() {
