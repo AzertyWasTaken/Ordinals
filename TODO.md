@@ -86,6 +86,6 @@ This file is a shared task-board. When editing, only:
 - [x] Transfinite epsilon subscripts
 - [x] Reach *z0*
 - [x] Optional multiplication
-- [ ] Remove operations to fixed points (`w^(e_a) => e_a`)
+- [x] Remove operations to fixed points (`w^(e_a) => e_a`)
 - [ ] Reach *n0*
 - [ ] Transfinite multiplication
