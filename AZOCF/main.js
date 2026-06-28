@@ -33,7 +33,11 @@ function toObject(ord) {
     for (const addend of sum) {
         if (addend.length === 5) {
             res.push([addend[0], addend[2], addend[4]]);
-        } else {
+        }
+        else if (addend.length === 3) {
+            res.push([addend[0], addend[2]]);
+        }
+        else {
             res.push(addend);
         }
     }
@@ -41,8 +45,6 @@ function toObject(ord) {
 }
 
 function parse(ord) {
-    if (ord === "0") return [];
-
     let i = 0;
 
     function scan(block) {
@@ -74,15 +76,21 @@ function parse(ord) {
 
 function isZero(ord) {
     return ord.length === 0
-    || ord.at(-1).length === 0;
+    || ord.at(-1).length === 0
+    || ord.at(-1)[0] === 0
+    || ord.at(-1)[2] === 0;
 }
 
 function strAddend(ord) {
     if (ord[0] === "ε") {
-        return `ε_${ord[1]}*${ord[2]}`;
+        let str = `ε_(${unparse(ord[1])})`;
+        if (ord[2]) str += `*${ord[2] ?? 1}`;
+        return str;
     }
     else if (ord[0] === "ω") {
-        return `ω^(${unparse(ord[1])})*${ord[2]}`;
+        let str = `ω^(${unparse(ord[1])})`;
+        if (ord[2]) str += `*${ord[2] ?? 1}`;
+        return str;
     }
     else {
         return String(ord[0]);
@@ -100,13 +108,13 @@ function unparse(ord) {
 
 function omegaTree(num, exp) {
     let ord = exp;
-    for (let i = 0; i < num; i++) ord = [["ω", ord, 1]];
+    for (let i = 0; i < num; i++) ord = [["ω", ord]];
     return ord;
 }
 
 function isSucc(ord) {
     if (ord.at(-1).length === 1) {
-        return true;
+        return ord.at(-1)[0] > 0;
     } else {
         return isZero(ord.at(-1)[1]);
     }
@@ -125,10 +133,15 @@ function expand(ord, num) {
         if (coeff > 1) ord.push([type, exp, coeff - 1]);
 
         if (type === "ε") {
-            const topOrd = exp > 0 ?
-            [[type, exp - 1, 2]] : [];
+            if (isSucc(exp) || isZero(exp)) {
+                const topOrd = isZero(exp)
+                ? [] : [[type, expand([...exp], num), 2]];
 
-            ord.push(...omegaTree(num, topOrd));
+                ord.push(...omegaTree(num, topOrd));
+            } else {
+                ord.push(["ε", expand([...exp], num)]);
+            }
+
         }
         else if (!isZero(exp)) {
             const newCoeff = isSucc(exp) ? num : 1
@@ -152,12 +165,14 @@ function test(array) {
 
 test([
     "0",
-    "ω^(1)*1+3",
-    "ω^(2)*1+ω^(1)*3",
-    "ω^(3)*1",
-    "ω^(ω^(1)*1)*2",
-    "ω^(ω^(2)*2)*1",
-    "ε_0*3",
-    "ω^(ω^(ε_0*1+2)*2)*1",
-    "ε_2*1",
+    "ω^(1)+3",
+    "ω^(2)+ω^(1)*3",
+    "ω^(3)",
+    "ω^(ω^(1))*2",
+    "ω^(ω^(2)*2)",
+    "ε_(0)*3",
+    "ω^(ε_(0)+1)",
+    "ω^(ω^(ε_(0)+2)*2)",
+    "ε_(2)",
+    "ε_(ω^(2))",
 ]);

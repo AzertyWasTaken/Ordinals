@@ -175,12 +175,13 @@ The complexity of a notation is the tokens count used in the expansion section (
 | ψ(Mω) | shiftedSequenceHydra | 455
 | ψ(T[ω]) | extendedSequenceHydra | 445
 | ψ(T[1[0]<ω>0]) | pointerTrioSequence | 370
-| ψ(T[1[0]<ω>0]) | addressTrioSequence | 405
+| ψ(T[1[0]<ω>0]) | addressTrioSequence | 390
 | ψ(T[1[0]<ω>0]) | hyper^2Hydra | 515
 | ψ(T[1[0]<ω>0]) | trioSequence | 535
 | ψ(T[1[0]<ω>0]) | hyperSequenceHydra | 550
-| ψ(B(ω)) | pointerMatrixSequence | 490
-| ψ(B(ω)) | matrixSequence | 820
+| ψ(B(ω)) | pointerMatrixSequence | 515
+| ψ(B(ω)) | addressMatrixSequence | 540
+| ψ(B(ω)) | matrixSequence | 825
 
 ### Milestones
 
@@ -193,5 +194,21 @@ Smallest notation for each milestone:
 | ε0 | pointerSequence | 125
 | φ(ω,0) | pointerExtendedSequence | 145
 | ψ(Ωω) | sequenceHydra | 260
-| ψ(T[1[0]<ω>0]) | pointerTrioSequence | 365
-| ψ(B(ω)) | matrixSequence | 490
+| ψ(T[1[0]<ω>0]) | pointerTrioSequence | 370
+| ψ(B(ω)) | matrixSequence | 515
+
+## ♾️ AZOCF
+
+AZOCF is an ordinal collapsing function I made.  
+It is currently ill-defined in set theory.
+
+Properties:
+
+- Collapse uncountables for large ordinals
+- Avoid hidden upgrading
+- Can use multiple notations at once
+- Look for simple expansions
+- Do not overoptimize time performances
+- Any ordinal must have finitely many equivalent expressions
+
+Current limit: `ζ0`

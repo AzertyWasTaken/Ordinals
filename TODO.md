@@ -10,11 +10,8 @@ This file is a shared task-board. When editing, only:
 
 ## Notations
 
-- [x] Improve BMS expansion script
-- [x] Pointer sequence matrix
-- [x] Address sequence matrix
+- [x] Pointer/address sequence matrix
 - [x] Hyper^2 hydra
-- [x] Save `matrixSequence.js` and `pointerMatrixSequence.js`
 - [ ] Hyper^2 sequence
 
 ### N/Ideas
@@ -30,16 +27,20 @@ This file is a shared task-board. When editing, only:
 - [x] Bulk expand option
 - [x] Add link to README
 - [x] Display experimental label
+- [x] Select notation by url
+- [x] Optimize notations loading
 - [ ] Configurable max inline level
 - [ ] Toggle bulk type
+- [ ] Button to fully reset expansion tree
+- [ ] Keep old expansion tree when selecting a notation
+- [ ] Math display option
 
 ### Analysis
 
-- [x] Extend to BO
-- [x] Extend to lim(TSS)
 - [x] Extend to lim(BMS)
-- [ ] Address modifier
-- [ ] Pointer modifier
+- [x] Address/Pointer modifiers for e0
+- [ ] Address/Pointer modifiers for lim(PSS)
+- [ ] Address/Pointer modifiers for lim(BMS)
 
 ## Design
 
@@ -48,11 +49,11 @@ This file is a shared task-board. When editing, only:
 - [x] Revamp slide bar
 - [x] Button hover color
 - [x] Revamp options row
+- [ ] Visualization graph
 
 ### W/Ideas
 
 - Control page max width
-- Button to reset expansion tree
 - Button to select a random notation
 - Button to expand a random ordinal
 - Wide ordinal buttons
@@ -63,30 +64,28 @@ This file is a shared task-board. When editing, only:
   - Module for parser/unparser
 - Undo option
 - Create LNGI button
+- Auto update notation url
+- Use generators to expand ordinals
+- Optional `w^(a) => w^a`
+- Parse to objects (AZOCF)
 
 ## AZOCF
 
-### Reaching e0
-
-- [x] Parse
-- [x] Unparse
-- [x] Expand
-- [x] Remove excess brackets
-- [x] Add shorthand functions
-- [x] Review functions
-
-### Going Further
-
-Reach e0^2:
-
-- [x] Save e0 expansion
-- [ ] Parse
-- Must use an array for coefficients
-- [ ] Unparse
-- [ ] Expand
-- New type: epsilon
-- Properties: exp, coeff
-
-### A/Ideas
-
-- rank function
+- [x] Reach *w*
+- [x] Reach *w^2*
+- [x] Reach *w^w*
+- [x] Add exponent brackets
+- [x] Split tokens function
+- [x] Parser
+- [x] Unparser
+- [x] Reach *e0*
+- [x] Add numbers back (`w^(0)*n => n`)
+- [x] Reach *e1*
+- [x] Use arrays for sums
+- [x] Reach *ew*
+- [x] Transfinite epsilon subscripts
+- [x] Reach *z0*
+- [x] Optional multiplication
+- [ ] Remove operations to fixed points (`w^(e_a) => e_a`)
+- [ ] Reach *n0*
+- [ ] Transfinite multiplication
