@@ -71,21 +71,13 @@ This file is a shared task-board. When editing, only:
 
 ## AZOCF
 
-- [x] Reach *w*
-- [x] Reach *w^2*
-- [x] Reach *w^w*
-- [x] Add exponent brackets
-- [x] Split tokens function
-- [x] Parser
-- [x] Unparser
 - [x] Reach *e0*
-- [x] Add numbers back (`w^(0)*n => n`)
-- [x] Reach *e1*
-- [x] Use arrays for sums
-- [x] Reach *ew*
-- [x] Transfinite epsilon subscripts
-- [x] Reach *z0*
-- [x] Optional multiplication
+- [x] Add epsilon subscript (reach *ew*)
+- [x] Transfinite epsilon subscript (reach *z0*)
+- [x] Make multiplication optional
 - [x] Remove operations to fixed points (`w^(e_a) => e_a`)
-- [ ] Reach *n0*
+- [x] Add zeta subscript (Reach *n0*)
+- [x] Switch to objects representation
+- [x] Generalize expansion with "phi" objects (reach *fw(0)*)
+- [ ] Transfinite phi subscript (reach *G0*)
 - [ ] Transfinite multiplication

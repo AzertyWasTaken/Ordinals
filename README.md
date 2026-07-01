@@ -211,4 +211,4 @@ Properties:
 - Do not overoptimize time performances
 - Any ordinal must have finitely many equivalent expressions
 
-Current limit: `ζ0`
+Current limit: `φω(0)`
