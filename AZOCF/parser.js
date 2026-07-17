@@ -23,6 +23,10 @@ function splitArray(ord, del) {
     return result;
 }
 
+function toNumber(ord) {
+    return isNaN(ord) ? ord : [{t: "n", v: ord}];
+}
+
 function toObject(ord) {
     const sum = splitArray(ord, "+");
     const res = [];
@@ -31,18 +35,18 @@ function toObject(ord) {
         const type = addend[0];
 
         if (type === "φ") {
-            res.push({t: "f", s: addend[2], f: addend[3], c: addend[5] ?? 1});
+            res.push({t: "f", s: toNumber(addend[2]), f: addend[3], c: addend[5] ?? 1});
         }
         else if (type === "ζ") {
-            res.push({t: "z", s: addend[2], c: addend[4] ?? 1});
+            res.push({t: "z", s: toNumber(addend[2]), c: addend[4] ?? 1});
         }
         else if (type === "ε") {
-            res.push({t: "e", s: addend[2], c: addend[4] ?? 1});
+            res.push({t: "e", s: toNumber(addend[2]), c: addend[4] ?? 1});
         }
         else if (type === "ω") {
             res.push(
                 addend[1] === "^"
-                ? {t: "w", e: addend[2], c: addend[4] ?? 1}
+                ? {t: "w", e: toNumber(addend[2]), c: addend[4] ?? 1}
                 : {t: "w", e: [{t: "n", v: 1}], c: addend[2] ?? 1}
             );
         }

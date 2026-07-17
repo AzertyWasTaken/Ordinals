@@ -1,6 +1,11 @@
 "use strict";
 import {log} from "../log.js";
-import {isZero, isOne} from "./properties.js";
+import {isZero, isOne, isFinite} from "./properties.js";
+
+function operand(ord) {
+    const unparsed = unparse(ord);
+    return isFinite(ord) ? unparsed : `(${unparsed})`;
+}
 
 function strAddend(ord) {
     const type = ord.t;
@@ -14,16 +19,16 @@ function strAddend(ord) {
 
         if (type === "w") {
             str = isOne(ord.e) ? "ω"
-            : `ω^(${unparse(ord.e)})`;
+            : `ω^${operand(ord.e)}`;
         }
         else if (type === "e") {
-            str = `ε_(${unparse(ord.s)})`;
+            str = `ε_${operand(ord.s)}`;
         }
         else if (type === "z") {
-            str = `ζ_(${unparse(ord.s)})`;
+            str = `ζ_${operand(ord.s)}`;
         }
         else if (type === "f") {
-            str = `φ_(${ord.s})(${unparse(ord.f)})`;
+            str = `φ_${operand(ord.s)}(${unparse(ord.f)})`;
         }
 
         if (ord.c !== 1) str += `*${ord.c}`;

@@ -199,16 +199,17 @@ Smallest notation for each milestone:
 
 ## ♾️ AZOCF
 
-AZOCF is an ordinal collapsing function I made.  
+AZOCF is an (not yet) ordinal collapsing function I made.  
 It is currently ill-defined in set theory.
 
 Properties:
 
 - Collapse uncountables for large ordinals
 - Avoid hidden upgrading
-- Can use multiple notations at once
 - Look for simple expansions
-- Do not overoptimize time performances
-- Any ordinal must have finitely many equivalent expressions
+- Can use multiple notations at once
+- Do not unecessary optimize time performances
+- Every ordinal must have finitely many equivalent expressions
+- Canonicalize only for shorthands
 
-Current limit: `φω(0)`
+Current limit: **Γ0**
