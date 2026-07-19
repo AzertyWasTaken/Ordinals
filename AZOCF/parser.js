@@ -3,7 +3,12 @@ import {log} from "../log.js";
 
 function tokenize(ord) {
     const regex = /[0-9]+|[ωεζφ+*^_()]/g;
-    return ord.match(regex).map((v) => isNaN(v) ? v : parseInt(v));
+
+    const matchList = ord.match(regex);
+    if (matchList === null)
+        throw new Error("Must have one or more valid token");
+
+    return matchList.map((v) => isNaN(v) ? v : parseInt(v));
 }
 
 function splitArray(ord, del) {

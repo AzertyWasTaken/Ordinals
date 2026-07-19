@@ -30,36 +30,35 @@ export function isFixedPoint(ord, sub) {
     if (ord.length !== 1) return false;
 
     const addend = ord[0];
+
     if (addend.t === "n" || addend.c !== 1) return false;
 
-    if (addend.t === "w") {
+    if (addend.t === "w")
         return isFixedPoint(addend.e, sub);
-    }
 
-    else if (addend.t === "e") {
+    if (addend.t === "e")
         return rank(parse("1"), sub) || isFixedPoint(addend.s, sub);
-    }
-    else if (addend.t === "z") {
+
+    if (addend.t === "z")
         return rank(parse("2"), sub) || isFixedPoint(addend.s, sub);
-    }
-    else if (addend.t === "f") {
+
+    if (addend.t === "f")
         return rank(addend.s, sub) || isFixedPoint(addend.f, sub);
-    }
-    else {
-        return true;
-    }
+
+    return true;
 }
 
+// Check if `ord` is a successor ordinal
 export function isSucc(ord) {
+    if (isZero(ord)) return true;
+
     const addend = ord.at(-1);
 
-    if (addend.t === "n") {
+    if (addend.t === "n")
         return addend.v > 0;
-    }
-    else if (addend.t === "w") {
+
+    if (addend.t === "w")
         return addend.c > 0 && isZero(addend.e);
-    }
-    else {
-        return false;
-    }
+
+    return false;
 }

@@ -35,6 +35,8 @@ function canonicalizeAddend(ord) {
 }
 
 function canonicalize(ord) {
+    if (isZero(ord)) return [];
+
     return ord.map(canonicalizeAddend);
 }
 
@@ -91,7 +93,7 @@ function rankOrd(a, b) {
     return a.length > b.length;
 }
 
-// Check if `a`is strictly larger than `b`
+// Check if `a`is strictly greater than `b`
 export function rank(a, b) {
     return rankOrd(canonicalize(a), canonicalize(b));
 }

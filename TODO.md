@@ -49,7 +49,7 @@ This file is a shared task-board. When editing, only:
 - [x] Revamp slide bar
 - [x] Button hover color
 - [x] Revamp options row
-- [ ] Visualization graph
+- [x] Refractor documentation
 
 ### W/Ideas
 
@@ -66,8 +66,7 @@ This file is a shared task-board. When editing, only:
 - Create LNGI button
 - Auto update notation url
 - Use generators to expand ordinals
-- Optional `w^(a) => w^a`
-- Parse to objects (AZOCF)
+- Ordinal constructor functions (AZOCF)
 
 ## AZOCF
 
@@ -79,5 +78,13 @@ This file is a shared task-board. When editing, only:
 - [x] Add zeta subscript (Reach *n0*)
 - [x] Switch to objects representation
 - [x] Generalize expansion with "phi" objects (reach *fw(0)*)
-- [ ] Transfinite phi subscript (reach *G0*)
+- [x] Refractor expansion script
+- [x] Make exponentiation to 1 optional `w^(1) => w`
+- [x] Optional brackets for numbers
+- [x] Canonicalize function
+- [x] Rank function
+- [x] Transfinite phi subscript (reach *G0*)
+- [ ] Optional `w^(a) => w^a`
+- [ ] Optional `e_(a) => e_a`
 - [ ] Transfinite multiplication
+- [ ] Uncountables collapsing function (reach *p(W_2)*)
