@@ -11,6 +11,53 @@ function tokenize(ord) {
     return matchList.map((v) => isNaN(v) ? v : parseInt(v));
 }
 
+function addBrackets(ord) { // φ_(ω)(φ_(ω^2)(0)+1)
+    const result = [];
+    const stack = [];
+
+    for (let i = 0; i < ord.length; i++) {
+        const char = ord[i];
+        const nextChar = ord[i + 1];
+        const nextChar2 = ord[i + 2];
+
+        result.push(char);
+
+        if (char === "^" && nextChar !== "(") {
+            stack.push(0);
+            result.push("(");
+        }
+        else if (stack.length > 0) {
+            if (char === "(") {
+                stack[stack.length - 1]++;
+            }
+            else if (char === ")") {
+                if (stack.at(-1) === 0) {
+                    throw new Error("Some brackets are not matching");
+                } else {
+                    stack[stack.length - 1]--;
+                }
+            }
+            else if (
+                stack.at(-1) === 0
+                && (
+                    nextChar === "*"
+                    || nextChar === "+"
+                    || nextChar === ")"
+                    || (nextChar === ")" && nextChar2 === "(")
+                )
+            ) {
+                stack.pop();
+                result.push(")");
+            }
+        }
+    }
+
+    for (let i = 0; i < stack.length; i++){
+        result.push(")");}
+
+    return result;
+}
+
 function splitArray(ord, del) {
     const result = [];
     let curr = [];
@@ -86,5 +133,6 @@ export function parse(ord) {
         return result;
     }
 
-    return toObject(scan(tokenize(ord)));
+    const block = addBrackets(tokenize(ord));
+    return toObject(scan(block));
 }

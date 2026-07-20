@@ -1,10 +1,20 @@
 "use strict";
 import {log} from "../log.js";
-import {isZero, isOne, isFinite} from "./properties.js";
+import {
+    isZero,
+    isOne,
+    isFinite,
+    hasBrackets
+} from "./properties.js";
 
 function operand(ord) {
     const unparsed = unparse(ord);
     return isFinite(ord) ? unparsed : `(${unparsed})`;
+}
+
+function brackets(ord, callback) {
+    const unparsed = unparse(ord);
+    return callback(ord) ? `(${unparsed})` : unparsed;
 }
 
 function strAddend(ord) {
@@ -19,7 +29,7 @@ function strAddend(ord) {
 
         if (type === "w") {
             str = isOne(ord.e) ? "ω"
-            : `ω^${operand(ord.e)}`;
+            : `ω^${brackets(ord.e, hasBrackets)}`;
         }
         else if (type === "e") {
             str = `ε_${operand(ord.s)}`;

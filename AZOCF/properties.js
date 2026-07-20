@@ -48,6 +48,16 @@ export function isFixedPoint(ord, sub) {
     return true;
 }
 
+export function hasBrackets(ord) {
+    if (ord.length > 1) return true;
+    if (isFinite(ord)) return false;
+
+    const addend = ord[0];
+
+    if (addend.t === "w") return addend.c > 1;
+    return true;
+}
+
 // Check if `ord` is a successor ordinal
 export function isSucc(ord) {
     if (isZero(ord)) return true;
