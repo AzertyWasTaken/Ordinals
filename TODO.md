@@ -84,7 +84,8 @@ This file is a shared task-board. When editing, only:
 - [x] Canonicalize function
 - [x] Rank function
 - [x] Transfinite phi subscript (reach *G0*)
-- [ ] Optional `w^(a) => w^a`
-- [ ] Optional `e_(a) => e_a`
+- [x] Optional `w^(a) => w^a`
+- [x] Optional `e_(a) => e_a`
+- [ ] Properties to library
 - [ ] Transfinite multiplication
 - [ ] Uncountables collapsing function (reach *p(W_2)*)
