@@ -11,39 +11,43 @@ function tokenize(ord) {
     return matchList.map((v) => isNaN(v) ? v : parseInt(v));
 }
 
-function addBrackets(ord) { // φ_(ω)(φ_(ω^2)(0)+1)
+function addBrackets(ord) {
     const result = [];
     const stack = [];
 
     for (let i = 0; i < ord.length; i++) {
         const char = ord[i];
         const nextChar = ord[i + 1];
-        const nextChar2 = ord[i + 2];
 
         result.push(char);
 
         if (char === "^" && nextChar !== "(") {
-            stack.push(0);
+            stack.push({t: "^", v: 0});
+            result.push("(");
+        }
+        else if (char === "_" && nextChar !== "(") {
+            stack.push({t: "_", v: 0});
             result.push("(");
         }
         else if (stack.length > 0) {
             if (char === "(") {
-                stack[stack.length - 1]++;
+                stack.at(-1).v++;
             }
             else if (char === ")") {
-                if (stack.at(-1) === 0) {
+                if (stack.at(-1).v === 0) {
                     throw new Error("Some brackets are not matching");
                 } else {
-                    stack[stack.length - 1]--;
+                    stack.at(-1).v--;
                 }
             }
             else if (
-                stack.at(-1) === 0
+                stack.at(-1).v === 0
                 && (
-                    nextChar === "*"
+                    nextChar === ")"
+                    || nextChar === "(" && char !== "*" && char !== "^" && char !== "_"
                     || nextChar === "+"
-                    || nextChar === ")"
-                    || (nextChar === ")" && nextChar2 === "(")
+                    || nextChar === "*"
+                    || nextChar === "^" && stack.at(-1).t === "_"
                 )
             ) {
                 stack.pop();
@@ -52,8 +56,8 @@ function addBrackets(ord) { // φ_(ω)(φ_(ω^2)(0)+1)
         }
     }
 
-    for (let i = 0; i < stack.length; i++){
-        result.push(")");}
+    for (let i = 0; i < stack.length; i++)
+        result.push(")");
 
     return result;
 }

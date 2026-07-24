@@ -4,7 +4,9 @@ import {
     isZero,
     isOne,
     isFinite,
-    hasBrackets
+    hasExpBrackets,
+    hasSubBrackets,
+    hasPhiBrackets
 } from "./properties.js";
 
 function operand(ord) {
@@ -29,16 +31,16 @@ function strAddend(ord) {
 
         if (type === "w") {
             str = isOne(ord.e) ? "ω"
-            : `ω^${brackets(ord.e, hasBrackets)}`;
+            : `ω^${brackets(ord.e, hasExpBrackets)}`;
         }
         else if (type === "e") {
-            str = `ε_${operand(ord.s)}`;
+            str = `ε_${brackets(ord.s, hasSubBrackets)}`;
         }
         else if (type === "z") {
-            str = `ζ_${operand(ord.s)}`;
+            str = `ζ_${brackets(ord.s, hasSubBrackets)}`;
         }
         else if (type === "f") {
-            str = `φ_${operand(ord.s)}(${unparse(ord.f)})`;
+            str = `φ_${brackets(ord.s, hasPhiBrackets)}(${unparse(ord.f)})`;
         }
 
         if (ord.c !== 1) str += `*${ord.c}`;

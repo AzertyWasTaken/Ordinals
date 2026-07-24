@@ -22,16 +22,16 @@ function canonicalizeAddend(ord) {
         return {t: "f", s: [], f: [], c: ord.v};
 
     if (ord.t === "w")
-        return {t: "f", s: canonicalize(parse("0")), f: canonicalize(ord.e), c: ord.c}
+        return {t: "f", s: canonicalize(parse("0")), f: canonicalize(ord.e), c: ord.c};
 
     if (ord.t === "e")
-        return {t: "f", s: canonicalize(parse("1")), f: canonicalize(ord.s), c: ord.c}
+        return {t: "f", s: canonicalize(parse("1")), f: canonicalize(ord.s), c: ord.c};
 
     if (ord.t === "z")
-        return {t: "f", s: canonicalize(parse("2")), f: canonicalize(ord.s), c: ord.c}
+        return {t: "f", s: canonicalize(parse("2")), f: canonicalize(ord.s), c: ord.c};
 
     if (ord.t === "f")
-        return {t: "f", s: canonicalize(ord.s), f: canonicalize(ord.f), c: ord.c}
+        return {t: "f", s: canonicalize(ord.s), f: canonicalize(ord.f), c: ord.c};
 }
 
 function canonicalize(ord) {

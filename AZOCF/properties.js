@@ -48,14 +48,42 @@ export function isFixedPoint(ord, sub) {
     return true;
 }
 
-export function hasBrackets(ord) {
+export function hasExpBrackets(ord) {
     if (ord.length > 1) return true;
     if (isFinite(ord)) return false;
 
     const addend = ord[0];
 
     if (addend.t === "w") return addend.c > 1;
-    return true;
+    if (addend.t === "e") return addend.c > 1;
+    if (addend.t === "z") return addend.c > 1;
+    if (addend.t === "f") return addend.c > 1;
+
+    return false;
+}
+
+export function hasSubBrackets(ord) {
+    if (ord.length > 1) return true;
+    if (isFinite(ord)) return false;
+
+    const addend = ord[0];
+
+    if (addend.t === "w") {
+        return addend.c > 1
+        || !isZero(addend.e) && !isOne(addend.e);
+    }
+
+    if (addend.t === "e") return addend.c > 1;
+    if (addend.t === "z") return addend.c > 1;
+    if (addend.t === "f") return addend.c > 1;
+
+    return false;
+}
+
+export function hasPhiBrackets(ord) {
+    if (ord.length === 0) return false;
+
+    return ord[0].t === "f";
 }
 
 // Check if `ord` is a successor ordinal
