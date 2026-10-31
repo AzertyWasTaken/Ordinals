@@ -1,51 +1,7 @@
 "use strict";
-import {limit} from "../utils.js";
-import {log} from "../log.js";
+import {testExpand, lexicographicOrder} from "../utils.js";
 
-export const milestones = new Map([
-    ["0", []],
-    ["1", [0]],
-    ["ω", [0,0,1]],
-    ["ω^2", [0,0,1,0,1]],
-    ["ω^ω", [0,0,1,0,1,1]],
-    ["ω^ω^ω", [0,0,1,0,1,1,0,1,1,1]],
-    ["ε0", [0,0,1,1,2]],
-    ["ε1", [0,0,1,1,2,0,1,1,2]],
-    ["εω", [0,0,1,1,2,1]],
-    ["ζ0", [0,0,1,1,2,1,2]],
-    ["φ(ω,0)", [0,0,1,1,2,2]],
-    ["Γ0", [0,0,1,2]],
-    ["ψ(ε{Ω+1})", [0,0,1,2,0,1,1,2]],
-    ["ψ(Ωω)", [0,0,1,2,2,3]],
-    ["ψ(Λ)", limit],
-]);
-
-// Unparse
-
-export function unparse(ord) {
-    return `(${ord.join(",")})`;
-}
-
-// Explorer
-
-export function isZero(ord) {
-    return ord.length === 0;
-}
-
-export function isSucc(ord) {
-    return ord.at(-1) === 0;
-}
-
-// Expansion
-
-export function rank(a, b) {
-    const minLength = Math.min(a.length, b.length);
-
-    for (let i = 0; i < minLength; i++)
-        if (a[i] !== b[i]) return a[i] > b[i];
-
-    return a.length > b.length;
-}
+// ---- Expansion ----
 
 function fill(ord, num, func) {
     for (let i = 0; i < num; i++) {
@@ -76,7 +32,7 @@ function search(ord, head, top, root) {
         root = mark;
         mark = getParent(ord, top, mark);
     }
-    while (rank(ord.slice(mark, root), head));
+    while (lexicographicOrder(ord.slice(mark, root), head));
     return root;
 }
 
@@ -93,12 +49,15 @@ function searchType(ord, top) {
 
 export function expand(ord, num) {
     const top = ord.pop();
+
     if (top > 0) {
         const headPos = getParent(ord, top);
-        const head = ord.slice(headPos);
+        const head = ord.splice(headPos);
         const parent = search(ord, head, top);
 
         if (ord[parent - 1] < top - 1) {
+            ord.push(...head);
+
             const root = searchType(ord, top);
             const part = ord.slice(root);
             const offset = top - ord[root] - 1;
@@ -106,7 +65,6 @@ export function expand(ord, num) {
             fill(ord, num, () => ascend(part, offset));
         }
         else {
-            ord.splice(headPos);
             const part = ord.slice(parent);
             part.unshift(...head)
 
@@ -116,7 +74,10 @@ export function expand(ord, num) {
     return ord;
 }
 
-// Test
+// ---- Test ----
 
-log(unparse(expand([0,0,1,1,1,1,0,1,1,1,0,1,1,1,1], 3)));
-log(unparse(expand([0,0,1,2,3,3,2,3,3], 3)));
+// testExpand(expand, 3, [
+//     [0,0,1,2],
+//     [0,0,1,2,0,1,0,1,2],
+//     [0,0,1,2,3,3,2,3,3]
+// ]);

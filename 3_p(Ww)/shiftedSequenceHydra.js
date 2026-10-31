@@ -1,30 +1,7 @@
 "use strict";
-import {limit} from "../utils.js";
-import {log} from "../log.js";
+import {testExpand, lexicographicOrder} from "../utils.js";
 
-export const milestones = new Map([
-    ["0", []],
-    ["1", [1]],
-    ["ω", [1,1]],
-    ["ω^2", [1,1,0,1]],
-    ["ω^ω", [1,1,1]],
-    ["ω^ω^ω", [1,1,1,1]],
-    ["ε0", [1,1,2]],
-    ["ε1", [1,1,2,0,0,1,2]],
-    ["εω", [1,1,2,0,1]],
-    ["ζ0", [1,1,2,0,1,2]],
-    ["φ(ω,0)", [1,1,2,0,1,2,0,1]],
-    ["Γ0", [1,1,2,0,1,2,0,1,2]],
-    ["ψ(ε{Ω+1})", [1,1,2,0,2]],
-    ["ψ(Ωω)", [1,1,2,1]],
-    ["ψ(Λ)", [1,1,2,2]],
-    ["ψ(Iω)", [1,1,2,2,0,1]],
-    ["ψ(I(ω,0))", [1,1,2,2,1]],
-    ["ψ(ε{M+1})", [1,1,2,2,3]],
-    ["ψ(Mω)", limit],
-]);
-
-// Unparse
+// ---- Parser ----
 
 export function unparse(ord) {
     let offset = 0;
@@ -39,26 +16,13 @@ export function unparse(ord) {
 }
 
 
-// Explorer
-
-export function isZero(ord) {
-    return ord.length === 0;
-}
+// ---- Explorer ----
 
 export function isSucc(ord) {
     return getParent(ord.slice(0, -1)) < 0;
 }
 
-// Expansion
-
-export function rank(a, b) {
-    const minLength = Math.min(a.length, b.length);
-
-    for (let i = 0; i < minLength; i++)
-        if (a[i] !== b[i]) return a[i] > b[i];
-
-    return a.length > b.length;
-}
+// ---- Expansion ----
 
 function fill(ord, num, func) {
     for (let i = 0; i < num; i++)
@@ -94,7 +58,7 @@ function search(ord, head, top, root) {
         root = mark;
         mark = getSubParent(ord, top, mark);
     }
-    while (rank(ord.slice(mark, root), head));
+    while (lexicographicOrder(ord.slice(mark, root), head));
     return root;
 }
 
@@ -120,6 +84,6 @@ export function expand(ord, num) {
     return ord;
 }
 
-// Test
+// ---- Tests ----
 
-log(unparse(expand([1,1,2,1,0,0,0,1,2,0,2], 3)));
+// testExpand(expand, 3, [[1,1,2,1,0,0,0,1,2,0,2]]);

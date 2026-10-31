@@ -1,91 +1,97 @@
 # TODO
 
-<!-- AGENT-SAFE START -->
-This file is a shared task-board. When editing, only:
+- [GitHub Repository](https://github.com/AzertyWasTaken/Ordinals)
 
-- Add new items
-- Update checkboxes/status lines
-- Do NOT delete headings or existing bullet ideas
-<!-- AGENT-SAFE END -->
+## Update log
+
+Notations:
+
+- Hyper^2 hydra
+- Extend to lim(BMS)
+- Pointer/address sequence matrix
+- Address/Pointer modifiers for e0
+
+Explorer:
+
+- Text wrapping
+- Collapse ordinals
+- Bulk expand option
+- Add link to `README.md`
+- Display experimental label
+- Select notation by url
+- Optimize notations loading
+- Center links
+- Revamp `how to use` section
+- Revamp slide bar
+- Button hover color
+- Revamp options row
+- Refractor documentation
+- Explain ordinal expansions
+- Explorer scripts folder
+- Default notation functions
+- Notation test function
 
 ## Notations
 
-- [x] Pointer/address sequence matrix
-- [x] Hyper^2 hydra
-- [ ] Hyper^2 sequence
+### Hyper^2 sequence
 
-### N/Ideas
+### Extend matrix sequence
+
+### Transfinite sequence
+
+## Website
+
+- [ ] Configurable max inline level
+- [ ] Toggle bulk type
+- [ ] Button to fully reset expansion tree & Keep old expansion tree when selecting a notation
+- [ ] Use generators to expand ordinals
+- [ ] Option to color notations (brackets & commas) (more readable)
+- [ ] Save expansion tree
+- [ ] More precise explanations
+- [ ] Complete terminology
+- [ ] Disable hover color on successor ordinal
+- [ ] Explain ordinals directly of the website
+
+### Revamp notations
+
+- [x] Tree of notation extentions
+- [x] Review expansion loggers
+- [ ] Review and fix scripts
+- [ ] Expansion helpers
+
+### Analysis
+
+- [x] Swap key value
+- [x] Separate analysis file
+
+Prompt:
+
+@\Explorer\notationWrapper.js must generate analysis from @\Metadata\analysis.txt instead of using the imported milestones Map.
+Each notation in analysis.txt begin by a "@".
+Arrays and their analysis are separated by "=".
+If the selected notation is absent of @\Metadata\analysis.txt, ignore analysis without throwing an error.
+
+## Ideas
+
+Notations:
 
 - Sequence hyper hydra
 - Shifted^2 sequence
 - Extend shifted sequence
+- Ordinal sequence
 
-## Website
-
-- [x] Text wrapping
-- [x] Collapse ordinals
-- [x] Bulk expand option
-- [x] Add link to README
-- [x] Display experimental label
-- [x] Select notation by url
-- [x] Optimize notations loading
-- [ ] Configurable max inline level
-- [ ] Toggle bulk type
-- [ ] Button to fully reset expansion tree
-- [ ] Keep old expansion tree when selecting a notation
-- [ ] Math display option
-
-### Analysis
-
-- [x] Extend to lim(BMS)
-- [x] Address/Pointer modifiers for e0
-- [ ] Address/Pointer modifiers for lim(PSS)
-- [ ] Address/Pointer modifiers for lim(BMS)
-
-## Design
-
-- [x] Center links
-- [x] Revamp `how to use` section
-- [x] Revamp slide bar
-- [x] Button hover color
-- [x] Revamp options row
-- [x] Refractor documentation
-
-### W/Ideas
+Explorer:
 
 - Control page max width
 - Button to select a random notation
 - Button to expand a random ordinal
 - Wide ordinal buttons
 - Ordinal hover color
-- Option to color notations to improve readability
 - Search bar
   - Unparse ordinals
   - Module for parser/unparser
 - Undo option
 - Create LNGI button
 - Auto update notation url
-- Use generators to expand ordinals
-- Ordinal constructor functions (AZOCF)
-
-## AZOCF
-
-- [x] Reach *e0*
-- [x] Add epsilon subscript (reach *ew*)
-- [x] Transfinite epsilon subscript (reach *z0*)
-- [x] Make multiplication optional
-- [x] Remove operations to fixed points (`w^(e_a) => e_a`)
-- [x] Add zeta subscript (Reach *n0*)
-- [x] Switch to objects representation
-- [x] Generalize expansion with "phi" objects (reach *fw(0)*)
-- [x] Refractor expansion script
-- [x] Make exponentiation to 1 optional `w^(1) => w`
-- [x] Optional brackets for numbers
-- [x] Canonicalize function
-- [x] Rank function
-- [x] Transfinite phi subscript (reach *G0*)
-- [x] Optional `w^(a) => w^a`
-- [x] Optional `e_(a) => e_a`
-- [ ] Properties to library
-- [ ] Transfinite multiplication
-- [ ] Uncountables collapsing function (reach *p(W_2)*)
+- Math analysis display
+- Multiple ordinal notations

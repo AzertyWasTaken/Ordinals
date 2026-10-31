@@ -1,59 +1,55 @@
 "use strict";
-export function isObject(obj) {
-    return obj === null ? false : typeof obj === "object";
+export function validateArray(...args) {
+    for (const value of args) {
+        if (!Array.isArray(value))
+            throw new Error(`${value} is not an array`);
+    }
 }
 
-export function clone(obj, layer) {
-    if (layer !== undefined) {
-        if (layer <= 0) {return obj;}
-        layer--;
-    }
+export function lexicographicOrder(a, b) {
+    validateArray(a, b);
+    const minLength = Math.min(a.length, b.length);
 
-    if (!isObject(obj)) {return obj;}
+    for (let i = 0; i < minLength; i++)
+        if (a[i] !== b[i]) return a[i] > b[i];
 
-    if (obj instanceof Date) {return new Date(obj);}
-    if (obj instanceof RegExp) {return new RegExp(obj);}
-    if (obj instanceof Map) {return new Map(obj);}
-    if (obj instanceof Set) {return new Set(obj);}
-
-    if (Array.isArray(obj)) {
-        return obj.map((i) => clone(i, layer));
-    }
-
-    const copy = Object.create(Object.getPrototypeOf(obj));
-    for (const key of Reflect.ownKeys(obj)) {
-        copy[key] = clone(obj[key], layer);
-    }
-    return copy;
+    return a.length > b.length;
 }
 
-export function compare(a, b) {
-    if (a === b) {return true;}
-
-    if (!isObject(a) || !isObject(b)) {return false;}
-
-    const key_a = Object.keys(a);
-    const key_b = Object.keys(b);
-    if (key_a.length !== key_b.length) {return false;}
+export function isArrayEqual(a, b) {
+    validateArray(a, b);
+    if (a.length !== b.length) return false;
     
-    for (const k of key_a) {
-        if (!compare(a[k], b[k])) {return false;}
-    }
+    for (let i = 0; i < a.length; i++)
+        if (a[i] !== b[i]) return false;
+
     return true;
 }
 
-export function keyByValue(map, searchValue) {    
-    for (const [key, value] of map.entries()) {
-        if (compare(value, searchValue)) {return key;}
+export function testExpand(expand, num, ords) {
+    for (const ord of ords) {
+        const expansion = expand(ord, num);
+        console.log(`[${expansion.join(",")}]`);
     }
-    return undefined;
 }
 
-export function mapMap(map, func) {
-    map.forEach((value, key) => {
-        map.set(key, func(value));
-    });
-    return map;
+export function fillValue(ord, num, val) {
+    if (!Array.isArray(val)) val = [val];
+    for (let i = 0; i < num; i++) ord.push(...val);
+    return ord;
 }
 
-export const limit = "limit";
+export function fillFunction(ord, num, fun) {
+    for (let i = 0; i < num; i++) {
+        const val = fun(i);
+        if (!Array.isArray(val)) val = [val];
+        ord.push(...val);
+    }
+    return ord;
+}
+
+export const LIMIT = "limit";
+
+export function parseSequence(ord) {
+    return `(${ord.join(",")})`;
+}

@@ -36,7 +36,7 @@ This repository works with **ordinal notations** (compact ways to encode large t
 - Notation internal structure must be an array containing only natural numbers — no negative numbers, nested arrays, strings or undefined holes
 - Do **not** use iterative object methods (e.g. `Array.map`, `Array.find`, ...) inside explorer and expansion sections — but they are allowed in the parsing functions
 - `expand(ord, num)` function must mutate `ord`
-- Time complexity must be optimal — avoid `O(n^2)` if possible
+- Time complexity must be optimal — avoid `≥ O(n^2)` if possible
 - Unparsed notations should not contain spaces, newlines and other invisible characters
 - Special case for `zero` is ignored (`isZero(ord)` is used to ignore `zero` expansion)
 - Do **not** use recursion
@@ -45,18 +45,18 @@ This repository works with **ordinal notations** (compact ways to encode large t
 
 Optional but heavily recommended to avoid bugs:
 
-- Avoid lines with over 64 characters (this is not a hard cap but long lines make the code harder to read)
+- Avoid lines with over 80 characters (this is not a hard cap but long lines make the code harder to read)
 - Arrow functions must be used only for function arguments
 - Avoid writing multiple `while` and `for` loops in a single function
-- Merge functions that do the same thing if it shortens the script
+- Merge functions with a similar structure if it shortens the script
 - Write shorthands for frequently used variables (like `const part = ord.slice(root)`)
-- Each instruction should end with a semicolon
-- Nested if else statements should use braces
+- End each instruction with a semicolon
+- Nested "if else" statements must have braces
 - Use `const` for constants
 
 ### Accepted notations
 
-- Must not be unecessesary overcomplicated — avoid stuff like Bird's Array or Hyper-E
+- Must not be unecessesary overcomplicated (avoid stuff like Bird's Array or Hyper-E)
 - Should append and pop at the right (except if both sides are affected)
 - Ignore notations with similar and trivial expansion
 - Avoid weak and trivial extentions
@@ -65,7 +65,7 @@ Optional but heavily recommended to avoid bugs:
 
 Tips to create/discover relevant notations:
 
-- Extend the limit of a notation (e.g. `sequence => hyperSequence`)
-- Compress a notation length (e.g. `sequence => shortSequence`)
-- Map down notation (e.g. `sequence => binaryShiftedSequence`)
-- Simplify notation expansion (e.g. `sequence => pointerSequence`)
+- Extend the limit of a notation — `sequence => hyperSequence`
+- Compress a notation length — `sequence => shortSequence`
+- Map down notation — `sequence => binaryShiftedSequence`
+- Simplify notation expansion — `sequence => pointerSequence`

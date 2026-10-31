@@ -1,31 +1,7 @@
 "use strict";
-import {log} from "../log.js";
-import {limit} from "../utils.js";
+import {testExpand, isArrayEqual} from "../utils.js";
 
-export const milestones = new Map([
-    ["0", []],
-    ["1", [0]],
-    ["ω", [1]],
-    ["ω^2", [1,1]],
-    ["ω^ω", [2]],
-    ["ω^ω^ω", limit],
-]);
-
-// Unparse
-
-export function unparse(ord) {
-    return `(${ord.join(",")})`;
-}
-
-// Explorer
-
-export function isZero(ord) {
-    return ord.length === 0;
-}
-
-export function isSucc(ord) {
-    return ord.at(-1) === 0;
-}
+// ---- Explorer ----
 
 function maxSepPos(ord) {
     let rec = ord.length - 1;
@@ -34,15 +10,6 @@ function maxSepPos(ord) {
         if (ord[i] > ord[rec]) rec = i;
 
     return rec;
-}
-
-function compare(a, b) {
-    if (a.length !== b.length) return false;
-
-    for (let i = 0; i < a.length; i++)
-        if (a[i] !== b[i]) return false;
-
-    return true;
 }
 
 export function rank(a, b) {
@@ -54,13 +21,13 @@ export function rank(a, b) {
         if (a[pa] !== b[pb]) return a[pa] > b[pb];
 
         const [la, lb] = [a.slice(0, pa), b.slice(0, pb)];
-        [a, b] = compare(la, lb)
+        [a, b] = isArrayEqual(la, lb)
         ? [a.slice(pa + 1), b.slice(pb + 1)]
         : [la, lb];
     }
 }
 
-// Expansion
+// ---- Expansion ----
 
 export function getLimit(num) {
     return [num];
@@ -82,8 +49,9 @@ function search(ord) {
 }
 
 export function expand(ord, num) {
-    if (ord.at(-1) === 0) ord.pop();
-    else {
+    if (ord.at(-1) === 0) {
+        ord.pop();
+    } else {
         const root = search(ord);
         const number = ord[root];
 
@@ -93,6 +61,6 @@ export function expand(ord, num) {
     return ord;
 }
 
-// Test
+// ---- Tests ----
 
-log(unparse(expand([0,0,2,3,3], 3)));
+// testExpand(expand, 3, [[0,0,2,3,3]]);

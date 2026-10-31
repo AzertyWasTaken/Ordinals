@@ -1,32 +1,7 @@
 "use strict";
-import {limit} from "../utils.js";
-import {log} from "../log.js";
+import {testExpand, isArrayEqual} from "../utils.js";
 
-export const milestones = new Map([
-    ["0", []],
-    ["1", [0,1]],
-    ["ω", [0,1,0]],
-    ["ω^2", [0,1,2,0]],
-    ["ω^ω", [0,1,2,1,0]],
-    ["ω^ω^ω", [0,1,2,3,2,1,0]],
-    ["ε0", [0,1,0,0]],
-    ["ε1", [0,1,2,0,0]],
-    ["εω", [0,1,2,1,0,0]],
-    ["ζ0", [0,1,0,0,0]],
-    ["φ(ω,0)", limit],
-]);
-
-// Unparse
-
-export function unparse(ord) {
-    return `(${ord.join(",")})`;
-}
-
-// Explorer
-
-export function isZero(ord) {
-    return ord.length === 0;
-}
+// ---- Explorer ----
 
 export function isSucc(ord) {
     return ord.length > 1
@@ -40,15 +15,6 @@ function findValues(ord, level) {
 
     res.push(ord.length);
     return res
-}
-
-function compare(a, b) {
-    if (a.length !== b.length) return false;
-
-    for (let i = 0; i < a.length; i++)
-        if (a[i] !== b[i]) return false;
-
-    return true;
 }
 
 export function rank(a, b) {
@@ -67,18 +33,18 @@ export function rank(a, b) {
             const aa = ca.slice(va[i] + 1, va[i + 1]);
             const ab = cb.slice(vb[i] + 1, vb[i + 1]);
 
-            if (!compare(aa, ab)) {
+            if (!isArrayEqual(aa, ab)) {
                 stack.push([aa, ab, level + 1]);
                 break;
             }
 
-            if (i === 0 && compare(aa, ab))
+            if (i === 0 && isArrayEqual(aa, ab))
                 return false;
         }
     }
 }
 
-// Expansion
+// ---- Expansion ----
 
 function fill(num, offset, func) {
     const arr = [];
@@ -144,6 +110,6 @@ export function expand(ord, num) {
     return ord;
 }
 
-// Test
+// ---- Tests ----
 
-log(unparse(expand([0,1,2,3,4,2,1,0,0], 3)));
+// testExpand(expand, 3, [[0,1,2,3,4,2,1,0,0]]);

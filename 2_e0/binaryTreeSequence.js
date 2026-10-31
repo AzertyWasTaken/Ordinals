@@ -1,44 +1,14 @@
 "use strict";
-import {limit} from "../utils.js";
-import {log} from "../log.js";
+import {testExpand} from "../utils.js";
 
-export const milestones = new Map([
-    ["0", []],
-    ["1", [0,0]],
-    ["ω", [0,1,1,0]],
-    ["ω^2", [0,1,1,2,2,0]],
-    ["ω^ω", [0,1,2,2,1,0]],
-    ["ω^ω^ω", [0,1,2,3,3,2,1,0]],
-    ["ε0", limit],
-]);
-
-// Unparse
-
-export function unparse(ord) {
-    return `(${ord.join(",")})`;
-}
-
-// Explorer
-
-export function isZero(ord) {
-    return ord.length === 0;
-}
+// ---- Explorer ----
 
 export function isSucc(ord) {
     return ord.length > 0
     && ord.at(-1) === ord.at(-2);
 }
 
-export function rank(a, b) {
-    const minLength = Math.min(a.length, b.length);
-
-    for (let i = 0; i < minLength; i++)
-        if (a[i] !== b[i]) return a[i] > b[i];
-
-    return a.length > b.length;
-}
-
-// Expansion
+// ---- Expansion ----
 
 function fill(num, func) {
     const arr = [];
@@ -85,6 +55,6 @@ export function expand(ord, num) {
     return ord;
 }
 
-// Test
+// ---- Tests ----
 
-log(unparse(expand([0,1,2,2,3,3,1,0], 3)));
+// testExpand(expand, 3, [[0,1,2,2,3,3,1,0]]);

@@ -1,14 +1,7 @@
 "use strict";
-import {limit} from "../utils.js";
-import {log} from "../log.js";
-import {matrixSequence} from "../analysis.js";
+import {LIMIT, fillFunction, fillValue} from "../utils.js";
 
-export const milestones = new Map([
-    ...matrixSequence,
-    ["ψ(B(ω))", limit],
-]);
-
-// Stringify
+// ---- Parser ----
 
 export function unparse(ord) {
     let str = ":";
@@ -23,37 +16,17 @@ export function unparse(ord) {
     return str;
 }
 
-// Explorer
-
-export function isZero(ord) {
-    return ord.length === 0;
-}
+// ---- Explorer ----
 
 export function isSucc(ord) {
     return ord.at(-1) === 0
     && (!ord.at(-2) || ord.at(-2) === 0);
 }
 
-export function rank(a, b) {
-    const minLength = Math.min(a.length, b.length);
-
-    for (let i = 0; i < minLength; i++)
-        if (a[i] !== b[i]) return a[i] > b[i];
-
-    return a.length > b.length;
-}
-
-// Expansion
-
-function fill(ord, num, func) {
-    for (let i = 0; i < num; i++)
-        ord.push(...func());
-
-    return ord;
-}
+// ---- Expansion ----
 
 export function getLimit(num) {
-    return [...fill([0], num + 1, () => [1]) ,0];
+    return [...fillFunction([0], num + 1, () => [1]) ,0];
 }
 
 function item(col, index) {
@@ -78,7 +51,7 @@ function ascend(ord, ascendMap) {
     let root = 0;
     let ascRoot = 0;
     do {
-        ascendColumn(ord, root, ascendMap.slice(ascRoot))
+        ascendColumn(ord, root, ascendMap.slice(ascRoot));
         root = getColumn(ord, root, 1);
         ascRoot = getColumn(ascendMap, ascRoot, 1);
     }
@@ -131,7 +104,7 @@ function addMapColumn(map, count, offset, column, rootColumn) {
 }
 
 function getAscendMap(ord, rootColumn, offset) {
-    let count = fill([], offset.length, () => [0]);
+    let count = fillValue([], offset.length, 0);
     let root = rootColumn.length;
     const map = [...offset];
 
@@ -156,10 +129,15 @@ export function expand(ord, num) {
         const offset = getOffsetArray(head, column);
         const ascendMap = getAscendMap(part, column, offset);
 
-        fill(ord, num, () => ascend(part, ascendMap));
+        fillFunction(ord, num, () => ascend(part, ascendMap));
     }
 
     return ord;
 }
 
-log(unparse(expand([0,1,1,1,0,2,0,3,1,0,1,1,1,0], 3)));
+// ---- Tests ----
+
+// testExpand(expand, [
+//     [0,1,1,1,0,2,0,3,1,0,1,1,1,0],
+//     [0,1,1,1,0,2,1,0,1,1,1,0],
+// ], 3);

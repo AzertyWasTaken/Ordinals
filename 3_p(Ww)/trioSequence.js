@@ -1,14 +1,7 @@
 "use strict";
-import {limit} from "../utils.js";
-import {log} from "../log.js";
-import {trioSequence} from "../analysis.js";
+import {testExpand, fillFunction} from "../utils.js";
 
-export const milestones = new Map([
-    ...trioSequence,
-    ["ψ(T[1[0]<ω>0])", limit],
-]);
-
-// Stringify
+// ---- Parser ----
 
 export function unparse(ord) {
     let str = ":";
@@ -18,36 +11,16 @@ export function unparse(ord) {
     return str;
 }
 
-// Explorer
-
-export function isZero(ord) {
-    return ord.length === 0;
-}
+// ---- Explorer ----
 
 export function isSucc(ord) {
     return ord.at(-3) === 0;
 }
 
-export function rank(a, b) {
-    const minLength = Math.min(a.length, b.length);
-
-    for (let i = 0; i < minLength; i++)
-        if (a[i] !== b[i]) return a[i] > b[i];
-
-    return a.length > b.length;
-}
-
-// Expansion
-
-function fill(ord, num, func) {
-    for (let i = 0; i < num; i++)
-        ord.push(...func(i));
-
-    return ord;
-}
+// ---- Expansion ----
 
 export function getLimit(num) {
-    return fill([], num, (i) => [i, i, i]);
+    return fillFunction([], num, (i) => [i, i, i]);
 }
 
 function ascend(ord, ascendMap) {
@@ -108,10 +81,12 @@ export function expand(ord, num) {
         ? type - ord[root] : 0;
 
         const ascendMap = getAscendMap(part, headOffset, typeOffset);
-        fill(ord, num, () => ascend(part, ascendMap));
+        fillFunction(ord, num, () => ascend(part, ascendMap));
     }
     else ord.splice(-3);
     return ord;
 }
 
-log(unparse(expand([0,0,0,1,1,1,2,0,0,3,1,0,1,1,1], 3)));
+// ---- Tests ----
+
+// testExpand(expand, 3, [[0,0,0,1,1,1,2,0,0,3,1,0,1,1,1]]);

@@ -1,26 +1,13 @@
 "use strict";
-import {limit} from "../utils.js";
-import {log} from "../log.js";
+import {testExpand} from "../utils.js";
 
-export const milestones = new Map([
-    ["0", []],
-    ["1", [1]],
-    ["ω", [1,0]],
-    ["ω^2", [1,0,0]],
-    ["ω^ω", limit],
-]);
-
-// Unparse
+// ---- Parser ----
 
 export function unparse(ord) {
     return `[${ord.join(",")}]`;
 }
 
-// Explorer
-
-export function isZero(ord) {
-    return ord.length === 0;
-}
+// ---- Explorer ----
 
 export function isSucc(ord) {
     return ord.at(-1) > 0;
@@ -36,7 +23,7 @@ export function rank(a, b) {
     return false;
 }
 
-// Expansion
+// ---- Expansion ----
 
 export function getLimit(num) {
     const ord = [1];
@@ -56,6 +43,6 @@ export function expand(ord, num) {
     return ord;
 }
 
-// Test
+// ---- Tests ----
 
-log(unparse(expand([1,0,0,0], 3)));
+// testExpand(expand, 3, [[1,0,0,0]]);

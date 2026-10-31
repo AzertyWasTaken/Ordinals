@@ -1,25 +1,7 @@
 "use strict";
-import {limit} from "../utils.js";
-import {log} from "../log.js";
+import {testExpand} from "../utils.js";
 
-export const milestones = new Map([
-    ["0", []],
-    ["1", [0,0]],
-    ["ω", [0,0,0,1]],
-    ["ω^2", [0,0,0,1,1,2]],
-    ["ω^ω", [0,0,0,1,0,2]],
-    ["ω^ω^ω", [0,0,0,1,0,2,0,3]],
-    ["ε0", [0,0,0,0]],
-    ["ε1", [0,0,0,0,1,1]],
-    ["εω", [0,0,0,0,0,2]],
-    ["ζ0", [0,0,0,0,0,1]],
-    ["φ(ω,0)", [0,0,0,0,0,1,0,3]],
-    ["Γ0", [0,0,0,0,0,1,0,2]],
-    ["ψ(Ω2)", [0,0,0,0,0,0]],
-    ["ψ(Ωω)", limit],
-]);
-
-// Stringify
+// ---- Parser ----
 
 export function unparse(ord) {
     let str = ":";
@@ -29,11 +11,7 @@ export function unparse(ord) {
     return str;
 }
 
-// Explorer
-
-export function isZero(ord) {
-    return ord.length === 0;
-}
+// ---- Explorer ----
 
 export function isSucc(ord) {
     return ord.at(-2) >= ord.length / 2 - 1;
@@ -48,7 +26,7 @@ export function rank(a, b) {
     return a.length > b.length;
 }
 
-// Expansion
+// ---- Expansion ----
 
 function fill(ord, num, func) {
     for (let i = 0; i < num; i++)
@@ -98,4 +76,6 @@ export function expand(ord, num) {
     return ord;
 }
 
-log(unparse(expand([0,0,0,0,0,2,2,2], 3)));
+// ---- Tests ----
+
+// testExpand(expand, 3, [[0,0,0,0,0,2,2,2]]);

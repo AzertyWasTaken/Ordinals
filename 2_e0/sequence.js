@@ -1,49 +1,10 @@
 "use strict";
-import {limit} from "../utils.js";
-import {log} from "../log.js";
-import {sequence} from "../analysis.js";
+import {testExpand, fillFunction, fillValue} from "../utils.js";
 
-export const milestones = new Map([
-    ...sequence,
-    ["ε0", limit],
-]);
-
-// Unparse
-
-export function unparse(ord) {
-    return `(${ord.join(",")})`;
-}
-
-// Explorer
-
-export function isZero(ord) {
-    return ord.length === 0;
-}
-
-export function isSucc(ord) {
-    return ord.at(-1) === 0;
-}
-
-export function rank(a, b) {
-    const minLength = Math.min(a.length, b.length);
-
-    for (let i = 0; i < minLength; i++)
-        if (a[i] !== b[i]) return a[i] > b[i];
-
-    return a.length > b.length;
-}
-
-// Expansion
-
-function fill(ord, num, func) {
-    for (let i = 0; i < num; i++)
-        ord.push(...func(i));
-
-    return ord;
-}
+// ---- Expansion ----
 
 export function getLimit(num) {
-    return fill([], num, (i) => [i]);
+    return fillFunction([], num, (i) => i);
 }
 
 function search(ord, head) {
@@ -56,12 +17,11 @@ export function expand(ord, num) {
     const head = ord.pop();
     if (head > 0) {
         const part = ord.slice(search(ord, head));
-
-        fill(ord, num, () => part);
+        fillValue(ord, num, part);
     }
     return ord;
 }
 
-// Test
+// ---- Tests ----
 
-log(unparse(expand([0,1,2,3,2], 3)));
+// testExpand(expand, 3, [[0,1,2,3,2]]);

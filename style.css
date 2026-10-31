@@ -102,6 +102,7 @@ a:active {
 
 ul {
     margin: 12px 0;
+    padding: 0px 32px;
 }
 
 ul li {
@@ -171,6 +172,10 @@ button:disabled {
     background: #000040;
 }
 
+.ordinal_btn_terminal {
+    background: #000000 !important;
+}
+
 .shifted {
     margin-left: 20px;
 }
@@ -189,15 +194,12 @@ button:disabled {
     border-radius: 10px;
 }
 
+.collapse_btn:hover {
+    background: #900000;
+}
+
 .collapse_btn:active {
-    position: absolute;
     background: #800000;
-    margin: 4px 0;
-    padding: 0;
-    min-width: 16px;
-    max-height: 16px;
-    text-align: center;
-    border-radius: 10px;
 }
 
 /* Tooltip */
@@ -283,4 +285,20 @@ input[type="range"]:hover::-webkit-slider-thumb {
 
 input[type="range"]:hover::-moz-range-thumb {
     box-shadow: 0 0 0 3px rgba(255, 224, 0, 0.25);
+}
+
+/* Panel */
+/* ================================================================ */
+
+.panel {
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.panel-content {
+    padding: 8px 16px;
+}
+
+.panel-content[hidden] {
+    display: none;
 }

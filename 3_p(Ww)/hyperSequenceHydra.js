@@ -1,41 +1,7 @@
 "use strict";
-import {limit} from "../utils.js";
-import {log} from "../log.js";
+import {testExpand} from "../utils.js";
 
-export const milestones = new Map([
-    ["0", []],
-    ["1", [1]],
-    ["ω", [1,1]],
-    ["ω^2", [1,1,0,1]],
-    ["ω^ω", [1,1,1]],
-    ["ω^ω^ω", [1,1,1,1]],
-    ["ε0", [1,2]],
-    ["ε1", [1,2,0,2]],
-    ["εω", [1,2,1]],
-    ["ζ0", [1,2,2]],
-    ["φ(ω,0)", [1,2,2,1]],
-    ["Γ0", [1,2,2,2]],
-    ["ψ(ε{Ω+1})", [1,2,3]],
-    ["ψ(Ωω)", [1,2,4]],
-    ["ψ(Λ)", [1,2,4,4,3,0,0,1]],
-    ["ψ(Iω)", [1,2,4,4,4]],
-    ["ψ(I(ω,0))", [1,2,4,4,4,0,1]],
-    ["ψ(ε{M+1})", [1,2,4,4,4,0,3,4]],
-    ["ψ(Mω)", [1,2,4,4,4,0,4]],
-    ["ψ(M(ω;0))", [1,2,4,4,4,1]],
-    ["ψ(Kω)", [1,2,4,4,4,4]],
-    ["ψ(ε{T+1})", [1,2,4,5]],
-    ["ψ(Tω)", [1,2,4,6]],
-    ["ψ(T[ω])", [1,2,4,6,1]],
-    ["ψ(T[1:;0]ω)", [1,2,4,6,6]],
-    ["ψ(T[1:;;0]ω)", [1,2,4,6,8]],
-    ["ψ(T[1:{ω}0]ω)", [1,2,4,7]],
-    ["ψ(T[1{1{*ω}0}0])", [1,2,4,7,10]],
-    ["ψ(T[1[ω[[1]]0]0])", [1,2,4,7,11]],
-    ["ψ(T[1[0]<ω>0])", limit],
-]);
-
-// Unparse
+// ---- Parser ----
 
 export function unparse(ord) {
     let offset = 0;
@@ -49,26 +15,13 @@ export function unparse(ord) {
     + ")".repeat(offset);
 }
 
-// Explorer
-
-export function isZero(ord) {
-    return ord.length === 0;
-}
+// ---- Explorer ----
 
 export function isSucc(ord) {
     return getParent(ord.slice(0, -1)) < 0;
 }
 
-export function rank(a, b) {
-    const minLength = Math.min(a.length, b.length);
-
-    for (let i = 0; i < minLength; i++)
-        if (a[i] !== b[i]) return a[i] > b[i];
-
-    return a.length > b.length;
-}
-
-// Expansion
+// ---- Expansion ----
 
 export function getLimit(num) {
     return fill([], num, (i) => [i * (i + 1) / 2 + 1]);
@@ -161,6 +114,6 @@ export function expand(ord, num) {
     return ord;
 }
 
-// Test
+// ---- Tests ----
 
-log(unparse(expand([1,2,4,6,2,0,0,0,6], 3)));
+// testExpand(expand, 3, [[1,2,4,6,2,0,0,0,6]]);

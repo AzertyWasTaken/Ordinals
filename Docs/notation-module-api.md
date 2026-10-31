@@ -2,7 +2,7 @@
 
 This document specifies the minimal interface a notation module must provide so the explorer can analyze, unparse, and expand ordinals.
 
-The explorer wraps modules using `Ordinals/ordModule.js`, which normalizes some semantics around the module’s `limit` sentinel.
+The explorer wraps modules using `Ordinals/notationWrapper.js`, which normalizes some semantics around the module’s `limit` sentinel.
 
 ## Core exports
 

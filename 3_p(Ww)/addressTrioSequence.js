@@ -1,41 +1,7 @@
 "use strict";
-import {limit} from "../utils.js";
-import {log} from "../log.js";
+import {testExpand} from "../utils.js";
 
-export const milestones = new Map([
-    ["0", []],
-    ["1", [0,0,0]],
-    ["ω", [0,0,0,1,0,0]],
-    ["ω^2", [0,0,0,1,0,0,1,0,0]],
-    ["ω^ω", [0,0,0,1,0,0,2,0,0]],
-    ["ω^ω^ω", [0,0,0,1,0,0,2,0,0,3,0,0]],
-    ["ε0", [0,0,0,1,1,0]],
-    ["ε1", [0,0,0,1,1,0,1,1,0]],
-    ["εω", [0,0,0,1,1,0,2,0,0]],
-    ["ζ0", [0,0,0,1,1,0,2,1,0]],
-    ["φ(ω,0)", [0,0,0,1,1,0,2,1,0,3,0,0]],
-    ["Γ0", [0,0,0,1,1,0,2,1,0,3,1,0]],
-    ["ψ(ε{Ω+1})", [0,0,0,1,1,0,2,2,0]],
-    ["ψ(Ωω)", [0,0,0,1,1,1]],
-    // ["ψ(Λ)", [0,0,0,1,1,1,2,1,1,3,1,0,2,0,0]],
-    // ["ψ(Iω)", [0,0,0,1,1,1,2,1,1,3,1,1]],
-    // ["ψ(I(ω,0))", [0,0,0,1,1,1,2,1,1,3,1,1,3,0,0]],
-    // ["ψ(ε{M+1})", [0,0,0,1,1,1,2,1,1,3,1,1,3,1,0,4,2,0]],
-    // ["ψ(Mω)", [0,0,0,1,1,1,2,1,1,3,1,1,3,1,1]],
-    // ["ψ(M(ω;0))", [0,0,0,1,1,1,2,1,1,3,1,1,4,0,0]],
-    // ["ψ(Kω)", [0,0,0,1,1,1,2,1,1,3,1,1,4,1,1]],
-    // ["ψ(ε{T+1})", [0,0,0,1,1,1,2,2,0]],
-    // ["ψ(Tω)", [0,0,0,1,1,1,2,2,1]],
-    // ["ψ(T[ω])", [0,0,0,1,1,1,2,2,1,3,0,0]],
-    // ["ψ(T[1:;0]ω)", [0,0,0,1,1,1,2,2,1,3,2,1]],
-    // ["ψ(T[1:;;0]ω)", [0,0,0,1,1,1,2,2,1,3,3,1]],
-    // ["ψ(T[1:{ω}0]ω)", [0,0,0,1,1,1,2,2,2]],
-    // ["ψ(T[1{1{*ω}0}0])", [0,0,0,1,1,1,2,2,2,3,2,2]],
-    // ["ψ(T[1[ω[[1]]0]0])", [0,0,0,1,1,1,2,2,2,3,3,3]],
-    ["ψ(T[1[0]<ω>0])", limit],
-]);
-
-// Stringify
+// ---- Parser ----
 
 export function unparse(ord) {
     let str = ":";
@@ -45,26 +11,13 @@ export function unparse(ord) {
     return str;
 }
 
-// Explorer
-
-export function isZero(ord) {
-    return ord.length === 0;
-}
+// ---- Explorer ----
 
 export function isSucc(ord) {
     return ord.at(-3) === 0;
 }
 
-export function rank(a, b) {
-    const minLength = Math.min(a.length, b.length);
-
-    for (let i = 0; i < minLength; i++)
-        if (a[i] !== b[i]) return a[i] > b[i];
-
-    return a.length > b.length;
-}
-
-// Expansion
+// ---- Expansion ----
 
 function fill(ord, num, func) {
     for (let i = 0; i < num; i++)
@@ -77,20 +30,22 @@ export function getLimit(num) {
     return fill([], num, (i) => [i, i, i]);
 }
 
-function ascend(ord, rootType, subType, i, head, type) {
+function ascend(ord, index, head, type, sub) {
+    const rows = ord.length / 3
+
     for (let i = 3; i < ord.length; i += 3) {
-        ord[i] += ord.length / 3;
-        if (ord[i + 1] > ord[1]) ord[i + 1] += ord.length / 3;
-        if (ord[i + 2] > ord[2]) ord[i + 2] += ord.length / 3;
+        ord[i] += rows;
+        if (ord[i + 1] > ord[1]) ord[i + 1] += rows;
+        if (ord[i + 2] > ord[2]) ord[i + 2] += rows;
     }
 
-    if (rootType >= 0) {
-        if (i > 0) ord[0] += ord.length / 3;
+    if (type > 0) {
+        if (index > 0) ord[0] += rows;
         else ord[0] = head;
     }
 
-    if (subType >= 0) {
-        if (i > 0) ord[1] += ord.length / 3;
+    if (sub > 0) {
+        if (index > 0) ord[1] += rows;
         else ord[1] = type;
     }
     return ord;
@@ -108,9 +63,9 @@ export function expand(ord, num) {
             rootType >= 0 ? rootType : parent);
 
         fill(ord, num, (i) =>
-            ascend(part, rootType, subType, i, head, type));
+            ascend(part, i, head, type, sub));
     }
     return ord;
 }
 
-log(unparse(expand([0,0,0,1,1,1,2,0,0,3,3,0,1,1,1], 3)));
+// testExpand(expand, 3, [[0,0,0,1,1,1,2,0,0,3,3,0,1,1,1]]);

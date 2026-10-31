@@ -13,7 +13,7 @@ Thanks for taking the time to contribute to this projects.
 ## Before you start
 
 1. Pick the notation (or file) you want to improve.
-2. Read the existing notation patterns and ensure your change follows the repo rules (see *Rules* below).
+2. Read the existing notation patterns and ensure your change follows the repo rules (see `README.md/Rules`).
 3. If you’re unsure whether a change is appropriate, open an **Issue** first.
 
 ## Reporting issues
@@ -36,7 +36,7 @@ Open a pull request with:
 
 ### Pull requests checklist (required)
 
-- [ ] The change follows the repo **coding + formatting rules** (check `README.md/Rules`)
+- [ ] The change follows the repo **coding + formatting rules** (see `README.md/Rules`)
   - [ ] No recursion is introduced
   - [ ] Expansions mutate `ord` as required
   - [ ] Performance is not catastrophically worse (and ideally improves)

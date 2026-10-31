@@ -1,43 +1,7 @@
 "use strict";
-import {limit} from "../utils.js";
-import {log} from "../log.js";
-import {sequence} from "../analysis.js";
+import {testExpand} from "../utils.js";
 
-export const milestones = new Map([
-    ...sequence,
-    ["ε0", [0,2]],
-    ["ε0*ω", [0,2,1]],
-    ["ε0^2", [0,2,2]],
-    ["ε1", [0,3]],
-    ["εω", limit],
-]);
-
-// Unparse
-
-export function unparse(ord) {
-    return `(${ord.join(",")})`;
-}
-
-// Explorer
-
-export function isZero(ord) {
-    return ord.length === 0;
-}
-
-export function isSucc(ord) {
-    return ord.at(-1) === 0;
-}
-
-export function rank(a, b) {
-    const minLength = Math.min(a.length, b.length);
-
-    for (let i = 0; i < minLength; i++)
-        if (a[i] !== b[i]) return a[i] > b[i];
-
-    return a.length > b.length;
-}
-
-// Expansion
+// ---- Expansion ----
 
 export function getLimit(num) {
     return [0, num + 1];
@@ -72,6 +36,6 @@ export function expand(ord, num) {
     return ord;
 }
 
-// Test
+// ---- Tests ----
 
-log(unparse(expand([0,3,6,6], 3)));
+// testExpand(expand, 3, [[0,3,6,6]]);

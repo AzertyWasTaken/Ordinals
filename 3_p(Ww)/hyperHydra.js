@@ -1,25 +1,7 @@
 "use strict";
-import {limit} from "../utils.js";
-import {log} from "../log.js";
+import {testExpand} from "../utils.js";
 
-export const milestones = new Map([
-    ["0", []],
-    ["1", [2]],
-    ["ω", [2,1,2]],
-    ["ω^2", [2,1,2,0,2]],
-    ["ω^ω", [2,1,2,1,2]],
-    ["ω^ω^ω", [2,1,2,1,2,1,2]],
-    ["ε0", [2,2]],
-    ["ε1", [2,2,0,2]],
-    ["εω", [2,2,1,1,2]],
-    ["ζ0", [2,2,1,2]],
-    ["φ(ω,0)", [2,2,1,2,1,1,2]],
-    ["Γ0", [2,2,1,2,1,2]],
-    ["ψ(ε{Ω+1})", [2,2,2]],
-    ["ψ(Ωω)", limit],
-]);
-
-// Unparse
+// ---- Parser ----
 
 export function unparse(ord) {
     return `:${ord.map((i) =>
@@ -27,24 +9,13 @@ export function unparse(ord) {
     ).join("")}`;
 }
 
-// Explorer
-
-export function isZero(ord) {
-    return ord.length === 0;
-}
+// ---- Explorer ----
 
 export function isSucc(ord) {
     return getParent(ord.slice(0, -1)) < 0;
 }
 
-export function rank(a, b) {
-    for (let i = 0; i < Math.min(a.length, b.length); i++)
-        if (a[i] !== b[i]) return a[i] === 1;
-
-    return a.length > b.length;
-}
-
-// Expansion
+// ---- Expansion ----
 
 function fill(ord, num, ...apps) {
     for (let i = 0; i < num; i++)
@@ -107,4 +78,6 @@ export function expand(ord, num) {
     return trim(ord, (i) => i !== 2);
 }
 
-log(unparse(expand([2,2,1,1,2,0,2], 3)));
+// ---- Tests ----
+
+// testExpand(expand, 3, [[2,2,1,1,2,0,2]]);

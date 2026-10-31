@@ -1,14 +1,7 @@
 "use strict";
-import {limit} from "../utils.js";
-import {log} from "../log.js";
-import {pairSequence} from "../analysis.js";
+import {testExpand, fillFunction} from "../utils.js";
 
-export const milestones = new Map([
-    ...pairSequence,
-    ["ψ(Ωω)", limit],
-]);
-
-// Stringify
+// ---- Parser ----
 
 export function unparse(ord) {
     let str = ":";
@@ -18,36 +11,16 @@ export function unparse(ord) {
     return str;
 }
 
-// Explorer
-
-export function isZero(ord) {
-    return ord.length === 0;
-}
+// ---- Explorer ----
 
 export function isSucc(ord) {
     return ord.at(-2) === 0;
 }
 
-export function rank(a, b) {
-    const minLength = Math.min(a.length, b.length);
-
-    for (let i = 0; i < minLength; i++)
-        if (a[i] !== b[i]) return a[i] > b[i];
-
-    return a.length > b.length;
-}
-
-// Expansion
-
-function fill(ord, num, func) {
-    for (let i = 0; i < num; i++)
-        ord.push(...func(i));
-
-    return ord;
-}
+// ---- Expansion ----
 
 export function getLimit(num) {
-    return fill([], num, (i) => [i, i]);
+    return fillFunction([], num, (i) => [i, i]);
 }
 
 function ascend(ord, offset) {
@@ -81,10 +54,12 @@ export function expand(ord, num) {
         const offset = type > 0
         ? head - ord[root] : 0;
 
-        fill(ord, num, () => ascend(part, offset));
+        fillFunction(ord, num, () => ascend(part, offset));
     }
 
     return ord;
 }
 
-log(unparse(expand([0,0,1,1,2,2,2,2], 3)));
+// ---- Tests ----
+
+// testExpand(expand, 3, [[0,0,1,1,2,2,2,2]]);

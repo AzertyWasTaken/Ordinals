@@ -38,11 +38,11 @@ Recurring variables and functions names used in notation scripts and when they a
 
 ## Functions
 
-- **`ascend`**: Increase each values of a sequence
-- **`fill`**: Fill an array with values
-- **`getEnd`**: Get the end of a nested array
-- **`getParent`**: Search the parent of a node
-- **`getSubParent`**: Search the parent of a sub node
-- **`rank`**: Rank the value of two ordinals
-- **`search`**: Search the root of a sequence
-- **`trim`**: Trim unused values in a sequence
+- **ascend**: Increase each values of a sequence
+- **fill**: Fill an array with values
+- **getEnd**: Get the end of a nested array
+- **getParent**: Search the parent of a node
+- **getSubParent**: Search the parent of a sub node
+- **rank**: Rank the value of two ordinals
+- **search**: Search the root of a sequence
+- **trim**: Trim unused values in a sequence
