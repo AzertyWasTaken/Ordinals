@@ -1,7 +1,7 @@
 "use strict";
 import {LIMIT} from "../utils.js";
 import {createExpansionTree} from "./expansionTree.js";
-import {createNotationSelector} from "../Metadata/notationSelector.js";
+import {createNotationSelector} from "./notationSelector.js";
 
 const pageDir = new URL(".", document.baseURI);
 const {NOTATIONS, DEFAULT_CATEGORY, DEFAULT_NOTATION} =

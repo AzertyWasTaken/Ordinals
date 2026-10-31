@@ -41,7 +41,7 @@ export function fillValue(ord, num, val) {
 
 export function fillFunction(ord, num, fun) {
     for (let i = 0; i < num; i++) {
-        const val = fun(i);
+        let val = fun(i);
         if (!Array.isArray(val)) val = [val];
         ord.push(...val);
     }
