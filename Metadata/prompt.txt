@@ -1,0 +1,5 @@
+For each notation presnet in @/Metadata/panelContent.js, make its description more detailled and accurate.
+Explain every transformation in the expansion, in chronological order.
+Make each step understandable without requiring prior knowledge of the entire notation system.
+Read its expansion script before writing the explanation, but do not mention it.
+Preserve the original expansion sequence, operations, and mathematical meaning. Never invent steps or silently correct the script.
