@@ -37,7 +37,7 @@ export function createNotationSelector({
 
         try {
             const appCatg = catg ? `${catg}/` : "";
-            const url = `./${appCatg}${file}.js`;
+            const url = `../${appCatg}${file}.js`;
             const importedModule = await import(new URL(url, pageDir));
 
             getGroup(catg)[file].module = importedModule;
